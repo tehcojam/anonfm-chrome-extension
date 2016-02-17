@@ -1,0 +1,30 @@
+{
+	"manifest_version": 0.1,
+	"name": "Anon.fm",
+	"version": "0.1",
+	"icons": {
+		"16": "16.png",
+		"48": "48.png",
+		"64": "64.png",
+		"128": "128.png"
+		},
+    "browser_action": {
+    	"default_title": "Anon.fm plugin",
+        "default_popup": "popup.html", 
+        "default_icon": "icon.png"
+        },
+    "permissions": [
+	    "tabs" ,
+	    "notifications",
+	    "http://*.google.com/",
+	    "unlimitedStorage",
+	    "http://*/*",
+	    "https://*/*",
+	    "alarms",
+	    "storage"
+	],
+	"background": {
+    	"scripts":["main.js"],
+    	"persistent": false
+    }
+}

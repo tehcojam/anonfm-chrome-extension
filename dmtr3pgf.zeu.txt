@@ -1,0 +1,17 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   128.png
+#	new file:   16.png
+#	new file:   48.png
+#	new file:   64.png
+#	new file:   icon.png
+#	new file:   main.js
+#	new file:   manifest.json
+#	new file:   popup.html
+#
+
