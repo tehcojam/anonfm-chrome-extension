@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function getData(url) {
     return new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://anon.fm' + url + '?' + Math.random());
+        xhr.open('GET', 'https://anon.fm' + url + '?' + Math.random());
         xhr.onreadystatechange = function() {
             if(xhr.readyState == 4 && xhr.status == 200) {
                 resolve(xhr.responseText);
@@ -136,7 +136,15 @@ chrome.alarms.onAlarm.addListener(function(alarm){
         }
         localStorage['isLive'] = isLive;
     }, showError);
+
 });
+
+chrome.alarms.onAlarm.addListener(function(alarm){
+    if (alarm.name == 'CheckNewAnswers') {
+        getData('/answers.js').then(getNewAnswers, showError)
+    }
+})
+chrome.alarms.create("CheckNewAnswers", {delayInMinutes:0.1, periodInMinutes: 1})
 
 
 function getNextShed(shedList) {
@@ -193,4 +201,51 @@ function showEnding(num, endings) {
         default:
             return endings[2];
     }
+}
+
+
+//answers funnctions
+
+
+
+
+function getNewAnswers(answers) {
+    var answers = JSON.parse(answers)
+    if (localStorage["lastAnswer"]) {
+        for (var i = 0; i < answers.length; i++) {
+            var answerTimestamp = getTimestamp(answers[i][3]);
+            var lastTimestamp = JSON.parse(localStorage["lastAnswer"])[6];
+            if ( answerTimestamp > lastTimestamp) {
+                console.log('in if');
+                if (answers[i][1] == '!') {
+                    var title = 'Объявление';
+
+                } else {
+                    var title = answers[i][2];
+                }
+                var body = answers[i][5];
+                console.log(body + title)
+                spawnNotification(body, '48.png', title);
+
+            } else {
+                console.log('no new mess');
+                break;
+            }
+        }
+
+    }
+    //save last message in localStorage
+    var lastAnswer = answers[0];
+    var timestamp = getTimestamp(answers[0][3]);
+    lastAnswer.push(timestamp);
+    localStorage.lastAnswer = JSON.stringify(lastAnswer);
+}
+
+
+function getTimestamp(timeString) {
+    var today = new Date();
+    var t = timeString.match(/>(\d{2}):(\d{2}):(\d{2}).(\d{3})\d</);
+    var timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), t[1], t[2], t[3], t[4]).getTime();
+
+    return timestamp;
 }
