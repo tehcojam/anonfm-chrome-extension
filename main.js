@@ -77,12 +77,27 @@ function showVideoLink(obj) {
     console.log('error: ' + err);
 }
 
-function spawnNotification(body,icon,title) {
-  var options = {
-      body: body,
-      icon: icon
-  };
-  new Notification(title, options);
+// function spawnNotification(body,icon, title, buttons, type, id) {
+//     var options = {
+//         body: body,
+//         icon: icon,
+//         title: title,
+//         type: type || 'basic',
+//         buttons: buttons || []
+//     }
+//   new Notification(title, options);
+// };
+
+
+function spawnNotification(body,icon, title, buttons, type, id) {
+    var options = {
+        message: body,
+        iconUrl: icon,
+        title: title,
+        type: type || 'basic',
+        buttons: buttons || [],
+    };
+    chrome.notifications.create(id, options)
 }
 
 function compareShed(pre, current) {
@@ -207,28 +222,26 @@ function showEnding(num, endings) {
 //answers funnctions
 
 
-
-
 function getNewAnswers(answers) {
+    var notif = {} //{id:body, id:body}
     var answers = JSON.parse(answers)
     if (localStorage["lastAnswer"]) {
         for (var i = 0; i < answers.length; i++) {
             var answerTimestamp = getTimestamp(answers[i][3]);
             var lastTimestamp = JSON.parse(localStorage["lastAnswer"])[6];
             if ( answerTimestamp > lastTimestamp) {
-                console.log('in if');
-                if (answers[i][1] == '!') {
-                    var title = 'Объявление';
+                var title = 'Сообщение';
+                var body = answers[i][2] + '\n' + answers[i][5];
+                var id = timestamp; 
+                spawnNotification(body, '48.png', title, [{title: 'Ответить'}], 'basic', timestamp);
+                notif[id] = body;
 
-                } else {
-                    var title = answers[i][2];
-                }
-                var body = answers[i][5];
-                console.log(body + title)
-                spawnNotification(body, '48.png', title);
+                chrome.notifications.onButtonClicked.addListener(function(id, index) {
+                    console.log(notif);
+                    var answerWindow = window.open('https://anon.fm/feedback', 'answer','target=_blank, width=600, height=300');
+                });
 
             } else {
-                console.log('no new mess');
                 break;
             }
         }
@@ -249,3 +262,5 @@ function getTimestamp(timeString) {
 
     return timestamp;
 }
+
+
