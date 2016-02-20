@@ -232,13 +232,24 @@ function getNewAnswers(answers) {
             if ( answerTimestamp > lastTimestamp) {
                 var title = 'Сообщение';
                 var body = answers[i][2] + '\n' + answers[i][5];
-                var id = timestamp; 
-                spawnNotification(body, '48.png', title, [{title: 'Ответить'}], 'basic', timestamp);
+                var id = String(answerTimestamp); 
+                spawnNotification(body, '48.png', title, [{title: 'Ответить'}], '', id);
                 notif[id] = body;
 
                 chrome.notifications.onButtonClicked.addListener(function(id, index) {
-                    console.log(notif);
-                    var answerWindow = window.open('https://anon.fm/feedback', 'answer','target=_blank, width=600, height=300');
+                    getData('/feedback').then(function(resolve) {
+                        var qoute = document.createElement('div');
+                        qoute.innerHTML = notif[id];
+                        getData('/feedback').then(function(r){r.match(/<form .*<\/form>/)}, showError);
+
+                        var answerWindow = window.open('https://anon.fm/feedback', 'answer','target=_blank, width=600, height=300');
+                        answerWindow.document.body.appendChild(qoute);
+                    });
+                    
+
+                    
+                    
+
                 });
 
             } else {
