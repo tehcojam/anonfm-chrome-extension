@@ -221,9 +221,9 @@ function showEnding(num, endings) {
 
 //answers funnctions
 
-
+var notif = {}
 function getNewAnswers(answers) {
-    var notif = {} //{id:body, id:body}
+    //var notif = {} //{id:body, id:body}
     var answers = JSON.parse(answers)
     if (localStorage["lastAnswer"]) {
         for (var i = 0; i < answers.length; i++) {
@@ -238,17 +238,11 @@ function getNewAnswers(answers) {
 
                 chrome.notifications.onButtonClicked.addListener(function(id, index) {
                     getData('/feedback').then(function(resolve) {
-                        var qoute = document.createElement('div');
-                        qoute.innerHTML = notif[id];
-                        getData('/feedback').then(function(r){r.match(/<form .*<\/form>/)}, showError);
+                        //sendAnswer().then(function(r){console.log(r);})
+                        rebuildFeedbackPage(resolve, id);
 
-                        var answerWindow = window.open('https://anon.fm/feedback', 'answer','target=_blank, width=600, height=300');
-                        answerWindow.document.body.appendChild(qoute);
                     });
-                    
 
-                    
-                    
 
                 });
 
@@ -272,6 +266,16 @@ function getTimestamp(timeString) {
     var timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), t[1], t[2], t[3], t[4]).getTime();
 
     return timestamp;
+}
+
+
+function rebuildFeedbackPage(resolve, id) {
+    var qoute = document.createElement('div');
+    qoute.innerHTML = notif[id];
+    var form = resolve.match(/<form .*<\/form>/);
+    //Dear Lord forgive me for my sins
+    var answerWindow = window.open('feedback.html', 'answer','target=_blank, width=600, height=300');
+    answerWindow.document.body.appendChild(qoute);
 }
 
 
