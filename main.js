@@ -221,9 +221,8 @@ function showEnding(num, endings) {
 
 //answers funnctions
 
-var notif = {}
 function getNewAnswers(answers) {
-    //var notif = {} //{id:body, id:body}
+    var notif = {} //{id:body, id:body}
     var answers = JSON.parse(answers)
     if (localStorage["lastAnswer"]) {
         for (var i = 0; i < answers.length; i++) {
@@ -235,15 +234,11 @@ function getNewAnswers(answers) {
                 var id = String(answerTimestamp); 
                 spawnNotification(body, '48.png', title, [{title: 'Ответить'}], '', id);
                 notif[id] = body;
+                localStorage[id] = body;
 
                 chrome.notifications.onButtonClicked.addListener(function(id, index) {
-                    getData('/feedback').then(function(resolve) {
-                        //sendAnswer().then(function(r){console.log(r);})
-                        rebuildFeedbackPage(resolve, id);
-
-                    });
-
-
+                    
+                    var answerWindow = window.open('feedback.html', id,'target=_blank, width=600, height=300');
                 });
 
             } else {
@@ -269,13 +264,18 @@ function getTimestamp(timeString) {
 }
 
 
-function rebuildFeedbackPage(resolve, id) {
-    var qoute = document.createElement('div');
+function rebuildFeedbackPage(id) {
+    var qoute = document.createElement('p');
     qoute.innerHTML = notif[id];
-    var form = resolve.match(/<form .*<\/form>/);
+    //var form = resolve.match(/<form .*<\/form>/);
     //Dear Lord forgive me for my sins
-    var answerWindow = window.open('feedback.html', 'answer','target=_blank, width=600, height=300');
-    answerWindow.document.body.appendChild(qoute);
+    var answerWindow = chrome.windows.create({
+        url: 'feedback.html',
+        CreateType: 'normal'
+    });
+    //var answerWindow = window.open('feedback.html', 'answer','target=_blank, width=600, height=300');
+    //answerWindow.document.body.appendChild(qoute);
+    console.log(answerWindow);
 }
 
 
