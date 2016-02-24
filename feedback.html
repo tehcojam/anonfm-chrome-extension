@@ -23,14 +23,14 @@
 	<form method="POST" action="https://anon.fm/feedback">
 		<ul>
 			<li>
-				<input type="hidden" name="cid" value="701925">
+				<input type="hidden" name="cid" value="">
 				<input readonly="" type="text" name="left" id="charsleft" size="2" maxlength="3" value="500">
-				<textarea id="te" name="msg" cols="55" rows="4" maxlength="500" onkeydown="countLeft(this);" onkeyup="countLeft(this);" placeholder="Максимальная длина 500 символов" required="" autofocus=""></textarea>
+				<textarea id="te" name="msg" cols="55" rows="4" maxlength="500" placeholder="Максимальная длина 500 символов" required="" autofocus=""></textarea>
 			</li>
 			<li>
-				<img src="/feedback/701925.gif"><br>
+				<img name="captcha" src=""><br>
 				<input type="text" name="check" autocomplete="off" style="width: 7em" required="">
-				<input type="submit" value="Отправить">
+				<input id="btn" type="button" value="Отправить">
 			</li>
 		</ul></form>
 	</body>
