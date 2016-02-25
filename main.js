@@ -228,6 +228,11 @@ function getNewAnswers(answers) {
         for (var i = 0; i < answers.length; i++) {
             var answerTimestamp = getTimestamp(answers[i][3]);
             var lastTimestamp = JSON.parse(localStorage["lastAnswer"])[6];
+
+            //Dear Lord forgive me for my sins
+            var currentServerTime = getServerTime(); 
+            if ( answerTimestamp > currentServerTime) break;
+
             if ( answerTimestamp > lastTimestamp) {
                 var title = 'Сообщение';
                 var body = answers[i][2] + '\n' + answers[i][5];
@@ -268,7 +273,7 @@ function rebuildFeedbackPage(id) {
     var qoute = document.createElement('p');
     qoute.innerHTML = notif[id];
     //var form = resolve.match(/<form .*<\/form>/);
-    //Dear Lord forgive me for my sins
+
     var answerWindow = chrome.windows.create({
         url: 'feedback.html',
         CreateType: 'normal'
@@ -279,3 +284,8 @@ function rebuildFeedbackPage(id) {
 }
 
 
+function getServerTime() {
+    var localTime = new Date();
+    var serverTime = localTime.getTime() + (localTime.getTimezoneOffset() * 60000) + 180*60000;
+    return serverTime;
+}
