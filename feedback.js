@@ -1,21 +1,25 @@
-
-
 window.onload = function() {
     document.getElementById('qoute').innerHTML = sessionStorage[window.name]; 
 
     getForm()
     .then(function(resolve) {
-        var cid = resolve.match(/<input type="hidden" name="cid" value="(\d*)">/)[1];
-        var captcha = resolve.match(/<img src="(.*\.gif)">/)[1];
-        var form = document.forms[0];
-        form.cid.value = cid;
-        form.captcha.src = "https://anon.fm" + captcha;
+        insertCaptcha(resolve);
     })
     .then(function(resolve) {
         document.getElementById('btn').addEventListener('click', function() {
             sendAnswer().then(function(resolve) {
-                var id = resolve.match(/<strong>(.*)<\/strong>/);
+                var id = resolve.match(/<strong>(.*)<\/strong>/)[1];
                 console.log(id);
+                if (id == 'Неверный код подтверждения') {
+                    insertCaptcha(resolve);
+                    console.log("неверный код подтверждения. отправить еще раз");
+                } else {
+                    var form = document.forms[0];
+                    form.parentNode.removeChild(form);
+                    var nick = document.createElement('p');
+                    nick.innerHTML = id;
+                    document.body.appendChild(nick);
+                }
             });
         });
     });
@@ -25,10 +29,10 @@ window.onload = function() {
 function sendAnswer() {
     return new Promise(function(resolve, reject){
         var form = document.forms[0];
-        form.left.value = 500 - parseInt(form.msg.value.length);
+        var left = 500 - parseInt(form.msg.value.length);
 
         var cid = 'cid=' + encodeURIComponent(form.cid.value);
-        var left = '$left=' + encodeURIComponent(form.left.value);
+        var left = '$left=' + encodeURIComponent(left);
         var msg = '$msg=' + encodeURIComponent(form.msg.value);
         var check = '$check=' + encodeURIComponent(form.check.value);
 
@@ -61,4 +65,14 @@ function getForm() {
     });
 }
 
-//<strong>baasamoeb8e8</strong>
+
+function insertCaptcha(resolve) {
+
+    var cid = resolve.match(/<input type="hidden" name="cid" value="(\d*)">/)[1];
+    var captcha = resolve.match(/<img src="(.*\.gif)">/)[1];
+    var form = document.forms[0];
+    form.cid.value = cid;
+    form.captcha.src = "https://anon.fm" + captcha;
+    form.msg.value = '';
+    form.check.value = '';
+}
