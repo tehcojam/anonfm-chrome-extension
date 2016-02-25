@@ -1,7 +1,7 @@
 
 
 window.onload = function() {
-    document.getElementById('qoute').innerHTML = localStorage[window.name]; 
+    document.getElementById('qoute').innerHTML = sessionStorage[window.name]; 
 
     getForm()
     .then(function(resolve) {
