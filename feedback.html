@@ -7,31 +7,38 @@
 		<style>
 			body,html{height:100%;}
 			body {text-align: center;overflow:hidden}
+			div {padding: 5px;height: 100%;}
 			#charsleft,a{color: #996793;}
 			ul {list-style-type: none;}
 			ul, fieldset {margin: 0;padding: 0;border: none;}
 			fieldset {display:inline;}
 			input {margin: 5px;}
-			form {overflow:hidden;}
-			#nicks{width:150px;float:left;height:200px;overflow-y:scroll;}
+			form {overflow:hidden; margin: auto;}
+			#nicks {width:150px;float:left;height:200px;overflow-y:scroll;}
+			#qoute {background-color: #f6f6f6; border-left: 4px solid #9C27B0; margin: auto; width: 80%; overflow-y: scroll;height: 50%}
+			p {font-size: 1.2em; text-align: left; padding: 4px 4px 4px 20px; word-wrap: break-word;}
 		</style>
 	</head>
 	<body>
 	<script src="feedback.js"></script>
-
-	<div id='qoute'></div>
-	<form method="POST" action="https://anon.fm/feedback">
-		<ul>
-			<li>
-				<input type="hidden" name="cid" value="">
-				<!-- <input readonly="" type="text" name="left" id="charsleft" size="2" maxlength="3" value="500"> -->
-				<textarea name="msg" cols="55" rows="4" maxlength="500" placeholder="Максимальная длина 500 символов" required="" autofocus=""></textarea>
-			</li>
-			<li>
-				<img name="captcha" src=""><br>
-				<input type="text" name="check" autocomplete="off" style="width: 7em" required="">
-				<input id="btn" type="button" value="Отправить">
-			</li>
-		</ul></form>
+	<div>
+		<div id='qoute'></div>
+		<div>
+			<form>
+				<ul>
+					<li>
+						<input type="hidden" name="cid" value="">
+						<!-- <input readonly="" type="text" name="left" id="charsleft" size="2" maxlength="3" value="500"> -->
+						<textarea name="msg" cols="55" rows="4" maxlength="500" placeholder="Максимальная длина 500 символов" required="" autofocus=""></textarea>
+					</li>
+					<li>
+						<img name="captcha" src=""><br>
+						<input type="text" name="check" autocomplete="off" style="width: 7em" required="">
+						<input id="btn" type="button" value="Отправить">
+					</li>
+				</ul>
+			</form>
+		</div>
+	</div>
 	</body>
 </html>

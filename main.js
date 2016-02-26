@@ -235,7 +235,7 @@ function getNewAnswers(answers) {
 
             if ( answerTimestamp > lastTimestamp) {
                 var title = 'Сообщение';
-                var body = answers[i][2] + '\n' + answers[i][5];
+                var body = answers[i][2] + '<br>' + answers[i][5];
                 var id = String(answerTimestamp); 
                 spawnNotification(body, '48.png', title, [{title: 'Ответить'}], '', id);
 
@@ -243,7 +243,7 @@ function getNewAnswers(answers) {
 
                 chrome.notifications.onButtonClicked.addListener(function(id, index) {
                     
-                    var answerWindow = window.open('feedback.html', id,'target=_blank, width=600, height=300');
+                    var answerWindow = window.open('feedback.html', id,'target=_blank, width=600, height=450');
                 });
 
             } else {

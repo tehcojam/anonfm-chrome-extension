@@ -1,5 +1,7 @@
 window.onload = function() {
-    document.getElementById('qoute').innerHTML = sessionStorage[window.name]; 
+    var p = document.createElement('p');
+    p.innerHTML =  sessionStorage[window.name];
+    document.getElementById('qoute').appendChild(p);
 
     getForm()
     .then(function(resolve) {
@@ -14,10 +16,13 @@ window.onload = function() {
                     insertCaptcha(resolve);
                     console.log("неверный код подтверждения. отправить еще раз");
                 } else {
+                    //var p = resolve.match(/<p>.*<\/p>/);
                     var form = document.forms[0];
                     form.parentNode.removeChild(form);
-                    var nick = document.createElement('p');
-                    nick.innerHTML = id;
+                    var qoute = document.getElementById('qoute')
+                    qoute.parentNode.removeChild();
+                    var nick = document.createElement('div');
+                    nick.innerHTML = p;
                     document.body.appendChild(nick);
                 }
             });
