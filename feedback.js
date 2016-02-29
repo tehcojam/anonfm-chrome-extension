@@ -1,7 +1,9 @@
 window.onload = function() {
-    var p = document.createElement('p');
-    p.innerHTML =  sessionStorage[window.name];
-    document.getElementById('qoute').appendChild(p);
+    var answerQoute = JSON.parse(sessionStorage[window.name]);
+    var qoute = answerQoute[0];
+    var djanswer = answerQoute[1];
+    document.getElementById('ask').innerHTML = qoute;
+    document.getElementById('answer').innerHTML = djanswer;
 
     getForm()
     .then(function(resolve) {
@@ -10,24 +12,29 @@ window.onload = function() {
     .then(function(resolve) {
         document.getElementById('btn').addEventListener('click', function() {
             sendAnswer().then(function(resolve) {
+                console.log('answer sent');
                 var id = resolve.match(/<strong>(.*)<\/strong>/)[1];
                 console.log(id);
                 if (id == 'Неверный код подтверждения') {
                     insertCaptcha(resolve);
                     console.log("неверный код подтверждения. отправить еще раз");
                 } else {
-                    //var p = resolve.match(/<p>.*<\/p>/);
-                    var form = document.forms[0];
-                    form.parentNode.removeChild(form);
-                    var qoute = document.getElementById('qoute')
-                    qoute.parentNode.removeChild();
-                    var nick = document.createElement('div');
-                    nick.innerHTML = p;
-                    document.body.appendChild(nick);
+                    var nick = resolve.match(/<p>.*<\/p>/);
+                    document.body.innerHTML = '';
+                    var btnSendMore = document.createElement('button');
+                    var btnClose = document.createElement('button')
+                    btnClose.innerHTML = 'Закрыть';
+                    var p = document.createElement('p');
+                    var div = document.createElement('div');
+                    p.innerHTML = "Ваши id: " + nick;
+                    div.appendChild(btnClose);
+                    document.body.appendChild(p);
+                    document.body.appendChild(div);
+                    btnClose.addEventListener('click', window.close);
                 }
             });
         });
-    });
+    }).catch(function(e) {console.log(e)});
 }
 
 

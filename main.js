@@ -235,11 +235,11 @@ function getNewAnswers(answers) {
 
             if ( answerTimestamp > lastTimestamp) {
                 var title = 'Сообщение';
-                var body = answers[i][2] + '<br>' + answers[i][5];
+                var body = answers[i][2] + '\n' + answers[i][5];
                 var id = String(answerTimestamp); 
                 spawnNotification(body, '48.png', title, [{title: 'Ответить'}], '', id);
 
-                sessionStorage[id] = body;
+                sessionStorage[id] = JSON.stringify([answers[i][2], answers[i][5]]);
 
                 chrome.notifications.onButtonClicked.addListener(function(id, index) {
                     
