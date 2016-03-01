@@ -11,30 +11,9 @@ window.onload = function() {
     })
     .then(function(resolve) {
         document.getElementById('btn').addEventListener('click', function() {
-            sendAnswer().then(function(resolve) {
-                console.log('answer sent');
-                var id = resolve.match(/<strong>(.*)<\/strong>/)[1];
-                console.log(id);
-                if (id == 'Неверный код подтверждения') {
-                    insertCaptcha(resolve);
-                    console.log("неверный код подтверждения. отправить еще раз");
-                } else {
-                    var nick = resolve.match(/<p>.*<\/p>/);
-                    document.body.innerHTML = '';
-                    var btnSendMore = document.createElement('button');
-                    var btnClose = document.createElement('button')
-                    btnClose.innerHTML = 'Закрыть';
-                    var p = document.createElement('p');
-                    var div = document.createElement('div');
-                    p.innerHTML = "Ваши id: " + nick;
-                    div.appendChild(btnClose);
-                    document.body.appendChild(p);
-                    document.body.appendChild(div);
-                    btnClose.addEventListener('click', window.close);
-                }
-            });
+            sendAnswer().then(handleResponse).catch(function(e) {console.log( 'listener error \n'+ e)});
         });
-    }).catch(function(e) {console.log(e)});
+    }).catch(function(e) {console.log( 'error \n'+ e)});
 }
 
 
@@ -56,7 +35,7 @@ function sendAnswer() {
         xhr.onreadystatechange = function() {
         if(xhr.readyState == 4 && xhr.status == 200) {
             resolve(xhr.responseText);
-            console.log(xhr.responseText);
+            console.log('answer response\n' + xhr.responseText);
             }
         }
         xhr.send(formData);
@@ -69,10 +48,14 @@ function getForm() {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://anon.fm/feedback' + '?' + Math.random());
         xhr.onreadystatechange = function() {
-        if(xhr.readyState == 4 && xhr.status == 200) {
-            resolve(xhr.responseText);
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                resolve(xhr.responseText);
             }
         }
+        xhr.onerror = function() { 
+            reject(new Error("getForm Error"));
+        }
+        
         xhr.send();
     });
 }
@@ -87,4 +70,24 @@ function insertCaptcha(resolve) {
     form.captcha.src = "https://anon.fm" + captcha;
     form.msg.value = '';
     form.check.value = '';
+}
+
+function handleResponse(resolve) {
+    console.log('answer sent');
+    var id = resolve.match(/<strong>(.*)<\/strong>/)[1];
+    console.log(id);
+
+    if (id == 'Неверный код подтверждения') {
+        insertCaptcha(resolve);
+        document.getElementById('alert').innerHTML = 'Неверный код подтверждения';        
+    } else {
+        var nick = resolve.match(/<p>.*<\/p>/);
+        console.log('nick is: ' + nick);
+        document.body.innerHTML = '';
+        //var btnSendMore = document.createElement('button');
+        var div = document.createElement('div');
+        div.innerHTML = nick;
+        document.body.appendChild(div);
+        
+    }
 }

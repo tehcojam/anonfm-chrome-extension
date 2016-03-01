@@ -243,7 +243,7 @@ function getNewAnswers(answers) {
 
                 chrome.notifications.onButtonClicked.addListener(function(id, index) {
                     
-                    var answerWindow = window.open('feedback.html', id,'target=_blank, width=600, height=450');
+                    var answerWindow = window.open('feedback.html', id,'target=_blank, width=600, height=480');
                 });
 
             } else {

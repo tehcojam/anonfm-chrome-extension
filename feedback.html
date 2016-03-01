@@ -7,7 +7,7 @@
 		<style>
 			body,html{height:100%;}
 			body {text-align: center;overflow:hidden}
-			div {padding: 5px;height: 100%;}
+			div {padding: 5px;}
 			#charsleft,a{color: #996793;}
 			ul {list-style-type: none;}
 			ul, fieldset {margin: 0;padding: 0;border: none;}
@@ -15,9 +15,11 @@
 			input {margin: 5px;}
 			form {overflow:hidden; margin: auto;}
 			#nicks {width:150px;float:left;height:200px;overflow-y:scroll;}
-			#qoute {background-color: #f6f6f6;margin: auto; width: 80%; overflow-y: scroll;height: 50%}
-			#ask {border-left: 4px solid #2196f3; color: #2196f3;}
-			p {font-size: 1.2em; text-align: left; padding: 4px 4px 4px 20px; word-wrap: break-word;}
+			#qoute {background-color: #f6f6f6;margin: auto; width: 80%; overflow-y: scroll; height: 40%; margin-top: 10px;}
+			#ask {border-left: 4px solid #2196f3; color: #2196f3; text-align: left}
+			#answer {text-align: left;}
+			p {font-size: 1.2em; text-align: center; padding: 4px 4px 4px 20px; word-wrap: break-word;}
+			#alert {color: #F44336; font-size: 1.3em;margin-botton: 0px;}
 		</style>
 	</head>
 	<body>
@@ -27,6 +29,7 @@
 			<p id="ask"></p>
 			<p id="answer"></p>
 		</div>
+		<div id="alert"></div>
 		<div>
 			<form>
 				<ul>
