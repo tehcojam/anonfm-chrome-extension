@@ -68,7 +68,6 @@ function insertCaptcha(resolve) {
     var form = document.forms[0];
     form.cid.value = cid;
     form.captcha.src = "https://anon.fm" + captcha;
-    form.msg.value = '';
     form.check.value = '';
 }
 
@@ -81,13 +80,34 @@ function handleResponse(resolve) {
         insertCaptcha(resolve);
         document.getElementById('alert').innerHTML = 'Неверный код подтверждения';        
     } else {
-        var nick = resolve.match(/<p>.*<\/p>/);
-        console.log('nick is: ' + nick);
         document.body.innerHTML = '';
-        //var btnSendMore = document.createElement('button');
         var div = document.createElement('div');
-        div.innerHTML = nick;
+        div.innerHTML = '<p><font color="#000000">Ваш идентификатор:</font><strong>' + 'eabnesasffea</strong></p>';
         document.body.appendChild(div);
+        
+        var options = {
+            message: 'Ваш id: ' + id,
+            iconUrl: '48.png',
+            title: 'Сообщение отправлено',
+            type: 'basic'
+        };
+        chrome.notifications.create(options);
+        
+        setTimeout(window.close, 1000);
+        //window.close();
+
+         
+        // 
+        // var p1 = document.createElement('p');
+        // var p2 = document.createElement('p');
+        // var p3 = document.createElement('p');
+        // 
+        // p2.innerHTML = '<button id="close-btn">Закрыть</button>';
+        // p3.innerHTML = '<a href="feedback.html">Отправить еще</a>';
+        // var arr = [p1, p2, p3];
+        // arr.forEach(function(p) { div.appendChild(p)});
+        // 
+        // document.getElementById('close-btn').addEventListener('click', window.close);
         
     }
 }
