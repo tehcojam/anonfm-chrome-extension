@@ -35,7 +35,6 @@ function sendAnswer() {
         xhr.onreadystatechange = function() {
         if(xhr.readyState == 4 && xhr.status == 200) {
             resolve(xhr.responseText);
-            console.log('answer response\n' + xhr.responseText);
             }
         }
         xhr.send(formData);
@@ -72,9 +71,7 @@ function insertCaptcha(resolve) {
 }
 
 function handleResponse(resolve) {
-    console.log('answer sent');
     var id = resolve.match(/<strong>(.*)<\/strong>/)[1];
-    console.log(id);
 
     if (id == 'Неверный код подтверждения') {
         insertCaptcha(resolve);
@@ -92,22 +89,8 @@ function handleResponse(resolve) {
             type: 'basic'
         };
         chrome.notifications.create(options);
-        
+        var nick = document.createElement('div');
+        nick.innerHTML += '<p><font color="#000000">Ваш идентификатор:</font><strong>' + id + '</strong></p>';
         setTimeout(window.close, 1000);
-        //window.close();
-
-         
-        // 
-        // var p1 = document.createElement('p');
-        // var p2 = document.createElement('p');
-        // var p3 = document.createElement('p');
-        // 
-        // p2.innerHTML = '<button id="close-btn">Закрыть</button>';
-        // p3.innerHTML = '<a href="feedback.html">Отправить еще</a>';
-        // var arr = [p1, p2, p3];
-        // arr.forEach(function(p) { div.appendChild(p)});
-        // 
-        // document.getElementById('close-btn').addEventListener('click', window.close);
-        
     }
 }
