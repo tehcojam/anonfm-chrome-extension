@@ -72,6 +72,7 @@ function insertCaptcha(resolve) {
 
 function handleResponse(resolve) {
     var id = resolve.match(/<strong>(.*)<\/strong>/)[1];
+    console.log(id);
 
     if (id == 'Неверный код подтверждения') {
         insertCaptcha(resolve);
@@ -79,7 +80,7 @@ function handleResponse(resolve) {
     } else {
         document.body.innerHTML = '';
         var div = document.createElement('div');
-        div.innerHTML = '<p><font color="#000000">Ваш идентификатор:</font><strong>' + 'eabnesasffea</strong></p>';
+        div.innerHTML = '<p><font color="#000000">Ваш идентификатор:</font><strong>' + id + '</strong></p>';
         document.body.appendChild(div);
         
         var options = {
@@ -89,8 +90,7 @@ function handleResponse(resolve) {
             type: 'basic'
         };
         chrome.notifications.create(options);
-        var nick = document.createElement('div');
-        nick.innerHTML += '<p><font color="#000000">Ваш идентификатор:</font><strong>' + id + '</strong></p>';
+
         setTimeout(window.close, 1000);
     }
 }
