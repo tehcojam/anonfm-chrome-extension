@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Anon.fm",
-	"version": "0.2",
+	"version": "0.3",
 	"icons": {
 		"16": "16.png",
 		"48": "48.png",
@@ -26,5 +26,8 @@
 	"background": {
     	"scripts":["main.js"],
     	"persistent": false
+    },
+    "options_ui": {
+    	"page": "options.html"
     }
 }

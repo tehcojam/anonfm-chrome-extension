@@ -23,7 +23,7 @@ function sendAnswer() {
         var left = 500 - parseInt(form.msg.value.length);
 
         var cid = 'cid=' + encodeURIComponent(form.cid.value);
-        var left = '$left=' + encodeURIComponent(left);
+        left = '$left=' + encodeURIComponent(left);
         var msg = '$msg=' + encodeURIComponent(form.msg.value);
         var check = '$check=' + encodeURIComponent(form.check.value);
 
