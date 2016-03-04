@@ -234,6 +234,9 @@ function getNewAnswers(answers) {
             if ( answerTimestamp > currentServerTime) break;
 
             if ( answerTimestamp > lastTimestamp) {
+                if (answers[i][1] == 'Расписание') {
+                    continue;
+                }
                 var title = 'Сообщение';
                 var body = answers[i][2] + '\n' + answers[i][5];
                 var id = String(answerTimestamp); 

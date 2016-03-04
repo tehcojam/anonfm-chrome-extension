@@ -5,8 +5,23 @@
     <title>Настройки</title>
     <link rel="stylesheet" type="text/css" href="https://anon.fm/photon.css">
     <link rel="stylesheet" type="text/css" href="https://anon.fm/info.css">
+    <style>
+    p     { display: table-row; font-size: 1.1em}
+    label { display: table-cell; padding: 5px;}
+    input { display: table-cell; width:50px;}
+    button{ margin: 5px; }
+    </style>
   </head>
   <body>
+    <div>
+        <p><label>Уведомлять об обновлении расписания</label><input type="checkbox" name="schedNotification" checked></p>
+        <p><label>Уведомлять об новых сообщениях</label><input type="checkbox" name="schedNotification" checked></p>
+        <p><label>Проверять расписание каждые </label><input id="schedCheckTime" name="schedule" min="0" type="number" step="1" value="0"><label>мин.</label></p>
+        <p><label>Проверять новые сообщения каждые </label><input id="answersCheckTime" name="schedule" min="0" type="number" step="1"><label>мин.</label></p>
+    </div>    
+    <div>
+        <button id="save">Сохранить</button>
+    </div>
     <script src="options.js"></script>
   </body>
 </html>
