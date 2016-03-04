@@ -11,7 +11,7 @@ window.onload = function() {
     })
     .then(function(resolve) {
         document.getElementById('btn').addEventListener('click', function() {
-            sendAnswer().then(handleResponse).catch(function(e) {console.log( 'listener error \n'+ e)});
+            sendAnswer().then(handleResponse).catch(function(e) {console.log( 'error \n'+ e)});
         });
     }).catch(function(e) {console.log( 'error \n'+ e)});
 }
@@ -37,20 +37,16 @@ function sendAnswer() {
 
         var formData =  cid + left + check + msg ;
         localStorage['test'] = JSON.stringify(formData);
-        console.log(left);
-        console.log(formData);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'https://anon.fm/feedback');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
         if(xhr.readyState == 4 && xhr.status == 200) {
-            localStorage['debugresolve'] = JSON.stringify(xhr.responseText);
             resolve(xhr.responseText);
             }
         }
         xhr.send(formData);
-        console.log('message sent');
     });
 }
 
@@ -103,8 +99,6 @@ function handleResponse(resolve) {
             type: 'basic'
         };
         chrome.notifications.create(options);
-
-        console.log('hadle function done');
 
         setTimeout(window.close, 1000);
     }
