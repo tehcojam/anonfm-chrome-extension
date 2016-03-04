@@ -19,25 +19,38 @@ window.onload = function() {
 
 function sendAnswer() {
     return new Promise(function(resolve, reject){
+        // var form = document.forms[0];
+        // var formData = new FormData;
+        // var left = 500 - parseInt(form.msg.value.length)
+        // formData.append("left", left);
+        // formData.append('cid', form.cid.value);
+        // formData.append('check', form.check.value);
+        // formData.append('msg', form.msg.value);
         var form = document.forms[0];
         var left = 500 - parseInt(form.msg.value.length);
 
         var cid = 'cid=' + encodeURIComponent(form.cid.value);
         left = '$left=' + encodeURIComponent(left);
-        var msg = '$msg=' + encodeURIComponent(form.msg.value);
         var check = '$check=' + encodeURIComponent(form.check.value);
+        var msg = '$msg=' + encodeURIComponent(form.msg.value);
+        
 
-        var formData =  cid + left + msg + check;
+        var formData =  cid + left + check + msg ;
+        localStorage['test'] = JSON.stringify(formData);
+        console.log(left);
+        console.log(formData);
 
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'https://anon.fm/feedback');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
         if(xhr.readyState == 4 && xhr.status == 200) {
+            localStorage['debugresolve'] = JSON.stringify(xhr.responseText);
             resolve(xhr.responseText);
             }
         }
         xhr.send(formData);
+        console.log('message sent');
     });
 }
 
@@ -90,6 +103,8 @@ function handleResponse(resolve) {
             type: 'basic'
         };
         chrome.notifications.create(options);
+
+        console.log('hadle function done');
 
         setTimeout(window.close, 1000);
     }
