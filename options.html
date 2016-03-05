@@ -8,8 +8,9 @@
     <style>
     p     { display: table-row; font-size: 1.1em}
     label { display: table-cell; padding: 5px;}
-    input { display: table-cell; width:50px;}
-    button{ margin: 5px; }
+    input { display: table-cell; width: 50px;}
+    button { margin: 5px; }
+    #savedMsg {font-size: 1.2em; color: red;}
     </style>
   </head>
   <body>
@@ -18,10 +19,11 @@
         <p><label>Уведомлять об новых сообщениях</label><input type="checkbox" id="answersCheckEnable"></p>
         <p><label>Проверять расписание каждые </label><input id="schedCheckTime"  min="1" type="number" step="1"><label>мин.</label></p>
         <p><label>Проверять новые сообщения каждые </label><input id="answersCheckTime" min="1" type="number" step="1"><label>мин.</label></p>
-    </div>    
+    </div>
     <div>
         <button id="save">Сохранить</button>
+        <span id="savedMsg"></span>
     </div>
-    <script src="options.js"></script>
+        <script src="options.js"></script>
   </body>
 </html>

@@ -123,7 +123,11 @@ function compareShed(pre, current) {
 }
 
 //alarms
-chrome.alarms.create("CheckSchedule", {delayInMinutes: 0.1, periodInMinutes: 1});
+
+var initSchedTime = parseInt(localStorage['schedCheckTime']) || 3;
+var initAnswersTime = parseInt(localStorage['answersCheckTime']) || 3;
+
+chrome.alarms.create("CheckSchedule", {delayInMinutes: 0.1, periodInMinutes: initSchedTime});
 chrome.alarms.onAlarm.addListener(function(alarm){
     //check schedule for update
     getData('/shed.js').then(function(resolve){
@@ -159,7 +163,7 @@ chrome.alarms.onAlarm.addListener(function(alarm){
         getData('/answers.js').then(getNewAnswers, showError)
     }
 })
-chrome.alarms.create("CheckNewAnswers", {delayInMinutes:0.1, periodInMinutes: 1})
+chrome.alarms.create("CheckNewAnswers", {delayInMinutes:0.1, periodInMinutes: initAnswersTime})
 
 
 function getNextShed(shedList) {

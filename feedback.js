@@ -5,49 +5,52 @@ window.onload = function() {
     document.getElementById('ask').innerHTML = qoute;
     document.getElementById('answer').innerHTML = djanswer;
 
-    getForm()
-    .then(function(resolve) {
+    getForm().then(function(resolve) {
         insertCaptcha(resolve);
-    })
-    .then(function(resolve) {
-        document.getElementById('btn').addEventListener('click', function() {
-            sendAnswer().then(handleResponse).catch(function(e) {console.log( 'error \n'+ e)});
-        });
-    }).catch(function(e) {console.log( 'error \n'+ e)});
+    });
+
+    document.getElementById('btn').addEventListener('click', function() {
+        sendAnswer()
+        .then(r => r.text())
+        .then(handleResponse)
+        .catch(e => console.log(e));
+    });
+    
 }
 
 
 function sendAnswer() {
-    return new Promise(function(resolve, reject){
-        // var form = document.forms[0];
-        // var formData = new FormData;
-        // var left = 500 - parseInt(form.msg.value.length)
-        // formData.append("left", left);
-        // formData.append('cid', form.cid.value);
-        // formData.append('check', form.check.value);
-        // formData.append('msg', form.msg.value);
-        var form = document.forms[0];
-        var left = 500 - parseInt(form.msg.value.length);
+    // return new Promise(function(resolve, reject){
 
-        var cid = 'cid=' + encodeURIComponent(form.cid.value);
-        left = '$left=' + encodeURIComponent(left);
-        var check = '$check=' + encodeURIComponent(form.check.value);
-        var msg = '$msg=' + encodeURIComponent(form.msg.value);
-        
+    var form = document.forms[0];
+    var left = 500 - parseInt(form.msg.value.length);
 
-        var formData =  cid + left + check + msg ;
-        localStorage['test'] = JSON.stringify(formData);
+    var cid = 'cid=' + encodeURIComponent(form.cid.value);
+    left = '&left=' + encodeURIComponent(left);
+    var check = '&check=' + encodeURIComponent(form.check.value);
+    var msg = '&msg=' + encodeURIComponent(form.msg.value);
+    
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://anon.fm/feedback');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-        if(xhr.readyState == 4 && xhr.status == 200) {
-            resolve(xhr.responseText);
-            }
+    var formData =  cid + left + msg + check;
+
+    return fetch('https://anon.fm/feedback', {
+        method: 'post',
+        body: formData,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
         }
-        xhr.send(formData);
     });
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open('POST', 'https://anon.fm/feedback');
+    //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    //     xhr.onreadystatechange = function() {
+    //     if(xhr.readyState == 4 && xhr.status == 200) {
+    //         resolve(xhr.responseText);
+    //         }
+    //     }
+    //     xhr.send(formData);
+    // });
+    
 }
 
 
@@ -100,6 +103,6 @@ function handleResponse(resolve) {
         };
         chrome.notifications.create(options);
 
-        setTimeout(window.close, 1000);
+        //setTimeout(window.close, 1000);
     }
 }
