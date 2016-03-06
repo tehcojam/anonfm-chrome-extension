@@ -1,21 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    getData('/state.txt').then(showState, showError);
-    getData('/shed.js').then(showBroadcast, showError);
+    getData('/state.txt').then(showState).catch(e => console.log(e));
+    getData('/shed.js').then(showBroadcast).catch(e => console.log(e));
 
 });
 
-function getData(url) {
-    return new Promise(function(resolve, reject){
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://anon.fm' + url + '?' + Math.random());
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == 4 && xhr.status == 200) {
-                resolve(xhr.responseText);
-            }
-        }
-        xhr.send();
-    });
-}
 
 function showState(state) {
     var obj = txtToObj(state.toString());
@@ -28,7 +16,7 @@ function showState(state) {
         el.innerHTML = '<p><b>Живой диджей:</b> Не найден</p>'
     }
     if (parseInt(obj.isVideo)) {
-        getData('/info.js').then(showVideoLink, showError);
+        getData('/info.js').then(showVideoLink).catch(e => console.log(e));
     } else {
         el.innerHTML += '<p><b>Видимопоток:</b> Не найден</p>';
     }
@@ -36,14 +24,15 @@ function showState(state) {
     document.getElementById('dj').appendChild(el);
 }
 
-function showBroadcast(shedList) {
-    var shedList = getNextShed(shedList);
-    var next = shedList.next;
-    var current = shedList.current;
+
+function showBroadcast(schedList) {
+    var schedList = getNextSched(schedList);
+    var next = schedList.next;
+    var current = schedList.current;
     if (current) {
         document.getElementById('currentBroadcast').innerHTML = '<p>Сейчас в эфире: ' + current[2] + ' - ' + current[3] + '</p>';
     }
-    localStorage.shed = JSON.stringify(next);
+    localStorage.sched = JSON.stringify(next);
 
     var el = document.createElement('p');
     var brTime = new Date(parseInt(next[0][0] * 1000));
@@ -53,6 +42,7 @@ function showBroadcast(shedList) {
     document.getElementById('nextBroadcast').appendChild(el);
 }
 
+
 function txtToObj(str) {
     var obj = {};
     var arr = str.split('\n');
@@ -61,6 +51,7 @@ function txtToObj(str) {
     }
     return obj;
 }
+
 
 function showVideoLink(obj) {
     var obj = JSON.parse(obj);
@@ -73,9 +64,6 @@ function showVideoLink(obj) {
     }
 }
 
- function showError(err) {
-    console.log('error: ' + err);
-}
 
 // function spawnNotification(body,icon, title, buttons, type, id) {
 //     var options = {
@@ -100,7 +88,7 @@ function spawnNotification(body,icon, title, buttons, type, id) {
     chrome.notifications.create(id, options)
 }
 
-function compareShed(pre, current) {
+function compareSched(pre, current) {
   var equal = [];
   var curr = current.slice();
     pre.forEach(function(arr, arrInd) {
@@ -127,65 +115,49 @@ function compareShed(pre, current) {
 var initSchedTime = parseInt(localStorage['schedCheckTime']) || 3;
 var initAnswersTime = parseInt(localStorage['answersCheckTime']) || 3;
 
-chrome.alarms.create("CheckSchedule", {delayInMinutes: 0.1, periodInMinutes: initSchedTime});
+chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});
+chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 1, periodInMinutes: initAnswersTime})
+
+
 chrome.alarms.onAlarm.addListener(function(alarm){
     //check schedule for update
-    getData('/shed.js').then(function(resolve){
-        var current = getNextShed(resolve).next;
-        if (localStorage['shed']) {
-            var pre = JSON.parse(localStorage['shed']);
-            var changes = compareShed(pre, current);
-            if (changes.length > 0){
-                console.log('shed updated')
-;                for(i=0;i<changes.length;i++) {
-                    spawnNotification(changes[i][3], '48.png', 'Изменение в расписании');
-                }
-                localStorage.shed = JSON.stringify(current);
-            } 
-        } else {
-            localStorage.shed = JSON.stringify(current);
-        }
-    }, showError);
-    //check DJ isLive 
-    getData('/state.txt').then(function(resolve){
-        var isLive = parseInt(txtToObj(resolve).isLive);
-        var pre = parseInt(localStorage['isLive']);
-        if (isLive && !pre) {
-            spawnNotification(' ', '48.png', 'Диджей в эфире');
-        }
-        localStorage['isLive'] = isLive;
-    }, showError);
+    getData('/shed.js').then(checkSched).catch(e => console.log(e));
 
+    //check DJ isLive 
+    getData('/state.txt').then(checkDj).catch(e => console.log(e));
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm){
     if (alarm.name == 'CheckNewAnswers') {
-        getData('/answers.js').then(getNewAnswers, showError)
+        getData('/answers.js').then(getNewAnswers).catch(e => console.log(e))
     }
 })
-chrome.alarms.create("CheckNewAnswers", {delayInMinutes:0.1, periodInMinutes: initAnswersTime})
 
 
-function getNextShed(shedList) {
+
+
+
+function getNextSched(schedList) {
     var now=Math.floor(new Date().getTime()/1000);
-    var shedList = JSON.parse(shedList);
+    var schedList = JSON.parse(schedList);
     var result = {
         next: []
     };
-    for (i=0; i < shedList.length; i++) {
-        var begin = parseInt(shedList[i][0]);
-        var end = parseInt(shedList[i][1]);
+    for (i=0; i < schedList.length; i++) {
+        var begin = parseInt(schedList[i][0]);
+        var end = parseInt(schedList[i][1]);
 
         if (begin <= now && end > now) {
-            result.current = shedList[i];
+            result.current = schedList[i];
         }
 
         if (begin > now) {
-            result.next.push(shedList[i]);
+            result.next.push(schedList[i]);
         } 
     }
     return result;
 }
+
 
 function showRemainingTime(date) {
     var now = new Date();
@@ -207,6 +179,7 @@ function showRemainingTime(date) {
     }
     return remaining;
 }
+
 
 function showEnding(num, endings) {
     switch(num%10) {
@@ -281,4 +254,51 @@ function getServerTime() {
     var localTime = new Date();
     var serverTime = localTime.getTime() + (localTime.getTimezoneOffset() * 60000) + 180*60000;
     return serverTime;
+}
+
+
+function getData(url) {
+    var url = 'https://anon.fm' + url;
+    var headers = new Headers;
+    headers.append('pragma', 'no-cache');
+    headers.append('cache-control', 'no-cache');
+
+    var reqInit = {
+       cache: 'no-cache',
+       headers: headers
+    }
+
+    var request = new Request(url, reqInit);
+
+    return fetch(request).then(function(r) { if(r.ok) return r.text();})
+}
+
+function checkDj(resolve){
+    var isLive = parseInt(txtToObj(resolve).isLive);
+    var pre = parseInt(localStorage['isLive']);
+
+    if (isLive && !pre) {
+        spawnNotification(' ', '48.png', 'Диджей в эфире');
+    }
+
+    localStorage['isLive'] = isLive;
+}
+
+function checkSched(resolve) {
+    var current = getNextSched(resolve).next;
+    if (localStorage['sched']) {
+        var pre = JSON.parse(localStorage['sched']);
+        var changes = compareSched(pre, current);
+
+        if (changes.length > 0){
+            console.log('sched updated');
+            for(i=0;i<changes.length;i++) {
+                spawnNotification(changes[i][3], '48.png', 'Изменение в расписании');
+            }
+            localStorage.sched = JSON.stringify(current);
+        } 
+    } else {
+        localStorage.sched = JSON.stringify(current);
+    }
+
 }

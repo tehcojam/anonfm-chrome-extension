@@ -5,16 +5,9 @@ window.onload = function() {
     document.getElementById('ask').innerHTML = qoute;
     document.getElementById('answer').innerHTML = djanswer;
 
-    getForm().then(function(resolve) {
-        insertCaptcha(resolve);
-    });
+    getForm().then(insertCaptcha).catch(e => console.log(e));
 
-    document.getElementById('btn').addEventListener('click', function() {
-        sendAnswer()
-        .then(r => r.text())
-        .then(handleResponse)
-        .catch(e => console.log(e));
-    });
+    document.getElementById('btn').addEventListener('click', sendAnswer);
     
 }
 
@@ -33,42 +26,36 @@ function sendAnswer() {
 
     var formData =  cid + left + msg + check;
 
-    return fetch('https://anon.fm/feedback', {
-        method: 'post',
-        body: formData,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-        }
-    });
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.open('POST', 'https://anon.fm/feedback');
-    //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    //     xhr.onreadystatechange = function() {
-    //     if(xhr.readyState == 4 && xhr.status == 200) {
-    //         resolve(xhr.responseText);
-    //         }
-    //     }
-    //     xhr.send(formData);
-    // });
-    
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
+
+    reqInit = {
+       method: 'post',
+       body: formData,
+       headers: headers
+    }
+    var request = new Request('https://anon.fm/feedback', reqInit);
+
+    fetch(request)
+    .then(r => r.text())
+    .then(handleResponse)
+    .catch(e => console.log(e));;
 }
 
 
 function getForm() {
-    return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://anon.fm/feedback' + '?' + Math.random());
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == 4 && xhr.status == 200) {
-                resolve(xhr.responseText);
-            }
-        }
-        xhr.onerror = function() { 
-            reject(new Error("getForm Error"));
-        }
-        
-        xhr.send();
-    });
+    var headers = new Headers;
+    headers.append('pragma', 'no-cache');
+    headers.append('cache-control', 'no-cache');
+
+    reqInit = {
+       cache: 'no-cache',
+       headers: headers
+    }
+
+    var request = new Request('https://anon.fm/feedback', reqInit);
+
+    return fetch(request).then(function(r) { if(r.ok) return r.text() })
 }
 
 
