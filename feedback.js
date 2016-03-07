@@ -1,20 +1,24 @@
 window.onload = function() {
-    var answerQoute = JSON.parse(sessionStorage[window.name]);
-    var qoute = answerQoute[0];
-    var djanswer = answerQoute[1];
-    document.getElementById('ask').innerHTML = qoute;
-    document.getElementById('answer').innerHTML = djanswer;
 
+    if (window.name == 'noQoute') {
+       var qouteDiv = document.getElementById('qoute');
+       qouteDiv.parentNode.removeChild(qouteDiv);
+
+    } else {
+        var answerQoute = JSON.parse(sessionStorage[window.name]);
+        var qoute = answerQoute[0];
+        var djanswer = answerQoute[1];
+        document.getElementById('ask').innerHTML = qoute;
+        document.getElementById('answer').innerHTML = djanswer;
+    }
     getForm().then(insertCaptcha).catch(e => console.log(e));
-
     document.getElementById('btn').addEventListener('click', sendAnswer);
-    
 }
 
 
-function sendAnswer() {
+function sendAnswer(event) {
     // return new Promise(function(resolve, reject){
-
+    event.preventDefault();
     var form = document.forms[0];
     var left = 500 - parseInt(form.msg.value.length);
 
@@ -90,6 +94,6 @@ function handleResponse(resolve) {
         };
         chrome.notifications.create(options);
 
-        //setTimeout(window.close, 1000);
+        setTimeout(window.close, 1000);
     }
 }

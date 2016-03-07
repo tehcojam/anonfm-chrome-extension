@@ -2,7 +2,25 @@ document.addEventListener('DOMContentLoaded', function() {
     getData('/state.txt').then(showState).catch(e => console.log(e));
     getData('/shed.js').then(showBroadcast).catch(e => console.log(e));
 
+    //panel
+    document.getElementById('msgBtn').addEventListener('click', function() {
+        window.open('feedback.html', 'noQoute', 'target=_blank, width=600, height=300');
+    })
+
+    document.getElementById('options').addEventListener('click', function() {
+        chrome.runtime.openOptionsPage();
+    });
+
+    document.getElementById('playRadio').addEventListener('click', function() {
+        audio.play();
+    });
+
 });
+    
+localStorage.test += '1';
+var audio = new Audio();
+audio.src = 'http://anon.fm:8000/radio-low.ogg';
+audio.preload = 'none';
 
 
 function showState(state) {
@@ -196,7 +214,7 @@ function showEnding(num, endings) {
 }
 
 
-//answers funnctions
+//answers functions
 
 function getNewAnswers(answers) {
 
@@ -255,7 +273,7 @@ function getServerTime() {
     var serverTime = localTime.getTime() + (localTime.getTimezoneOffset() * 60000) + 180*60000;
     return serverTime;
 }
-
+//
 
 function getData(url) {
     var url = 'https://anon.fm' + url;
@@ -273,6 +291,7 @@ function getData(url) {
     return fetch(request).then(function(r) { if(r.ok) return r.text();})
 }
 
+
 function checkDj(resolve){
     var isLive = parseInt(txtToObj(resolve).isLive);
     var pre = parseInt(localStorage['isLive']);
@@ -283,6 +302,7 @@ function checkDj(resolve){
 
     localStorage['isLive'] = isLive;
 }
+
 
 function checkSched(resolve) {
     var current = getNextSched(resolve).next;
