@@ -12,20 +12,28 @@ window.onload = function() {
         document.getElementById('answer').innerHTML = djanswer;
     }
     getForm().then(insertCaptcha).catch(e => console.log(e));
+    
     document.getElementById('btn').addEventListener('click', sendAnswer);
+    document.getElementById('check').addEventListener("keypress", function(event) {
+        if (event.keyCode == 13)
+            sendAnswer();
+    });
+    
 }
 
 
 function sendAnswer(event) {
     // return new Promise(function(resolve, reject){
-    event.preventDefault();
-    var form = document.forms[0];
-    var left = 500 - parseInt(form.msg.value.length);
+    var msg = document.getElementById('msg');
+    var cid = document.getElementById('cid');
+    var check = document.getElementById('check');
+    var left = 500 - parseInt(msg.value.length);
 
-    var cid = 'cid=' + encodeURIComponent(form.cid.value);
-    left = '&left=' + encodeURIComponent(left);
-    var check = '&check=' + encodeURIComponent(form.check.value);
-    var msg = '&msg=' + encodeURIComponent(form.msg.value);
+
+    cid = 'cid=' + cid.value;
+    left = '&left=' + left;
+    check = '&check=' + check.value;
+    msg = '&msg=' + encodeURIComponent(msg.value);
     
 
     var formData =  cid + left + msg + check;
@@ -64,13 +72,16 @@ function getForm() {
 
 
 function insertCaptcha(resolve) {
-
+    var cidInput = document.getElementById('cid');
+    var captchaImg = document.getElementById('captcha');
+    var check = document.getElementById('check');
     var cid = resolve.match(/<input type="hidden" name="cid" value="(\d*)">/)[1];
     var captcha = resolve.match(/<img src="(.*\.gif)">/)[1];
-    var form = document.forms[0];
-    form.cid.value = cid;
-    form.captcha.src = "https://anon.fm" + captcha;
-    form.check.value = '';
+
+ 
+    cidInput.value = cid;
+    captchaImg.src = "https://anon.fm" + captcha;
+    check.value = '';
 }
 
 function handleResponse(resolve) {

@@ -31,20 +31,20 @@
 		</div>
 		<div id="alert"></div>
 		<div>
-			<form>
+			<div>
 				<ul>
 					<li>
-						<input type="hidden" name="cid" value="">
+						<input id="cid" type="hidden" name="cid" value="">
 						<!-- <input readonly="" type="text" name="left" id="charsleft" size="2" maxlength="3" value="500"> -->
-						<textarea name="msg" cols="55" rows="4" maxlength="500" placeholder="Максимальная длина 500 символов" required="" autofocus=""></textarea>
+						<textarea id="msg" name="msg" cols="55" rows="4" maxlength="500" placeholder="Максимальная длина 500 символов" required="" autofocus=""></textarea>
 					</li>
 					<li>
-						<img name="captcha" src=""><br>
-						<input type="text" name="check" autocomplete="off" style="width: 7em" required="">
+						<img id="captcha" name="captcha" src=""><br>
+						<input id='check' type="text" name="check" autocomplete="off" style="width: 7em" required="">
 						<button id="btn" type="button">Отправить</button>
 					</li>
 				</ul>
-			</form>
+			</div>
 		</div>
 	</div>
 	</body>

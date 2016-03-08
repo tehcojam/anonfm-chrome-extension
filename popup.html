@@ -9,11 +9,12 @@
     		color: #333333;
         	font-family: "Trebuchet MS",Trebuchet,tahoma,serif;
 		}
+        p {color: #996793;}
+        a {text-decoration: none}
+        span {font-size: 1.5em; color: #996793; padding: 15px;}
         #wrapper {
             text-align: center;
         }
-		p {   color: #996793;}
-
         #next {
             display: block;
             font-size: 1.17em;
@@ -22,7 +23,11 @@
             -webkit-margin-start: 0px;
             -webkit-margin-end: 0px;
             font-weight: bold;
-
+        }
+        #panel { 
+            border-bottom-style: solid;
+            border-color: #996793;
+            border-width: 2px;
         }
     </style>
     </head>
@@ -30,9 +35,9 @@
     <body>
         <div id="wrapper">
             <div id='panel'>
-               
-                <a id="msgBtn" href='#'>sendmsg</a>
-                <a id="options" href='#'>options</a>
+                <a id="sitelink" href='https://anon.fm' target="_blank"><span>&#128251;</span></a>
+                <a id="msgBtn" href='#'><span>&#128232;</span></a>
+                <a id="options" href='#'><span>&#128295;</span></a>
             </div>
         	<div id='dj'></div>
         	<div id="video"></div>

@@ -11,16 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.runtime.openOptionsPage();
     });
 
-    document.getElementById('playRadio').addEventListener('click', function() {
-        audio.play();
-    });
-
 });
-    
-localStorage.test += '1';
-var audio = new Audio();
-audio.src = 'http://anon.fm:8000/radio-low.ogg';
-audio.preload = 'none';
 
 
 function showState(state) {
