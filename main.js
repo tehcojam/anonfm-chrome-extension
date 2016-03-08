@@ -16,21 +16,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showState(state) {
     var obj = txtToObj(state.toString());
-    var el = document.createElement('p');
+    var inner ='';
     var trackTitle = obj.Title || 'Анкноун';
 
     if (parseInt(obj.isLive)) {
-        el.innerHTML = '<p><b>Живой диджей:</b> В эфире</p>';
+        inner = '<p><b>Живой диджей:</b> В эфире</p>';
     } else {
-        el.innerHTML = '<p><b>Живой диджей:</b> Не найден</p>'
+        inner = '<p><b>Живой диджей:</b> Не найден</p>'
     }
     if (parseInt(obj.isVideo)) {
         getData('/info.js').then(showVideoLink).catch(e => console.log(e));
     } else {
-        el.innerHTML += '<p><b>Видимопоток:</b> Не найден</p>';
+        inner += '<p><b>Видимопоток:</b> Не найден</p>';
     }
-    el.innerHTML += '<p><b>Сейчас играет: </b>' + trackTitle + '</p>';
-    document.getElementById('dj').appendChild(el);
+    inner += '<p><b>Сейчас играет: </b>' + trackTitle + '</p>';
+    document.getElementById('dj').innerHTML = inner;
 }
 
 
