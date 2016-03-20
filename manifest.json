@@ -24,7 +24,7 @@
 	    "storage"
 	],
 	"background": {
-    	"scripts":["main.js"],
+    	"scripts":["main.js", "player.js"],
     	"persistent": false
     },
     "options_ui": {

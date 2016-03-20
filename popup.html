@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-    <meta charset="utf-8">
-    <style>
-    	body {
-    		min-width:200px;
-    		background-color: #eee;
-    		color: #333333;
-        	font-family: "Trebuchet MS",Trebuchet,tahoma,serif;
-		}
-        p {color: #996793;}
-        a {text-decoration: none}
-        #panel span {font-size: 1.5em; color: #996793; padding: 15px;}
-        #wrapper {
-            text-align: center;
-        }
-        #next {
-            display: block;
-            font-size: 1.17em;
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-        #panel { 
-            border-bottom-style: solid;
-            border-color: #996793;
-            border-width: 2px;
-        }
-    </style>
+        <meta charset="utf-8">
+        <style>
+        	body {
+        		min-width:200px;
+        		background-color: #eee;
+        		color: #333333;
+            	font-family: "Trebuchet MS",Trebuchet,tahoma,serif;
+    		}
+            p {color: #996793;}
+            a {text-decoration: none}
+            #panel img {padding: 0 10px;}
+            #wrapper {
+                text-align: center;
+            }
+            #next {
+                display: block;
+                font-size: 1.17em;
+                font-weight: bold;
+                margin-bottom: 3px;
+            }
+            #panel { 
+                border-bottom-style: solid;
+                border-color: #996793;
+                border-width: 2px;
+            }
+        </style>
     </head>
     <title>test</title>
     <body>
         <div id="wrapper">
             <div id='panel'>
-                <a id="sitelink" href='https://anon.fm' target="_blank"><span>&#128251;</span></a>
-                <a id="msgBtn" href='#'><span>&#128232;</span></a>
-                <a id="options" href='#'><span>&#128295;</span></a>
+                <!-- <input id="volume" type="range"> -->
+                <a id="player" href='#'><img src="img/play.svg"></a>
+                <a id="sitelink" href='https://anon.fm' target="_blank"><img src="img/radio.svg"></a>
+                <a id="msgBtn" href='#'><img src="img/mail.svg"></a>
+                <a id="options" href='#'><img src="img/gear.svg"></a>
             </div>
-        	<div id='dj'></div>
+            <div id='dj'></div>
         	<div id="video"></div>
             <div id="currentBroadcast"></div>
         	<div id="nextBroadcast"></div>

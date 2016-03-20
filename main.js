@@ -11,7 +11,26 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.runtime.openOptionsPage();
     });
 
+    var playBtn = document.getElementById('player');
+    chrome.runtime.sendMessage({cmd: "status"}, function(response) {
+        console.log(response)
+        playBtn.firstChild.src = "img/" + response.status + ".svg";
+    });
+
+    playBtn.addEventListener('click', function() {
+        chrome.runtime.sendMessage({cmd: "toggle"}, function(response) {
+            console.log(response.result);
+            if (response.result == 'paused') {
+                playBtn.firstChild.src = "img/play.svg"
+            } else {
+                playBtn.firstChild.src = "img/pause.svg"
+            }
+
+        });
+    });    
+
 });
+
 
 
 function showState(state) {
@@ -86,13 +105,14 @@ function showVideoLink(obj) {
 // };
 
 
-function spawnNotification(body,icon, title, buttons, type, id) {
+function spawnNotification(body,icon, title, buttons, type, id, imageUrl) {
     var options = {
         message: body,
         iconUrl: icon,
         title: title,
         type: type || 'basic',
         buttons: buttons || [],
+        imageUrl: imageUrl
     };
     chrome.notifications.create(id, options)
 }
@@ -223,10 +243,20 @@ function getNewAnswers(answers) {
                 if (answers[i][1] == 'Расписание') {
                     continue;
                 }
+                var notificationType = 'basic';
+                var buttons = [{title: 'Ответить'}]
                 var title = 'Сообщение';
                 var body = answers[i][2] + '\n' + answers[i][5];
-                var id = String(answerTimestamp); 
-                spawnNotification(body, '48.png', title, [{title: 'Ответить'}], '', id);
+                var id = String(answerTimestamp);
+                var imageUrl = body.match(/http?s:[\S]*\.png|jpg|gif/)
+
+                if (imageUrl) {
+                    notificationType = "image";
+                    imageUrl = imageUrl[0];
+                    buttons = null;
+                }
+
+                spawnNotification(body, '48.png', title, buttons, notificationType, id, imageUrl);
 
                 sessionStorage[id] = JSON.stringify([answers[i][2], answers[i][5]]);
 
