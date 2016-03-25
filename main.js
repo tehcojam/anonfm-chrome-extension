@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //panel
     document.getElementById('msgBtn').addEventListener('click', function() {
         window.open('feedback.html', 'noQoute', 'target=_blank, width=600, height=300');
-    })
+    });
 
     document.getElementById('options').addEventListener('click', function() {
         chrome.runtime.openOptionsPage();
@@ -13,17 +13,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var playBtn = document.getElementById('player');
     chrome.runtime.sendMessage({cmd: "status"}, function(response) {
-        console.log(response)
-        playBtn.firstChild.src = "img/" + response.status + ".svg";
+        if(response) {
+            console.log(response);
+            playBtn.firstChild.src = "img/" + response.status + ".svg";
+        }
     });
 
     playBtn.addEventListener('click', function() {
         chrome.runtime.sendMessage({cmd: "toggle"}, function(response) {
             console.log(response.result);
             if (response.result == 'paused') {
-                playBtn.firstChild.src = "img/play.svg"
+                playBtn.firstChild.src = "img/play.svg";
             } else {
-                playBtn.firstChild.src = "img/pause.svg"
+                playBtn.firstChild.src = "img/pause.svg";
             }
 
         });
@@ -41,7 +43,7 @@ function showState(state) {
     if (parseInt(obj.isLive)) {
         inner = '<p><b>Живой диджей:</b> В эфире</p>';
     } else {
-        inner = '<p><b>Живой диджей:</b> Не найден</p>'
+        inner = '<p><b>Живой диджей:</b> Не найден</p>';
     }
     if (parseInt(obj.isVideo)) {
         getData('/info.js').then(showVideoLink).catch(e => console.log(e));
@@ -74,7 +76,7 @@ function showBroadcast(schedList) {
 function txtToObj(str) {
     var obj = {};
     var arr = str.split('\n');
-    for (i = 0; i < arr.length; i += 2) {
+    for (var i = 0; i < arr.length; i += 2) {
         obj[arr[i]] = arr[i+1];
     }
     return obj;
@@ -84,9 +86,9 @@ function txtToObj(str) {
 function showVideoLink(obj) {
     var obj = JSON.parse(obj);
     if (obj.video) {
-        var el = document.createElement('p')
+        var el = document.createElement('p');
         el.innerHTML = '<b>Видимопоток:</b> <a href="' + obj.video + '"target="_blank">Открыть</a>';
-        document.getElementById('video').appendChild(el)
+        document.getElementById('video').appendChild(el);
     } else {
         document.getElementById('video').innerHTML = '<p>Видимопоток: Не найден</p>';
     }
@@ -114,27 +116,27 @@ function spawnNotification(body,icon, title, buttons, type, id, imageUrl) {
         buttons: buttons || [],
         imageUrl: imageUrl
     };
-    chrome.notifications.create(id, options)
+    chrome.notifications.create(id, options);
 }
 
 function compareSched(pre, current) {
   var equal = [];
   var curr = current.slice();
-    pre.forEach(function(arr, arrInd) {
-    for(i=0;i<curr.length;i++) {
+    pre.forEach(function(arr) {
+    for(var i=0;i<curr.length;i++) {
       if (arr.every(function(el, ind){ return el == curr[i][ind]?true:false;} ) ) {
           equal.push(i);
       }
     }  
    });
-   for(i=0;i<equal.length;i++) {
+   for(var i=0;i<equal.length;i++) {
         delete curr[equal[i]];
    }
    for(i=0;i<curr.length;i++) {
-        if (curr[i] == undefined) {
+        if (curr[i] === undefined) {
             curr.splice(i,1);
             i--;
-        };
+        }
     }
   return curr;
 }
@@ -145,7 +147,7 @@ var initSchedTime = parseInt(localStorage['schedCheckTime']) || 3;
 var initAnswersTime = parseInt(localStorage['answersCheckTime']) || 3;
 
 chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});
-chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 1, periodInMinutes: initAnswersTime})
+chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 1, periodInMinutes: initAnswersTime});
 
 
 chrome.alarms.onAlarm.addListener(function(alarm){
@@ -154,16 +156,11 @@ chrome.alarms.onAlarm.addListener(function(alarm){
 
     //check DJ isLive 
     getData('/state.txt').then(checkDj).catch(e => console.log(e));
-});
 
-chrome.alarms.onAlarm.addListener(function(alarm){
     if (alarm.name == 'CheckNewAnswers') {
-        getData('/answers.js').then(getNewAnswers).catch(e => console.log(e))
+        getData('/answers.js').then(getNewAnswers).catch(e => console.log(e));
     }
-})
-
-
-
+});
 
 
 function getNextSched(schedList) {
@@ -172,7 +169,7 @@ function getNextSched(schedList) {
     var result = {
         next: []
     };
-    for (i=0; i < schedList.length; i++) {
+    for (var i=0; i < schedList.length; i++) {
         var begin = parseInt(schedList[i][0]);
         var end = parseInt(schedList[i][1]);
 
@@ -214,7 +211,6 @@ function showEnding(num, endings) {
     switch(num%10) {
         case 1:
             return endings[0];
-            break;
         case 2:
         case 3:
         case 4:
@@ -229,7 +225,7 @@ function showEnding(num, endings) {
 
 function getNewAnswers(answers) {
 
-    var answers = JSON.parse(answers)
+    var answers = JSON.parse(answers);
     if (localStorage["lastAnswer"]) {
         for (var i = 0; i < answers.length; i++) {
             var answerTimestamp = getTimestamp(answers[i][3]);
@@ -240,15 +236,14 @@ function getNewAnswers(answers) {
             if ( answerTimestamp > currentServerTime) break;
 
             if ( answerTimestamp > lastTimestamp) {
-                if (answers[i][1] == 'Расписание') {
-                    continue;
-                }
+                if (answers[i][1] == 'Расписание') continue;
+                
                 var notificationType = 'basic';
-                var buttons = [{title: 'Ответить'}]
+                var buttons = [{title: 'Ответить'}];
                 var title = 'Сообщение';
                 var body = answers[i][2] + '\n' + answers[i][5];
                 var id = String(answerTimestamp);
-                var imageUrl = body.match(/http?s:[\S]*\.png|jpg|gif/)
+                var imageUrl = body.match(/http?s:[\S]*\.png|jpg|gif/);
 
                 if (imageUrl) {
                     notificationType = "image";
@@ -260,7 +255,7 @@ function getNewAnswers(answers) {
 
                 sessionStorage[id] = JSON.stringify([answers[i][2], answers[i][5]]);
 
-                chrome.notifications.onButtonClicked.addListener(function(id, index) {
+                chrome.notifications.onButtonClicked.addListener(function(id) {
                     
                     var answerWindow = window.open('feedback.html', id,'target=_blank, width=600, height=480');
                 });
@@ -298,18 +293,18 @@ function getServerTime() {
 
 function getData(url) {
     var url = 'https://anon.fm' + url;
-    var headers = new Headers;
+    var headers = new Headers();
     headers.append('pragma', 'no-cache');
     headers.append('cache-control', 'no-cache');
 
     var reqInit = {
        cache: 'no-cache',
        headers: headers
-    }
+    };
 
     var request = new Request(url, reqInit);
 
-    return fetch(request).then(function(r) { if(r.ok) return r.text();})
+    return fetch(request).then(function(r) { if(r.ok) return r.text();});
 }
 
 
@@ -333,7 +328,7 @@ function checkSched(resolve) {
 
         if (changes.length > 0){
             console.log('sched updated');
-            for(i=0;i<changes.length;i++) {
+            for(var i=0;i<changes.length;i++) {
                 spawnNotification(changes[i][3], '48.png', 'Изменение в расписании');
             }
             localStorage.sched = JSON.stringify(current);
