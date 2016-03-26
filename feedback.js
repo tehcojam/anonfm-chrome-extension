@@ -19,10 +19,10 @@ window.onload = function() {
             sendAnswer();
     });
     
-}
+};
 
 
-function sendAnswer(event) {
+function sendAnswer() {
     // return new Promise(function(resolve, reject){
     var msg = document.getElementById('msg');
     var cid = document.getElementById('cid');
@@ -41,33 +41,33 @@ function sendAnswer(event) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
 
-    reqInit = {
+    var reqInit = {
        method: 'post',
        body: formData,
        headers: headers
-    }
+    };
     var request = new Request('https://anon.fm/feedback', reqInit);
 
     fetch(request)
     .then(r => r.text())
     .then(handleResponse)
-    .catch(e => console.log(e));;
+    .catch(e => console.log(e));
 }
 
 
 function getForm() {
-    var headers = new Headers;
+    var headers = new Headers();
     headers.append('pragma', 'no-cache');
     headers.append('cache-control', 'no-cache');
 
-    reqInit = {
+    var reqInit = {
        cache: 'no-cache',
        headers: headers
-    }
+    };
 
     var request = new Request('https://anon.fm/feedback', reqInit);
 
-    return fetch(request).then(function(r) { if(r.ok) return r.text() })
+    return fetch(request).then(function(r) { if(r.ok) return r.text(); });
 }
 
 

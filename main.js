@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     var playBtn = document.getElementById('player');
+    
     chrome.runtime.sendMessage({cmd: "status"}, function(response) {
         console.log(response)
         playBtn.firstChild.src = "img/" + response.status + ".svg";
@@ -21,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.runtime.sendMessage({cmd: "toggle"}, function(response) {
             console.log(response.result);
             if (response.result == 'paused') {
-                playBtn.firstChild.src = "img/play.svg"
+                playBtn.firstChild.src = "img/play.svg";
             } else {
-                playBtn.firstChild.src = "img/pause.svg"
+                playBtn.firstChild.src = "img/pause.svg";
             }
 
         });
@@ -298,18 +299,18 @@ function getServerTime() {
 
 function getData(url) {
     var url = 'https://anon.fm' + url;
-    var headers = new Headers;
+    var headers = new Headers();
     headers.append('pragma', 'no-cache');
     headers.append('cache-control', 'no-cache');
 
     var reqInit = {
        cache: 'no-cache',
        headers: headers
-    }
+    };
 
     var request = new Request(url, reqInit);
 
-    return fetch(request).then(function(r) { if(r.ok) return r.text();})
+    return fetch(request).then(function(r) { if(r.ok) return r.text();});
 }
 
 
