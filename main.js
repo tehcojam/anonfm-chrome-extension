@@ -15,15 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     chrome.runtime.sendMessage({cmd: "status"}, function(response) {
         if(response) {
-            console.log(response);
-            playBtn.firstChild.src = "img/" + response.status + ".svg";
+            playBtn.firstChild.src = response.result ? "img/play.svg" : "img/pause.svg";
         }
     });
 
     playBtn.addEventListener('click', function() {
         chrome.runtime.sendMessage({cmd: "toggle"}, function(response) {
             console.log(response.result);
-            if (response.result == 'paused') {
+            if (response.result) {
                 playBtn.firstChild.src = "img/play.svg";
             } else {
                 playBtn.firstChild.src = "img/pause.svg";
