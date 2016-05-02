@@ -14,25 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var playBtn = document.getElementById('player');
     
     chrome.runtime.sendMessage({cmd: "status"}, function(response) {
-        if(response) {
-            playBtn.firstChild.src = response.result ? "img/play.svg" : "img/pause.svg";
-        }
+        playBtn.firstChild.src = response.result ? "img/play.svg" : "img/pause.svg";
     });
 
     playBtn.addEventListener('click', function() {
         chrome.runtime.sendMessage({cmd: "toggle"}, function(response) {
-            console.log(response.result);
-            if (response.result) {
-                playBtn.firstChild.src = "img/play.svg";
-            } else {
-                playBtn.firstChild.src = "img/pause.svg";
-            }
-
+            playBtn.firstChild.src = response.result ? "img/play.svg" : "img/pause.svg";
         });
     });    
 
 });
-
 
 
 function showState(state) {
