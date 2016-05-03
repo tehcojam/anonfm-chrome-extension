@@ -136,9 +136,16 @@ function compareSched(pre, current) {
 
 var initSchedTime = parseInt(localStorage['schedCheckTime']) || 3;
 var initAnswersTime = parseInt(localStorage['answersCheckTime']) || 10;
+var answersCheckEnable =localStorage['answersCheckEnable'];
+var schedCheckEnable = localStorage['schedCheckEnable'];
 
-chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});
-chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 1, periodInMinutes: initAnswersTime});
+if (parseInt(schedCheckEnable)) {
+    chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});
+}
+
+if (parseInt(answersCheckEnable)){
+    chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 1, periodInMinutes: initAnswersTime});
+}
 
 
 chrome.alarms.onAlarm.addListener(function(alarm){

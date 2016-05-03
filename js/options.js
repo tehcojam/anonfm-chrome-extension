@@ -14,7 +14,7 @@ window.onload = function() {
 		}
 	});
 
-	document.getElementById('save').addEventListener('click', saveOptions);	
+	document.getElementById('save').addEventListener('click', saveOptions);
 }
 
 
@@ -30,11 +30,16 @@ function saveOptions() {
 	chrome.alarms.clearAll(bool => console.log('cleared: ' + bool))
 
 	if (schedCheckEnable) {
-		chrome.alarms.create("CheckSchedule", {delayInMinutes: 0.1, periodInMinutes: parseInt(schedCheckTime) || 3});
+		chrome.alarms.create("CheckSchedule", {delayInMinutes: 0.1, periodInMinutes: parseInt(schedCheckTime) || 10});
+	} else {
+		localStorage['schedCheckEnable'] = 0;
 	}
 
 	if (answersCheckEnable) {
 		chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 0.1, periodInMinutes: parseInt(answersCheckTime) || 3});
+
+	} else {
+		localStorage['answersCheckEnable'] = 0;
 	}
 	document.getElementById('savedMsg').innerHTML = 'Схоронил!';
 }
