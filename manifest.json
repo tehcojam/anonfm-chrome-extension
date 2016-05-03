@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Anon.fm",
-	"version": "0.3",
+	"version": "0.3.1",
 	"icons": {
 		"16": "16.png",
 		"48": "48.png",
@@ -16,15 +16,13 @@
     "permissions": [
 	    "tabs" ,
 	    "notifications",
-	    "http://*.google.com/",
+	    "https://anon.fm/*",
 	    "unlimitedStorage",
-	    "http://*/*",
-	    "https://*/*",
 	    "alarms",
 	    "storage"
 	],
 	"background": {
-    	"scripts":["main.js", "player.js"],
+    	"scripts":["js/main.js", "js/player.js"],
     	"persistent": false
     },
     "options_ui": {

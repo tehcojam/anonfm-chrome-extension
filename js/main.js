@@ -29,17 +29,17 @@ document.addEventListener('DOMContentLoaded', function() {
 function showState(state) {
     var obj = txtToObj(state.toString());
     var inner ='';
-    var trackTitle = obj.Title || 'Анкноун';
+    var trackTitle = obj.Title || 'анкноун';
 
     if (parseInt(obj.isLive)) {
-        inner = '<p><b>Живой диджей:</b> В эфире</p>';
+        inner = '<p><b>Живой диджей:</b> в эфире</p>';
     } else {
-        inner = '<p><b>Живой диджей:</b> Не найден</p>';
+        inner = '<p><b>Живой диджей:</b> не найден</p>';
     }
     if (parseInt(obj.isVideo)) {
         getData('/info.js').then(showVideoLink).catch(e => console.log(e));
     } else {
-        inner += '<p><b>Видимопоток:</b> Не найден</p>';
+        inner += '<p><b>Видимопоток:</b> не найден</p>';
     }
     inner += '<p><b>Сейчас играет: </b>' + trackTitle + '</p>';
     document.getElementById('dj').innerHTML = inner;
@@ -81,7 +81,7 @@ function showVideoLink(obj) {
         el.innerHTML = '<b>Видимопоток:</b> <a href="' + obj.video + '"target="_blank">Открыть</a>';
         document.getElementById('video').appendChild(el);
     } else {
-        document.getElementById('video').innerHTML = '<p>Видимопоток: Не найден</p>';
+        document.getElementById('video').innerHTML = '<p>Видимопоток: не найден</p>';
     }
 }
 
@@ -135,7 +135,7 @@ function compareSched(pre, current) {
 //alarms
 
 var initSchedTime = parseInt(localStorage['schedCheckTime']) || 3;
-var initAnswersTime = parseInt(localStorage['answersCheckTime']) || 3;
+var initAnswersTime = parseInt(localStorage['answersCheckTime']) || 10;
 
 chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});
 chrome.alarms.create("CheckNewAnswers", {delayInMinutes: 1, periodInMinutes: initAnswersTime});
