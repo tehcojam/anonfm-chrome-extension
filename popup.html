@@ -1,48 +1,44 @@
 <!DOCTYPE html>
-<html lang="ru">
-    <head>
-        <meta charset="utf-8">
-        <style>
-        	body {
-        		min-width:200px;
-        		background-color: #eee;
-        		color: #333333;
-            	font-family: "Trebuchet MS",Trebuchet,tahoma,serif;
-    		}
-            p {color: #996793;}
-            a {text-decoration: none}
-            #panel img {padding: 0 10px;}
-            #wrapper {
-                text-align: center;
-            }
-            #next {
-                display: block;
-                font-size: 1.17em;
-                font-weight: bold;
-                margin-bottom: 3px;
-            }
-            #panel { 
-                border-bottom-style: solid;
-                border-color: #996793;
-                border-width: 2px;
-            }
-        </style>
-    </head>
-    <title>test</title>
-    <body>
-        <div id="wrapper">
-            <div id='panel'>
-                <!-- <input id="volume" type="range"> -->
-                <a id="player" href='#'><img src="img/play.svg"></a>
-                <a id="sitelink" href='https://anon.fm' target="_blank"><img src="img/radio.svg"></a>
-                <a id="msgBtn" href='#'><img src="img/mail.svg"></a>
-                <a id="options" href='#'><img src="img/gear.svg"></a>
-            </div>
-            <div id='dj'></div>
-        	<div id="video"></div>
-            <div id="currentBroadcast"></div>
-        	<div id="nextBroadcast"></div>
-        </div>
-    </body>
-    <script type="text/javascript" src="js/main.js"></script>
-</html>
+<html><head>
+	<meta charset="utf-8">
+	<title>Asian Wave</title>
+	<link rel="stylesheet" href="https://asianwave.ru/files/code/chromext-event.min.css">
+	<link rel="stylesheet" href="/code/css/popup.min.css">
+</head><body>
+	<div class="container">
+		<header class="top-panel">
+			<div class="logo"></div>
+			<div class="tabs">
+				<ul>
+					<li data-tab="radio">/radio</li>
+					<li data-tab="anime">/anime</li>
+				</ul>
+			</div>
+			<div class="right">
+				<a class="options" href="javascript:void(0);"><i class="icon icon-gear"></i></a>
+			</div>
+		</header>
+		<main>
+			<div class="links">
+				<a href="https://asianwave.ru" target="_blank"><i class="icon icon-home"></i></a>
+				<a href="https://vk.com/awaveradio" target="_blank" rel="nofollow noopener"><i class="icon icon-vk"></i></a>
+			</div>
+			<div class="tabs_tabs">
+				<div id="tab_radio">
+					<div class="player">
+						<div class="playpause"><i class="icon icon-play"></i></div>
+						<input class="volume" type="range" step="0.1" min="0" max="100">
+					</div>
+					<div class="section nowRJ"></div>
+					<div class="section nowPlay"></div>
+				</div>
+				<div id="tab_anime">
+					<div class="section currentBroadcast"></div>
+					<div class="section nextBroadcast"></div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script src="code/js/popup.min.js" defer></script>
+	<script src="code/js/main.min.js" defer></script>
+</body></html>

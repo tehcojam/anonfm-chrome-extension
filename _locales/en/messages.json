@@ -1,0 +1,56 @@
+{
+	"description": {
+		"message": "Russian multimedia portal for Asian culture fans of all genres and types."
+	},
+	"awSite": {
+		"message": "Our website"
+	},
+	"awVKPage": {
+		"message": "Our VK page"
+	},
+	"options": {
+		"message": "Options"
+	},
+	"curStream": {
+		"message": "Current stream"
+	},
+	"nextStream": {
+		"message": "Next"
+	},
+	"nowStream": {
+		"message": "Идёт трансляция"
+	},
+	"noStream": {
+		"message": "Not planned"
+	},
+	"updShed": {
+		"message": "Changes in schedule"
+	},
+	"startsIn": {
+		"message": "starts in"
+	},
+	"schedCheckEnable": {
+		"message": "Notify when stream goes online"
+	},
+	"schedCheckTime": {
+		"message": "Check for online every"
+	},
+	"defaultTab": {
+		"message": "Tab by default"
+	},
+	"nowSong": {
+		"message": "Now playing"
+	},
+	"airLive": {
+		"message": "Live"
+	},
+	"optSave": {
+		"message": "Save"
+	},
+	"optSaved": {
+		"message": "Saved!"
+	},
+	"optMin": {
+		"message": "min"
+	}
+}

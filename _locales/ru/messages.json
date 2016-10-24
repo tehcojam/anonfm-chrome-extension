@@ -1,0 +1,56 @@
+{
+	"description": {
+		"message": "Мультимедийный портал для поклонников азиатской культуры всех жанров и типов."
+	},
+	"awSite": {
+		"message": "Наш сайт"
+	},
+	"awVKPage": {
+		"message": "Наше сообщество ВК"
+	},
+	"options": {
+		"message": "Опции"
+	},
+	"curStream": {
+		"message": "Текущий стрим"
+	},
+	"nextStream": {
+		"message": "Далее"
+	},
+	"nowStream": {
+		"message": "Идёт трансляция"
+	},
+	"noStream": {
+		"message": "Не запланирован"
+	},
+	"updShed": {
+		"message": "Изменения в расписании"
+	},
+	"startsIn": {
+		"message": "через"
+	},
+	"schedCheckEnable": {
+		"message": "Уведомлять об онлайне трансляции"
+	},
+	"schedCheckTime": {
+		"message": "Проверять онлайн каждые"
+	},
+	"defaultTab": {
+		"message": "Вкладка по умолчанию"
+	},
+	"nowSong": {
+		"message": "Сейчас играет"
+	},
+	"airLive": {
+		"message": "В эфире"
+	},
+	"optSave": {
+		"message": "Сохранить"
+	},
+	"optSaved": {
+		"message": "Сохранено!"
+	},
+	"optMin": {
+		"message": "мин."
+	}
+}

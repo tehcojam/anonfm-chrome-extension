@@ -1,0 +1,25 @@
+@mixin transition($sec) {
+	-webkit-transition: all $sec ease-in-out;
+	   -moz-transition: all $sec ease-in-out;
+			    transition: all $sec ease-in-out;
+}
+
+@mixin user-select($select) {
+	-webkit-user-select: $select;
+	   -moz-user-select: $select;
+			    user-select: $select;
+}
+
+@mixin flexbox($direction, $justify, $align-items, $align-content) {
+	display: flex;
+	@if $direction != auto {flex-direction: $direction;}
+	@if $justify != auto {justify-content: $justify;}
+	@if $align-items != auto {align-items: $align-items;}
+	@if $align-content != auto {align-content: $align-content;}
+}
+
+@mixin filter($settings...) {
+	-webkit-filter: $settings;
+	   -moz-filter: $settings;
+	        filter: $settings;
+}

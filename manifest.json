@@ -1,31 +1,36 @@
 {
 	"manifest_version": 2,
-	"name": "Anon.fm",
-	"version": "0.3.2",
+	"name": "Asian Wave",
+	"description": "__MSG_description__",
+	"homepage_url": "https://asianwave.ru",
+	"default_locale": "ru",
+	"offline_enabled": false,
+	"version": "0.4",
 	"icons": {
-		"16": "16.png",
-		"48": "48.png",
-		"64": "64.png",
-		"128": "128.png"
-		},
-    "browser_action": {
-    	"default_title": "Anon.fm plugin",
-        "default_popup": "popup.html", 
-        "default_icon": "icon.png"
-        },
-    "permissions": [
-	    "tabs" ,
-	    "notifications",
-	    "https://anon.fm/*",
-	    "unlimitedStorage",
-	    "alarms",
-	    "storage"
+		"32": "img/icons/32.png",
+		"48": "img/icons/48.png",
+		"64": "img/icons/64.png",
+		"128": "img/icons/128.png"
+	},
+  "browser_action": {
+  	"default_title": "Asian Wave",
+    "default_popup": "popup.html",
+    "default_icon": "img/icons/48.png"
+  },
+	"permissions": [
+	  "https://*.asianwave.ru/*",
+		"notifications",
+	  "alarms",
+	  "storage"
 	],
 	"background": {
-    	"scripts":["js/main.js", "js/player.js"],
-    	"persistent": false
-    },
-    "options_ui": {
-    	"page": "options.html"
-    }
+		"persistent": false,
+    "scripts": [
+			"code/js/background.min.js",
+			"code/js/main.min.js"
+		]
+  },
+  "options_ui": {
+  	"page": "options.html"
+  }
 }

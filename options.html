@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Настройки</title>
-    <link rel="stylesheet" type="text/css" href="https://anon.fm/photon.css">
-    <link rel="stylesheet" type="text/css" href="https://anon.fm/info.css">
-    <style>
-    p     { display: table-row; font-size: 1.1em}
-    label { display: table-cell; padding: 5px;}
-    input { display: table-cell; width: 50px;}
-    button { margin: 5px; }
-    #savedMsg {font-size: 1.2em; color: red;}
-    </style>
-  </head>
-  <body>
-    <div>
-        <p><label>Уведомлять об обновлении расписания</label><input type="checkbox" id="schedCheckEnable"></p>
-        <p><label>Уведомлять о новых сообщениях</label><input type="checkbox" id="answersCheckEnable"></p>
-        <p><label>Проверять расписание каждые </label><input id="schedCheckTime"  min="1" type="number" step="1"><label>мин.</label></p>
-        <p><label>Проверять новые сообщения каждые </label><input id="answersCheckTime" min="1" type="number" step="1"><label>мин.</label></p>
-    </div>
-    <div>
-        <button id="save">Сохранить</button>
-        <span id="savedMsg"></span>
-    </div>
-        <script src="js/options.js"></script>
-  </body>
-</html>
+<html><head>
+	<meta charset="utf-8">
+	<title>Asian Wave &ndash; Настройки</title>
+	<link rel="stylesheet" href="/code/css/options.min.css">
+</head><body>
+	<div>
+		<p><label class="tr--schedCheckEnable"></label><input type="checkbox" id="schedCheckEnable"></p>
+		<p><label class="tr--schedCheckTime"></label><input id="schedCheckTime" min="1" type="number" step="1"><label id="minTs"></label></p>
+		<p><label class="tr--defaultTab"></label>
+			<select id="defTab">
+				<option value="defRadio">/radio</option>
+				<option value="defAnime">/anime</option>
+			</select>
+		</p>
+	</div>
+	<div>
+		<button id="save"></button>
+		<span id="saveMsg"></span>
+	</div>
+	<script src="code/js/options.min.js"></script>
+</body></html>
