@@ -1,6 +1,5 @@
 # Asian Wave addon for Chromium browsers
-Описание  
-Пикча  
+![interface](https://raw.githubusercontent.com/tehcojam/aw_chrome/master/img/screenshots/en-anime.png) 
 Текущая версия — 0.4. Скачать можно в [Chrome Web Store](https://chrome.google.com/webstore/detail/ecbegehkeefmdjnjhldeogkhbhhjhfje) и Opera Addons (скоро).
 
 ## To Do
