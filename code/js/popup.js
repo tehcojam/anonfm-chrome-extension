@@ -1,11 +1,17 @@
 'use strict';
 
-function _elem(querySelector) {return document.querySelector(querySelector)}
-function _elemAll(querySelector) {return document.querySelectorAll(querySelector)}
-function tr(string) {return chrome.i18n.getMessage(string)}
+/*
+	* функция для склонения слов от числительных.
+	* Взято здесь: https://gist.github.com/ivan1911/5327202#gistcomment-1669858
+*/
+
+function declOfNum(number, titles) {
+	var titles, number = Math.abs(number), cases = [2, 0, 1, 1, 1, 2];
+	return number + ' ' + titles[(number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
+}
 
 function makeTabs(selector) {
-	var tab_lists_anchors = _elemAll(selector + ' li'), divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
+	var tab_lists_anchors = _elems(selector + ' li'), divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
 	for (var i = 0; i < tab_lists_anchors.length; i++) {
 		if (tab_lists_anchors[i].classList.contains('active')) {
 			divs[i].style.display = 'block';
@@ -13,7 +19,7 @@ function makeTabs(selector) {
 	}
 
 	for (i = 0; i < tab_lists_anchors.length; i++) {
-			_elemAll(selector + ' li')[i].addEventListener('click', function(e) {
+			_elems(selector + ' li')[i].addEventListener('click', function(e) {
 
 			for (i = 0; i < divs.length; i++) {
 				divs[i].style.display = 'none';
@@ -32,7 +38,39 @@ function makeTabs(selector) {
 	}
 }
 
+function showRemainingTime(date) {
+	var remaining = tr('startsIn') + ' ', now = new Date(), delta = (date - now)/1000, days = Math.floor(delta/86400), hours = Math.floor(delta/3600), minutes = Math.floor((delta%3600)/60), browserLang = navigator.language || navigator.userLanguage;
+	if (browserLang === 'ru') {
+		var dayn_s = 'д', hours_s = 'час', minutes_s = 'минут';
+		if (days) {
+			remaining += declOfNum(days, [dayn_s+'ень', dayn_s+'ня', dayn_s+'ней']);
+		} else if (hours) {
+			remaining += declOfNum(hours, [hours_s, hours_s+'а', hours_s+'ов']);
+			remaining += ' и ' + declOfNum(minutes, [minutes_s+'у', minutes_s+'ы', minutes_s]);
+		} else if (minutes) {
+			remaining += declOfNum(minutes, [minutes_s+'у', minutes_s+'ы', minutes_s]);
+		} else {
+			remaining += minutes_s+'у';
+		}
+	} else {
+		if (days) {
+			remaining += declOfNum(days, ['day', 'days', 'days']);
+		} else if (hours) {
+			remaining += declOfNum(hours, ['hour', 'hours', 'hours']);
+			remaining += ' and ' + declOfNum(minutes, ['minute', 'minutes', 'minutes']);
+		} else if (minutes) {
+			remaining += declOfNum(minutes, ['minute', 'minutes', 'minutes']);
+		} else {
+			remaining += 'a minute';
+		}
+	}
+	return remaining;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+	getData(shedURL).then(showBroadcast);
+	getData(apiURL).then(showSong);
+
 	chrome.extension.sendMessage({action: 'getsett'}, function(response){
 		volume.value = response.vol;
 	});
@@ -75,6 +113,39 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 });
+
+function showBroadcast(schedList) {
+	var schedList = getNextSched(schedList), next = schedList.next,	current = schedList.current, nextBrEl = _elem('.nextBroadcast');
+	if (current) {
+		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + current[2].toString() + '</a></p>';
+	}
+
+	if (next[0] != null) {
+		_ls_set('sched', JSON.stringify(next));
+
+		var brTime = new Date(parseInt(next[0][0] * 1000));
+		nextBrEl.innerHTML = '<p class="section--title">' + tr('nextStream') + ' (' + showRemainingTime(brTime) + '):</p>';
+		nextBrEl.innerHTML += '<p class="section--content">' + next[0][2].toString() + '</p>';
+		//nextBrEl.innerHTML += '<p class="section--sub-content">' + showRemainingTime(brTime) + '</p>';
+	} else {
+		nextBrEl.innerHTML = '<p class="section--title">'+ tr('curStream') + ':</p><p class="section--content">' + tr('noStream') + '</p>';
+	}
+}
+
+function showSong(apiOuptut) {
+	var radioD = JSON.parse(apiOuptut)['radio'], currSong = radioD['song']['curr'].toString().split(' - ');
+
+	_elem('.nowPlay').innerHTML = '<p class="section--title">' + tr('nowSong') + ':</p><p class="section--content">' + currSong[0] + ' &ndash; ' + currSong[1] + '</p>';
+
+	switch (radioD['rj']) {
+		case 'Auto-DJ':
+			_elem('.nowRJ').textContent = '';
+			break;
+		default:
+			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio/" target="_blank">' + radioD['rj'].toString() + '</a></p>';
+
+	}
+}
 
 var volume = _elem('.volume');
 

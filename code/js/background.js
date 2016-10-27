@@ -3,10 +3,6 @@
 chrome.browserAction.setBadgeBackgroundColor({color: [100, 100, 100, 1]});
 chrome.browserAction.setBadgeText({text: ''});
 
-function _ls(ls_item) {return localStorage.getItem(ls_item)}
-function _ls_rm(ls_item) {return localStorage.removeItem(ls_item)}
-function _ls_set(ls_item, ls_item_var) {return localStorage.setItem(ls_item, ls_item_var)}
-
 var volume, server = 1, port = 7934;
 
 var src = 'http://listen' + server + '.myradio24.com:9000/' + port, audio = new Audio();
@@ -16,7 +12,9 @@ audio.toggle = function() {
 	if (audio.paused) {
 		audio.setAttribute('src', src);
 		audio.play();
-		chrome.browserAction.setBadgeText({text: '\u23F5'});
+		if (!/OPR\//.test(navigator.userAgent)) {
+			chrome.browserAction.setBadgeText({text: '\u23F5'});
+		}
 	} else {
 		audio.setAttribute('src', '');
 		chrome.browserAction.setBadgeText({text: ''});
