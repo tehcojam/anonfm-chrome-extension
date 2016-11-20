@@ -10,6 +10,11 @@ function declOfNum(number, titles) {
 	return number + ' ' + titles[(number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
 }
 
+/*
+ * Функция для создания вкладок.
+ * Взято здесь: http://www.vikaskbh.com/flat-ui-simple-html-tabs-without-jquery-or-any-other-library/
+*/
+
 function makeTabs(selector) {
 	var tab_lists_anchors = _elems(selector + ' li'), divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
 	for (var i = 0; i < tab_lists_anchors.length; i++) {
@@ -41,16 +46,15 @@ function makeTabs(selector) {
 function showRemainingTime(date) {
 	var remaining = tr('startsIn') + ' ', now = new Date(), delta = (date - now)/1000, days = Math.floor(delta/86400), hours = Math.floor(delta/3600), minutes = Math.floor((delta%3600)/60), browserLang = navigator.language || navigator.userLanguage;
 	if (browserLang === 'ru') {
-		var dayn_s = 'д', hours_s = 'час', minutes_s = 'минут';
 		if (days) {
-			remaining += declOfNum(days, [dayn_s+'ень', dayn_s+'ня', dayn_s+'ней']);
+			remaining += declOfNum(days, ['день', 'дня', 'дней']);
 		} else if (hours) {
-			remaining += declOfNum(hours, [hours_s, hours_s+'а', hours_s+'ов']);
-			remaining += ' и ' + declOfNum(minutes, [minutes_s+'у', minutes_s+'ы', minutes_s]);
+			remaining += declOfNum(hours, ['час', 'часа', 'часов']);
+			remaining += ' и ' + declOfNum(minutes, ['минуту', 'минуты', 'минут']);
 		} else if (minutes) {
-			remaining += declOfNum(minutes, [minutes_s+'у', minutes_s+'ы', minutes_s]);
+			remaining += declOfNum(minutes, ['минуту', 'минуты', 'минут']);
 		} else {
-			remaining += minutes_s+'у';
+			remaining += 'минуту';
 		}
 	} else {
 		if (days) {

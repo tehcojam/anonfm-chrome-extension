@@ -61,7 +61,7 @@ function compareSched(pre, current) {
 
 //alarms
 
-var initSchedTime = parseInt(_ls('schedCheckTime')) || 3,	schedCheckEnable = _ls('schedCheckEnable');
+var initSchedTime = parseInt(_ls('schedCheckTime')) || 3, schedCheckEnable = _ls('schedCheckEnable');
 
 if (parseInt(schedCheckEnable)) {
 	chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});

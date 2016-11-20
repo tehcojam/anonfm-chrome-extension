@@ -11,28 +11,28 @@
 body {
 	background-color: #f1f1f1;
 	margin: 5px;
-	font-size: 14px;
+	font-size: 16px;
 }
 
-p {
-	display: table-row;
-	font-size: 1.1em;
-}
+table {
+	tr td {
+		& {
+			padding: 2px 0;
+		}
 
-label {
-	display: table-cell;
-	text-align: right;
-	padding: 5px;
-}
-
-input, select {
-	display: table-cell;
-	margin-left: 10px;
-	padding: 2px;
-	width: 70px;
+		&:first-child {
+			text-align: right;
+		}
+	}
 }
 
 input {
+	@at-root select, & {
+		margin-left: 10px;
+		padding: 2px;
+		width: 70px;
+	}
+
 	&[type='checkbox'] {
 		width: auto;
 	}
@@ -44,7 +44,6 @@ input {
 
 	&Msg {
 		display: none;
-		font-size: 1.1em;
 		color: red;
 	}
 }

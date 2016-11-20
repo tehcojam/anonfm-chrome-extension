@@ -4,15 +4,27 @@
 	<title>Asian Wave &ndash; Настройки</title>
 	<link rel="stylesheet" href="/code/css/options.min.css">
 </head><body>
-	<div>
-		<p><label class="tr--schedCheckEnable"></label><input type="checkbox" id="schedCheckEnable"></p>
-		<p><label class="tr--schedCheckTime"></label><input id="schedCheckTime" min="1" type="number" step="1"><label id="minTs"></label></p>
-		<p><label class="tr--defaultTab"></label>
-			<select id="defTab">
+	<table>
+		<tr>
+			<td><label class="tr--schedCheckEnable"></label></td>
+			<td><input type="checkbox" id="schedCheckEnable"></td>
+		</tr>
+		<tr>
+			<td><label class="tr--schedCheckTime"></label></td>
+			<td>
+				<input id="schedCheckTime" min="1" type="number" step="1">
+				<label id="minTs"></label>
+			</td>
+		</tr>
+		<tr>
+			<td><label class="tr--defaultTab"></label></td>
+			<td><select id="defTab">
 				<option value="defRadio">/radio</option>
 				<option value="defAnime">/anime</option>
-			</select>
-		</p>
+			</select></td>
+		</tr>
+	</table>
+	<div>
 		<button id="save"></button>
 		<span id="saveMsg"></span>
 	</div>
