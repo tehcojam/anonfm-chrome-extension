@@ -30,7 +30,9 @@ function spawnNotification(body, icon, title, lnk, buttons, type, id, imageUrl) 
 		buttons: buttons || [],
 		imageUrl: imageUrl
 	};
+
 	chrome.notifications.create(id, options);
+
 	if (lnk != undefined) {
 		chrome.notifications.onClicked.addListener(function(id) {
 			window.open(lnk);
@@ -40,22 +42,26 @@ function spawnNotification(body, icon, title, lnk, buttons, type, id, imageUrl) 
 
 function compareSched(pre, current) {
   var equal = [], curr = current.slice();
+
 	pre.forEach(function(arr) {
-	for(var i=0;i<curr.length;i++) {
-	  if (arr.every(function(el, ind){ return el == curr[i][ind]?true:false;} ) ) {
-		  equal.push(i);
-	  }
-	}
-   });
-   for(var i=0;i<equal.length;i++) {
+		for(var i = 0; i < curr.length; i++) {
+		  if (arr.every(function(el, ind)	{return el == curr[i][ind] ? true : false})) {
+			  equal.push(i);
+		  }
+		}
+  });
+
+  for(var i = 0; i < equal.length; i++) {
 		delete curr[equal[i]];
-   }
-   for(i=0;i<curr.length;i++) {
+  }
+
+  for(i = 0; i < curr.length; i++) {
 		if (curr[i] === undefined) {
 			curr.splice(i,1);
 			i--;
 		}
 	}
+
   return curr;
 }
 
@@ -64,7 +70,9 @@ function compareSched(pre, current) {
 var initSchedTime = parseInt(_ls('schedCheckTime')) || 3, schedCheckEnable = _ls('schedCheckEnable');
 
 if (parseInt(schedCheckEnable)) {
-	chrome.alarms.create("CheckSchedule", {delayInMinutes: 1, periodInMinutes: initSchedTime});
+	chrome.alarms.create("CheckSchedule", {
+		delayInMinutes: 1, periodInMinutes: initSchedTime
+	});
 }
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
@@ -78,6 +86,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 
 function getNextSched(schedList) {
 	var now = Math.floor(new Date().getTime()/1000), schedList = JSON.parse(schedList), result = {next: []};
+
 	for (var i = 0; i < schedList.length; i++) {
 		var begin = parseInt(schedList[i][0]), end = parseInt(schedList[i][1]);
 
@@ -89,6 +98,7 @@ function getNextSched(schedList) {
 			result.next.push(schedList[i]);
 		}
 	}
+
 	return result;
 }
 
@@ -115,18 +125,18 @@ function checkStream(resolve){
 
 function checkSched(resolve) {
 	var current = getNextSched(resolve).next;
+
 	if (_ls('sched')) {
 		var pre = JSON.parse(_ls('sched')), changes = compareSched(pre, current);
 
-		if (changes.length > 0){
-			//console.log('sched updated');
-			for(var i=0;i<changes.length;i++) {
+		if (changes.length > 0) {
+			for(var i = 0; i < changes.length; i++) {
 				spawnNotification(changes[i][2], 'img/icons/48.png', tr('updShed'));
 			}
+
 			_ls_set('sched', JSON.stringify(current));
 		}
 	} else {
 		_ls_set('sched', JSON.stringify(current));
 	}
-
 }

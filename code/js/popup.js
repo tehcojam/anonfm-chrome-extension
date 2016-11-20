@@ -17,6 +17,7 @@ function declOfNum(number, titles) {
 
 function makeTabs(selector) {
 	var tab_lists_anchors = _elems(selector + ' li'), divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
+
 	for (var i = 0; i < tab_lists_anchors.length; i++) {
 		if (tab_lists_anchors[i].classList.contains('active')) {
 			divs[i].style.display = 'block';
@@ -45,6 +46,7 @@ function makeTabs(selector) {
 
 function showRemainingTime(date) {
 	var remaining = tr('startsIn') + ' ', now = new Date(), delta = (date - now)/1000, days = Math.floor(delta/86400), hours = Math.floor(delta/3600), minutes = Math.floor((delta%3600)/60), browserLang = navigator.language || navigator.userLanguage;
+
 	if (browserLang === 'ru') {
 		if (days) {
 			remaining += declOfNum(days, ['день', 'дня', 'дней']);
@@ -68,6 +70,7 @@ function showRemainingTime(date) {
 			remaining += 'a minute';
 		}
 	}
+
 	return remaining;
 }
 
@@ -120,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showBroadcast(schedList) {
 	var schedList = getNextSched(schedList), next = schedList.next,	current = schedList.current, nextBrEl = _elem('.nextBroadcast');
+
 	if (current) {
 		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + current[2].toString() + '</a></p>';
 	}

@@ -1,12 +1,13 @@
 # Asian Wave addon for Chromium browsers
 ![interface](https://raw.githubusercontent.com/tehcojam/aw_chrome/master/img/screenshots/en-anime.png)  
-Текущая версия — 0.4.2.  
-Скачать можно в [Chrome Web Store](https://chrome.google.com/webstore/detail/ecbegehkeefmdjnjhldeogkhbhhjhfje) и Opera Addons (скоро).
+Текущая версия — 0.4.3.  
+Скачать можно в [Chrome Web Store](https://chrome.google.com/webstore/detail/ecbegehkeefmdjnjhldeogkhbhhjhfje).
 
 ## To Do
 * Сделать рефракторинг кода;
 * Добавить переводы на другие языки;
-* Сделать порт под Firefox.
+* Сделать порт под Firefox;
+* Сделать возможность поиска текущего трека.
 
 ## Лицензирование
 Весь код расширения доступен под [лицензией MIT](license.txt).
