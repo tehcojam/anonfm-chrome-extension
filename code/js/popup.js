@@ -125,7 +125,7 @@ function showBroadcast(schedList) {
 	var schedList = getNextSched(schedList), next = schedList.next,	current = schedList.current, nextBrEl = _elem('.nextBroadcast');
 
 	if (current) {
-		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + current[2].toString() + '</a></p>';
+		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + _xss(current[2]) + '</a></p>';
 	}
 
 	if (next[0] != null) {
@@ -133,7 +133,7 @@ function showBroadcast(schedList) {
 
 		var brTime = new Date(parseInt(next[0][0] * 1000));
 		nextBrEl.innerHTML = '<p class="section--title">' + tr('nextStream') + ' (' + showRemainingTime(brTime) + '):</p>';
-		nextBrEl.innerHTML += '<p class="section--content">' + next[0][2].toString() + '</p>';
+		nextBrEl.innerHTML += '<p class="section--content">' + _xss(next[0][2]) + '</p>';
 		//nextBrEl.innerHTML += '<p class="section--sub-content">' + showRemainingTime(brTime) + '</p>';
 	} else {
 		nextBrEl.innerHTML = '<p class="section--title">'+ tr('curStream') + ':</p><p class="section--content">' + tr('noStream') + '</p>';
@@ -141,7 +141,7 @@ function showBroadcast(schedList) {
 }
 
 function showSong(apiOuptut) {
-	var radioD = JSON.parse(apiOuptut)['radio'], currSong = radioD['song']['curr'].toString().split(' - ');
+	var radioD = JSON.parse(apiOuptut)['radio'], currSong = _xss(radioD['song']['curr']).split(' - ');
 
 	_elem('.nowPlay').innerHTML = '<p class="section--title">' + tr('nowSong') + ':</p><p class="section--content">' + currSong[0] + ' &ndash; ' + currSong[1] + '</p>';
 
@@ -150,7 +150,7 @@ function showSong(apiOuptut) {
 			_elem('.nowRJ').textContent = '';
 			break;
 		default:
-			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio/" target="_blank">' + radioD['rj'].toString() + '</a></p>';
+			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio/" target="_blank">' + _xss(radioD['rj']) + '</a></p>';
 
 	}
 }

@@ -4,12 +4,14 @@ function _elem(querySelector) {return document.querySelector(querySelector)}
 function _elems(querySelector) {return document.querySelectorAll(querySelector)}
 function _ls(ls_item) {return localStorage.getItem(ls_item)}
 function _ls_set(ls_item, ls_item_var) {return localStorage.setItem(ls_item, ls_item_var)}
+function _xss(value) {return value.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;")}
 function tr(string) {return chrome.i18n.getMessage(string)}
 
 var awURL = 'asianwave.ru', shedURL = 'streams-shed.json', apiURL = 'api.json';
 
 function getData(url) {
 	var url = 'https://'+awURL+'/api/' + url + '?from=chrome&ts=' + Date.now(), headers = new Headers();
+
 	headers.append('pragma', 'no-cache');
 	headers.append('cache-control', 'no-cache');
 
