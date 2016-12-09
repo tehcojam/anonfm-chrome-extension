@@ -14,6 +14,8 @@ audio.toggle = function() {
 		audio.play();
 		if (!/OPR\//.test(navigator.userAgent)) {
 			chrome.browserAction.setBadgeText({text: '\u23F5'});
+		} else {
+			chrome.browserAction.setBadgeText({text: 'play'});
 		}
 	} else {
 		audio.setAttribute('src', '');

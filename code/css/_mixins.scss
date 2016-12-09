@@ -1,13 +1,23 @@
+@mixin reset {
+	* {
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+		        box-sizing: border-box;
+
+		padding: 0; margin: 0;
+	}
+}
+
 @mixin transition($sec) {
 	-webkit-transition: all $sec ease-in-out;
 	   -moz-transition: all $sec ease-in-out;
-			    transition: all $sec ease-in-out;
+	        transition: all $sec ease-in-out;
 }
 
 @mixin user-select($select) {
 	-webkit-user-select: $select;
 	   -moz-user-select: $select;
-			    user-select: $select;
+	        user-select: $select;
 }
 
 @mixin flexbox($direction, $justify, $align-items, $align-content) {
