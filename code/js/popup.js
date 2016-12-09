@@ -10,8 +10,14 @@ function declOfNum(number, titles) {
 	return number + ' ' + titles[(number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
 }
 
+/*
+ * Функция для создания вкладок.
+ * Взято здесь: http://www.vikaskbh.com/flat-ui-simple-html-tabs-without-jquery-or-any-other-library/
+*/
+
 function makeTabs(selector) {
 	var tab_lists_anchors = _elems(selector + ' li'), divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
+
 	for (var i = 0; i < tab_lists_anchors.length; i++) {
 		if (tab_lists_anchors[i].classList.contains('active')) {
 			divs[i].style.display = 'block';
@@ -40,17 +46,17 @@ function makeTabs(selector) {
 
 function showRemainingTime(date) {
 	var remaining = tr('startsIn') + ' ', now = new Date(), delta = (date - now)/1000, days = Math.floor(delta/86400), hours = Math.floor(delta/3600), minutes = Math.floor((delta%3600)/60), browserLang = navigator.language || navigator.userLanguage;
+
 	if (browserLang === 'ru') {
-		var dayn_s = 'д', hours_s = 'час', minutes_s = 'минут';
 		if (days) {
-			remaining += declOfNum(days, [dayn_s+'ень', dayn_s+'ня', dayn_s+'ней']);
+			remaining += declOfNum(days, ['день', 'дня', 'дней']);
 		} else if (hours) {
-			remaining += declOfNum(hours, [hours_s, hours_s+'а', hours_s+'ов']);
-			remaining += ' и ' + declOfNum(minutes, [minutes_s+'у', minutes_s+'ы', minutes_s]);
+			remaining += declOfNum(hours, ['час', 'часа', 'часов']);
+			remaining += ' и ' + declOfNum(minutes, ['минуту', 'минуты', 'минут']);
 		} else if (minutes) {
-			remaining += declOfNum(minutes, [minutes_s+'у', minutes_s+'ы', minutes_s]);
+			remaining += declOfNum(minutes, ['минуту', 'минуты', 'минут']);
 		} else {
-			remaining += minutes_s+'у';
+			remaining += 'минуту';
 		}
 	} else {
 		if (days) {
@@ -64,6 +70,7 @@ function showRemainingTime(date) {
 			remaining += 'a minute';
 		}
 	}
+
 	return remaining;
 }
 
@@ -116,8 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showBroadcast(schedList) {
 	var schedList = getNextSched(schedList), next = schedList.next,	current = schedList.current, nextBrEl = _elem('.nextBroadcast');
+
 	if (current) {
-		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + current[2].toString() + '</a></p>';
+		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + _xss(current[2]) + '</a></p>';
 	}
 
 	if (next[0] != null) {
@@ -125,7 +133,7 @@ function showBroadcast(schedList) {
 
 		var brTime = new Date(parseInt(next[0][0] * 1000));
 		nextBrEl.innerHTML = '<p class="section--title">' + tr('nextStream') + ' (' + showRemainingTime(brTime) + '):</p>';
-		nextBrEl.innerHTML += '<p class="section--content">' + next[0][2].toString() + '</p>';
+		nextBrEl.innerHTML += '<p class="section--content">' + _xss(next[0][2]) + '</p>';
 		//nextBrEl.innerHTML += '<p class="section--sub-content">' + showRemainingTime(brTime) + '</p>';
 	} else {
 		nextBrEl.innerHTML = '<p class="section--title">'+ tr('curStream') + ':</p><p class="section--content">' + tr('noStream') + '</p>';
@@ -133,7 +141,7 @@ function showBroadcast(schedList) {
 }
 
 function showSong(apiOuptut) {
-	var radioD = JSON.parse(apiOuptut)['radio'], currSong = radioD['song']['curr'].toString().split(' - ');
+	var radioD = JSON.parse(apiOuptut)['radio'], currSong = _xss(radioD['song']['curr']).split(' - ');
 
 	_elem('.nowPlay').innerHTML = '<p class="section--title">' + tr('nowSong') + ':</p><p class="section--content">' + currSong[0] + ' &ndash; ' + currSong[1] + '</p>';
 
@@ -142,7 +150,7 @@ function showSong(apiOuptut) {
 			_elem('.nowRJ').textContent = '';
 			break;
 		default:
-			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio/" target="_blank">' + radioD['rj'].toString() + '</a></p>';
+			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio/" target="_blank">' + _xss(radioD['rj']) + '</a></p>';
 
 	}
 }
