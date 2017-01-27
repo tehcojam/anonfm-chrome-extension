@@ -4,7 +4,7 @@ function _elem(querySelector) {return document.querySelector(querySelector)}
 function _elems(querySelector) {return document.querySelectorAll(querySelector)}
 function _ls(ls_item) {return localStorage.getItem(ls_item)}
 function _ls_set(ls_item, ls_item_var) {return localStorage.setItem(ls_item, ls_item_var)}
-function _xss(value) {return value.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&#34;")}
+function _xss(value) {return value.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&#34;')}
 function tr(string) {return chrome.i18n.getMessage(string)}
 
 var awURL = 'asianwave.ru', shedURL = 'streams-shed.json', apiURL = 'api.json';
@@ -20,7 +20,7 @@ function getData(url) {
 	   headers: headers
 	}, request = new Request(url, reqInit);
 
-	return fetch(request).then(function(r) { if(r.ok) return r.text();});
+	return fetch(request).then(function(r) { if(r.ok) return r.text() });
 }
 
 function spawnNotification(body, icon, title, lnk, buttons, type, id, imageUrl) {

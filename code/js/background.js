@@ -5,7 +5,7 @@ chrome.browserAction.setBadgeText({text: ''});
 
 var volume, server = 1, port = 7934;
 
-var src = 'http://listen' + server + '.myradio24.com:9000/' + port, audio = new Audio();
+var src = 'https://listen' + server + '.myradio24.com/' + port, audio = new Audio();
 audio.preload = 'none';
 //audio.volume = 0.5;
 audio.toggle = function() {

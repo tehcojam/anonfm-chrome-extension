@@ -125,7 +125,7 @@ function showBroadcast(schedList) {
 	var schedList = getNextSched(schedList), next = schedList.next,	current = schedList.current, nextBrEl = _elem('.nextBroadcast');
 
 	if (current) {
-		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime/" target="_blank">' + _xss(current[2]) + '</a></p>';
+		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime" target="_blank">' + _xss(current[2]) + '</a></p>';
 	}
 
 	if (next[0] != null) {
@@ -150,8 +150,7 @@ function showSong(apiOuptut) {
 			_elem('.nowRJ').textContent = '';
 			break;
 		default:
-			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio/" target="_blank">' + _xss(radioD['rj']) + '</a></p>';
-
+			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio" target="_blank">' + _xss(radioD['rj']) + '</a></p>';
 	}
 }
 
