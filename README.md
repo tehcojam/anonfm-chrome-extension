@@ -1,7 +1,7 @@
 # Asian Wave addon for Chromium browsers
 ![interface](https://raw.githubusercontent.com/tehcojam/aw_chrome/master/img/screenshots/en-anime.png)  
-Текущая версия — 0.4.3.  
-Скачать можно в [Chrome Web Store](https://chrome.google.com/webstore/detail/ecbegehkeefmdjnjhldeogkhbhhjhfje).
+Текущая версия — 0.4.4.  
+Скачать можно в [Chrome Web Store](https://chrome.google.com/webstore/detail/ecbegehkeefmdjnjhldeogkhbhhjhfje) и [Opera Addons](https://addons.opera.com/ru/extensions/details/asian-wave/).
 
 ## To Do
 * Сделать рефракторинг кода;

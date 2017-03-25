@@ -1,5 +1,6 @@
-@import 'mixins';
-@import 'fonts/style';
+@import
+	'src/mixins',
+	'fonts/style';
 
 @include reset;
 
@@ -29,8 +30,8 @@ body {
 		width: 70px;
 		height: 70px;
 		margin: 0 15px;
-		background-color: #ff305e;
-		background-image: url('../../img/logo.png');
+		background-color: $primecolor;
+		background-image: url('/img/logo.png');
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: 80%;
@@ -74,7 +75,7 @@ main {
 		width: $links-block-w;
 	}
 
-	.tabs_tabs {
+	.content {
 		width: calc(100% - #{$links-block-w});
 	}
 }

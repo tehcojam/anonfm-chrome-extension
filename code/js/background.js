@@ -5,7 +5,10 @@ chrome.browserAction.setBadgeText({text: ''});
 
 var volume, server = 1, port = 7934;
 
-var src = 'http://listen' + server + '.myradio24.com:9000/' + port, audio = new Audio();
+var
+	src = 'https://listen' + server + '.myradio24.com/' + port,
+	audio = new Audio();
+
 audio.preload = 'none';
 //audio.volume = 0.5;
 audio.toggle = function() {
@@ -34,35 +37,33 @@ document.addEventListener('DOMContentLoaded', function() {
 	volume = _ls('player_vol');
 });
 
-chrome.runtime.onMessage.addListener(
-	function(mes, sender, sendResponse) {
+/*
+ * @TODO объединить addListener'ы
+ */
+
+chrome.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
 	switch (mes.cmd) {
 		case 'toggle':
 			audio.toggle();
 			sendResponse({'result': audio.paused});
 			break;
-
 		case 'status':
 			sendResponse({'result': audio.paused});
 			break;
-
 		default:
 			break;
 	}
 });
 
-chrome.extension.onMessage.addListener(
-	function(request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		switch (request.action) {
 			case 'setvol':
 				volume = request.volume;
 				audio.volume = volume/100;
 				break;
-
 			case 'getsett':
 				sendResponse({vol: volume});
 				break;
-
 			default:
 				break;
 		}

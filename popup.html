@@ -3,7 +3,7 @@
 	<meta charset="utf-8">
 	<title>Asian Wave</title>
 	<link rel="stylesheet" href="code/css/popup.min.css">
-	<link rel="stylesheet" href="https://asianwave.ru/files/code/styles/chrome-app-events.min.css">
+	<link rel="stylesheet" href="https://asianwave.ru/files/code/css/chrome-app-events.min.css">
 </head><body>
 	<div class="container">
 		<header class="top-panel">
@@ -21,22 +21,24 @@
 		<main>
 			<div class="links">
 				<a href="https://asianwave.ru" target="_blank"><i class="icon icon-home"></i></a>
-				<a href="https://vk.com/awaveradio" target="_blank" rel="nofollow noopener"><i class="icon icon-vk"></i></a>
+				<a href="https://vk.com/asianwaveru" target="_blank" rel="nofollow noopener"><i class="icon icon-vk"></i></a>
 			</div>
-			<div class="tabs_tabs">
-				<div id="tab_radio">
-					<div class="player">
-						<div class="playpause"><i class="icon icon-play"></i></div>
-						<input class="volume" type="range" step="0.1" min="0" max="100">
+			<div class="content">
+				<div class="player">
+					<div class="playpause"><i class="icon icon-play"></i></div>
+					<input class="volume" type="range" step="0.1" min="0" max="100">
+				</div>
+				<div class="tabs_tabs">
+					<div id="tab_radio">
+						<div class="section nowRJ"></div>
+						<div class="section nowPlay"></div>
 					</div>
-					<div class="section nowRJ"></div>
-					<div class="section nowPlay"></div>
+					<div id="tab_anime">
+						<div class="section currentBroadcast"></div>
+						<div class="section nextBroadcast"></div>
+					</div>
 				</div>
-				<div id="tab_anime">
-					<div class="section currentBroadcast"></div>
-					<div class="section nextBroadcast"></div>
-				</div>
-			</div>
+		</div>
 		</main>
 	</div>
 	<script src="code/js/main.min.js" defer></script>

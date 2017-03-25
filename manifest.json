@@ -5,7 +5,7 @@
 	"homepage_url": "https://asianwave.ru",
 	"default_locale": "ru",
 	"offline_enabled": false,
-	"version": "0.4.3",
+	"version": "0.4.4",
 	"icons": {
 		"32": "img/icons/32.png",
 		"48": "img/icons/48.png",
