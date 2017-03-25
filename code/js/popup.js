@@ -6,7 +6,10 @@
 */
 
 function declOfNum(number, titles) {
-	var titles, number = Math.abs(number), cases = [2, 0, 1, 1, 1, 2];
+	var
+		titles,	number = Math.abs(number),
+		cases = [2, 0, 1, 1, 1, 2];
+
 	return number + ' ' + titles[(number%100>4 && number%100<20)? 2 : cases[(number%10<5)?number%10:5]];
 }
 
@@ -16,36 +19,39 @@ function declOfNum(number, titles) {
 */
 
 function makeTabs(selector) {
-	var tab_lists_anchors = _elems(selector + ' li'), divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
-
-	for (var i = 0; i < tab_lists_anchors.length; i++) {
-		if (tab_lists_anchors[i].classList.contains('active')) {
-			divs[i].style.display = 'block';
-		}
-	}
+	var
+		tab_lists_anchors = _elems(selector + ' li'),
+		divs = _elem(selector + '_tabs').querySelectorAll('div[id*="tab_"]');
 
 	for (i = 0; i < tab_lists_anchors.length; i++) {
+			if (tab_lists_anchors[i].classList.contains('active')) divs[i].style.display = 'block';
+
 			_elems(selector + ' li')[i].addEventListener('click', function(e) {
+				for (i = 0; i < divs.length; i++) {
+					divs[i].style.display = 'none';
+				}
 
-			for (i = 0; i < divs.length; i++) {
-				divs[i].style.display = 'none';
-			}
-			for (i = 0; i < tab_lists_anchors.length; i++) {
-				tab_lists_anchors[i].classList.remove('active');
-			}
+				for (i = 0; i < tab_lists_anchors.length; i++) {
+					tab_lists_anchors[i].classList.remove('active');
+				}
 
-			var clicked_tab = e.target || e.srcElement;
+				var clicked_tab = e.target || e.srcElement;
+				clicked_tab.classList.add('active');
 
-			clicked_tab.classList.add('active');
-			var div_to_show = '#tab_' + clicked_tab.dataset.tab;
-
-			_elem(div_to_show).style.display = 'block';
+				_elem('#tab_' + clicked_tab.dataset.tab).style.display = 'block';
 		});
 	}
 }
 
 function showRemainingTime(date) {
-	var remaining = tr('startsIn') + ' ', now = new Date(), delta = (date - now)/1000, days = Math.floor(delta/86400), hours = Math.floor(delta/3600), minutes = Math.floor((delta%3600)/60), browserLang = navigator.language || navigator.userLanguage;
+	var
+		remaining = tr('startsIn') + ' ',
+		now = new Date(),
+		delta = (date - now)/1000,
+		days = Math.floor(delta/86400),
+		hours = Math.floor(delta/3600),
+		minutes = Math.floor((delta%3600)/60),
+		browserLang = navigator.language || navigator.userLanguage;
 
 	if (browserLang === 'ru') {
 		if (days) {
@@ -82,11 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		volume.value = response.vol;
 	});
 
-	if (localStorage['defTab'] === undefined) {
-		localStorage['defTab'] = 'defRadio';
+	if (!_ls('defTab')) {
+		_ls_set('defTab', 'defRadio');
 		_elem('[data-tab=radio]').classList.add('active');
 	} else {
-		switch (localStorage['defTab']) {
+		switch (_ls('defTab')) {
 			default:
 			case 'defRadio':
 				_elem('[data-tab=radio]').classList.add('active');
@@ -99,7 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	makeTabs('.tabs');
 
-	var optionsBtn = _elem('.options'), playBtn = _elem('.playpause'), state;
+	var
+		optionsBtn = _elem('.options'),
+		playBtn = _elem('.playpause'),
+		state;
 
 	optionsBtn.addEventListener('click', function() {
 		chrome.runtime.openOptionsPage();
@@ -122,13 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function showBroadcast(schedList) {
-	var schedList = getNextSched(schedList), next = schedList.next,	current = schedList.current, nextBrEl = _elem('.nextBroadcast');
+	var
+		schedList = getNextSched(schedList),
+		next = schedList.next,
+		current = schedList.current,
+		nextBrEl = _elem('.nextBroadcast');
 
-	if (current) {
-		_elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://'+awURL+'/anime" target="_blank">' + _xss(current[2]) + '</a></p>';
-	}
+	if (current) _elem('.currentBroadcast').innerHTML = '<p class="section--title">' + tr('curStream') + ':</p><p class="section--content"><a href="https://' + awURL + '/anime?from=chrome" target="_blank">' + _xss(current[2]) + '</a></p>';
 
-	if (next[0] != null) {
+	if (next[0] !== null) {
 		_ls_set('sched', JSON.stringify(next));
 
 		var brTime = new Date(parseInt(next[0][0] * 1000));
@@ -141,7 +152,9 @@ function showBroadcast(schedList) {
 }
 
 function showSong(apiOuptut) {
-	var radioD = JSON.parse(apiOuptut)['radio'], currSong = _xss(radioD['song']['curr']).split(' - ');
+	var
+		radioD = JSON.parse(apiOuptut)['radio-v2']['jp'],
+		currSong = _xss(radioD['song']['curr']).split(' - ');
 
 	_elem('.nowPlay').innerHTML = '<p class="section--title">' + tr('nowSong') + ':</p><p class="section--content">' + currSong[0] + ' &ndash; ' + currSong[1] + '</p>';
 
@@ -150,7 +163,7 @@ function showSong(apiOuptut) {
 			_elem('.nowRJ').textContent = '';
 			break;
 		default:
-			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://'+awURL+'/radio" target="_blank">' + _xss(radioD['rj']) + '</a></p>';
+			_elem('.nowRJ').innerHTML = '<p class="section--title">' + tr('airLive') + ':</p><p class="section--content"><a href="https://' + awURL + '/radio?from=chrome" target="_blank">' + _xss(radioD['rj']) + '</a></p>';
 	}
 }
 

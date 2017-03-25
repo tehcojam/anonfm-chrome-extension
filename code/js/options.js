@@ -1,10 +1,10 @@
 'use strict';
 
-function _elem(querySelector) {return document.querySelector(querySelector)}
-function _ls(ls_item) {return localStorage.getItem(ls_item)}
-function _ls_rm(ls_item) {return localStorage.removeItem(ls_item)}
-function _ls_set(ls_item, ls_item_var) {return localStorage.setItem(ls_item, ls_item_var)}
-function tr(string) {return chrome.i18n.getMessage(string)}
+function _elem(querySelector) { return document.querySelector(querySelector) }
+function _ls(ls_item) { return localStorage.getItem(ls_item) }
+function _ls_rm(ls_item) { return localStorage.removeItem(ls_item) }
+function _ls_set(ls_item, ls_item_var) { return localStorage.setItem(ls_item, ls_item_var) }
+function tr(string) { return chrome.i18n.getMessage(string) }
 
 document.addEventListener('DOMContentLoaded', function() {
 	_elem('.tr--schedCheckEnable').textContent = tr('schedCheckEnable');
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 
-	if (_ls('defTab') === undefined) {
+	if (!_ls('defTab')) {
 		_ls_set('defTab', 'defRadio');
 	} else {
 		_elem('#defTab').value = _ls('defTab');
@@ -38,7 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function saveOptions() {
-	var schedCheckEnable = _elem('#schedCheckEnable').checked, schedCheckTime = _elem('#schedCheckTime').value, defTab = document.getElementById('defTab').value;
+	var
+		schedCheckEnable = _elem('#schedCheckEnable').checked,
+		schedCheckTime = _elem('#schedCheckTime').value,
+		defTab = document.getElementById('defTab').value;
 
 	_ls_set('schedCheckTime', schedCheckTime);
 	_ls_set('defTab', defTab);
