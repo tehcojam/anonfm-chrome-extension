@@ -18,16 +18,22 @@
 		"message": "Next"
 	},
 	"nowStream": {
-		"message": "Идёт трансляция"
+		"message": "Stream is online"
+	},
+	"enjoyStream": {
+		"message": "Do you want to join us? Click this button now!"
 	},
 	"noStream": {
 		"message": "Not planned"
 	},
-	"updShed": {
+	"updSched": {
 		"message": "Changes in schedule"
 	},
 	"startsIn": {
 		"message": "starts in"
+	},
+	"radioPick": {
+		"message": "Pick a station"
 	},
 	"schedCheckEnable": {
 		"message": "Notify when stream goes online"

@@ -20,14 +20,20 @@
 	"nowStream": {
 		"message": "Идёт трансляция"
 	},
+	"enjoyStream": {
+		"message": "Присоединиться к просмотру?"
+	},
 	"noStream": {
 		"message": "Не запланирован"
 	},
-	"updShed": {
+	"updSched": {
 		"message": "Изменения в расписании"
 	},
 	"startsIn": {
 		"message": "через"
+	},
+	"radioPick": {
+		"message": "Выбор станции"
 	},
 	"schedCheckEnable": {
 		"message": "Уведомлять об онлайне трансляции"

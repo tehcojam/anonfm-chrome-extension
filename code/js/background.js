@@ -1,70 +1,82 @@
-'use strict';
-
-chrome.browserAction.setBadgeBackgroundColor({color: [100, 100, 100, 1]});
-chrome.browserAction.setBadgeText({text: ''});
-
-var volume, server = 1, port = 7934;
-
-var
-	src = 'https://listen' + server + '.myradio24.com/' + port,
-	audio = new Audio();
-
-audio.preload = 'none';
-//audio.volume = 0.5;
-audio.toggle = function() {
-	if (audio.paused) {
-		audio.setAttribute('src', src);
-		audio.play();
-		if (!/OPR\//.test(navigator.userAgent)) {
-			chrome.browserAction.setBadgeText({text: '\u23F5'});
-		} else {
-			chrome.browserAction.setBadgeText({text: 'play'});
-		}
-	} else {
-		audio.setAttribute('src', '');
-		chrome.browserAction.setBadgeText({text: ''});
-	}
-};
-
-if (!_ls('player_vol')) {
-	volume = 50;
-	audio.volume = volume/100;
-	_ls_set('player_vol', volume);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-	audio.volume = _ls('player_vol')/100;
-	volume = _ls('player_vol');
-});
+'use strict'
 
 /*
- * @TODO объединить addListener'ы
+ * Удаление всех старых переменных в хранилище
+ * (временное решение)
+ */
+
+Object.keys(localStorage).forEach(function(key) {
+	if (!key.startsWith('aw_chr')) $ls.rm(key)
+})
+
+/*
+ * Каждый раз при загрузке расширение возвращает бадж в его "дефолтное" состояние
+ */
+
+var extension = chrome.browserAction
+
+extension.setBadgeBackgroundColor({color: [100, 100, 100, 1]})
+extension.setBadgeText({text: ''})
+
+/*
+ * Настройка радио
+ */
+
+function getRadioSrc() {
+	return 'https://listen' + $currentPoint.srv() + '.' + domain.mr + '/' + $currentPoint.port()
+}
+
+var
+	radio = new Audio(),
+	volume
+
+if (!$ls.get('aw_chr_radioVol')) {
+	volume = 50; $ls.set('aw_chr_radioVol', volume)
+} else volume = $ls.get('aw_chr_radioVol');
+
+radio.preload = 'none'
+radio.volume = $ls.get('aw_chr_radioVol')/100
+
+radio.toggle = function() {
+	if (radio.paused) {
+		radio.src = getRadioSrc()
+		radio.play()
+		if (userBrowser != 'opera')
+			extension.setBadgeText({text: '\u23F5'})
+			else extension.setBadgeText({text: 'play'})
+	} else {
+		radio.src = ''
+		extension.setBadgeText({text: ''})
+	}
+}
+
+/*
+ * Обработчики событий
  */
 
 chrome.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
 	switch (mes.cmd) {
 		case 'toggle':
-			audio.toggle();
-			sendResponse({'result': audio.paused});
-			break;
+			radio.toggle()
+			sendResponse({'result': radio.paused}); break
 		case 'status':
-			sendResponse({'result': audio.paused});
-			break;
-		default:
-			break;
+			sendResponse({'result': radio.paused}); break
+		case 'getVol':
+			sendResponse({'result': volume}); break
+		case 'setVol':
+			volume = mes.volume
+			radio.volume = volume/100
+			break
+		case 'changePoint':
+			$ls.set('aw_chr_radioOnPause', radio.paused)
+			$ls.set('aw_chr_radioPoint', mes.point)
+			radio.src = getRadioSrc()
+			radio.load()
+			if ($ls.get('aw_chr_radioOnPause') == 'false') { radio.play() }
+			$ls.rm('aw_chr_radioOnPause')
 	}
-});
+})
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-		switch (request.action) {
-			case 'setvol':
-				volume = request.volume;
-				audio.volume = volume/100;
-				break;
-			case 'getsett':
-				sendResponse({vol: volume});
-				break;
-			default:
-				break;
-		}
-});
+chrome.alarms.onAlarm.addListener(function(alarm) {
+	getData(API.anime_sched).then(checkSched)
+})

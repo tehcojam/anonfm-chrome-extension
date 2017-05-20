@@ -5,17 +5,16 @@
 	"homepage_url": "https://asianwave.ru",
 	"default_locale": "ru",
 	"offline_enabled": false,
-	"version": "0.4.4",
+	"version": "0.4.5",
 	"icons": {
-		"32": "img/icons/32.png",
-		"48": "img/icons/48.png",
-		"64": "img/icons/64.png",
-		"128": "img/icons/128.png"
+		"32": "img/icons/logo-32.png",
+		"64": "img/icons/logo-64.png",
+		"128": "img/icons/logo-128.png"
 	},
 	"browser_action": {
 		"default_title": "Asian Wave",
 		"default_popup": "popup.html",
-		"default_icon": "img/icons/48.png"
+		"default_icon": "img/icons/logo-64.png"
 	},
 	"permissions": [
 		"https://*.asianwave.ru/*",
@@ -25,10 +24,13 @@
 	"background": {
 		"persistent": false,
 		"scripts": [
+			"code/js/kamina.min.js",
+			"code/js/every.min.js",
 			"code/js/main.min.js",
 			"code/js/background.min.js"
 		]
 	},
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 	"options_ui": {
 		"page": "options.html"
 	}
