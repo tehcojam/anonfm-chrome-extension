@@ -49,10 +49,9 @@ function showRemainingTime(date) {
 		delta = (date - now)/1000,
 		days = Math.floor(delta/86400),
 		hours = Math.floor(delta/3600),
-		minutes = Math.floor((delta%3600)/60),
-		browserLang = navigator.language || navigator.userLanguage
+		minutes = Math.floor((delta%3600)/60)
 
-	if (browserLang == 'ru') {
+	if (userLanguage == 'ru') {
 		if (days) {
 			remaining += declOfNum(days, ['день', 'дня', 'дней'])
 		} else if (hours) {

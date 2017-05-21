@@ -1,7 +1,7 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', function() {
-	if (/OPR\//.test(navigator.userAgent)) document.documentElement.classList.add('opera');
+	if (userBrowser == 'opera') document.documentElement.classList.add('opera');
 
 	if (!$ls.get('aw_chr_schedCheckTime')) $ls.set('aw_chr_schedCheckTime', 5);
 
@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (alarm != undefined) {
 			$make.qs('.schedCheckEnable').checked = true
 			$make.qs('.schedCheckTime').value = alarm.periodInMinutes
-		} else {
-			$make.qs('.schedCheckTime').value = $ls.get('aw_chr_schedCheckTime')
-		}
+		} else $make.qs('.schedCheckTime').value = $ls.get('aw_chr_schedCheckTime')
+	})
+
+	Object.keys(points).forEach(function(point) {
+		var optElem = $make.elem('option', points[point].name)
+		optElem.setAttribute('value', point)
+		$make.qs('.radioPoint').appendChild(optElem)
 	})
 
 	$make.qs('.radioPoint').value = $currentPoint.key()

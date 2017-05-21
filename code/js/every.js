@@ -21,7 +21,11 @@ Object.keys(API).forEach(function(key) { API[key] = 'https://' + domain.aw + '/a
  * Определение браузера
  */
 
-var userBrowser = 'chrome'
+var
+	userBrowser = 'chrome',
+	userLanguage = navigator.language || navigator.userLanguage,
+	userIsOnline = navigator.onLine
+
 if (/OPR\//.test(navigator.userAgent)) userBrowser = 'opera'
 
 /*

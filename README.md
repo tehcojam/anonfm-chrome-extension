@@ -9,7 +9,8 @@
 * Сделать порт под Firefox;
 * Сделать возможность поиска текущего трека.
 
-## Для нормальной работы необходимо в `/code/js/` положить файл [kamina.min.js](https://asianwave.ru/files/code/js/kamina.min.js).
+## Примечание
+Для нормальной работы необходимо в `/code/js/` положить файл [kamina.min.js](https://asianwave.ru/files/code/js/kamina.min.js).
 
 ## Лицензирование
 Весь код расширения доступен под [лицензией MIT](license.txt).
