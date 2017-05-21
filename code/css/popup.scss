@@ -1,13 +1,16 @@
 @import
+	'src/vars',
 	'src/mixins',
 	'fonts/style';
 
 @include reset;
 
-$primecolor: #ff305e;
+:root {
+	--volume: 50%;
+}
 
 body {
-	width: 400px;
+	width: 450px;
 	background-color: #fff;
 	font-size: 0;
 	overflow: hidden;
@@ -19,46 +22,7 @@ body {
 	@include user-select(none);
 }
 
-.top-panel {
-	@include flexbox(auto, auto, center, auto);
-	background-color: $primecolor;
-	box-shadow: 0 5px 10px rgba(0,0,0,.5);
-	margin: 20px 0 25px 0;
-	height: 40px;
-
-	.logo {
-		width: 70px;
-		height: 70px;
-		margin: 0 15px;
-		background-color: $primecolor;
-		background-image: url('/img/logo.png');
-		background-position: center center;
-		background-repeat: no-repeat;
-		background-size: 80%;
-		border-radius: 99px;
-		box-shadow: 0 5px 10px rgba(0,0,0,.5);
-	}
-
-	.right {
-		position: absolute;
-		top: 30px;
-		right: 20px;
-
-		.options {
-			color: #fff;
-			display: inline-block;
-			font-size: 1.7em;
-			top: 30px;
-			right: 15px;
-
-			@include transition(.5s);
-
-			&:hover {
-				transform: rotate(180deg);
-			}
-		}
-	}
-}
+@import 'src/popup__top-panel';
 
 main {
 	font-size: 0;
@@ -80,136 +44,33 @@ main {
 	}
 }
 
-.tabs {
-	&, ul {
-		height: 100%;
-	}
-
-	ul {
-		font-size: 0;
-
-		li {
-			display: inline-block;
-			list-style: none;
-			height: 100%;
-			padding: 8px 10px;
-			text-transform: uppercase;
-			font-size: 18px;
-			color: #fff;
-
-			@include transition(.5s);
-			@include user-select(none);
-			cursor: pointer;
-
-			&.active {
-				background-color: rgba(0,0,0,0.3);
-
-				&:hover {
-					background-color: rgba(0,0,0,0.3);
-				}
-			}
-
-			&:hover {
-				background-color: rgba(0,0,0,0.1);
-			}
-		}
-	}
-
-	&_tabs {
-		[id*="tab_"] {
-			display: none;
-		}
-	}
-}
-
-.player {
-	& > * {
-		display: inline-block;
-		vertical-align: middle;
-	}
-
-	.playpause {
-		color: $primecolor;
-		width: 1em;
-		font-size: 25px;
-		cursor: pointer;
-		@include transition(.3s);
-
-		&:hover {
-			color: darken($primecolor, 15%);
-		}
-	}
-
-	.volume {
-		outline: none;
-		background: transparent;
-
-		$slidercolor: #E5E5E5;
-
-		-webkit-appearance: none;
-		width: 255px;
-
-		&::-webkit-slider-runnable-track {
-			-webkit-appearance: none;
-			margin: 10px 0 8px 0;
-			width: 100px; height: 13px;
-			border: 3px solid darken($primecolor, 5%);
-			border-radius: 9px;
-
-			background-color: $slidercolor;
-			vertical-align: middle;
-
-			@include transition(.3s);
-
-			&:focus {
-				outline: none;
-			}
-		}
-
-		&::-webkit-slider-thumb {
-			$track-size: 23px;
-			-webkit-appearance: none;
-			margin-top: -8px;
-			border-radius: 99px;
-			background-color: darken($primecolor, 5%);
-			width: $track-size; height: $track-size;
-			cursor: pointer;
-
-			@include transition(.3s);
-
-			&:hover {
-				background-color: darken($primecolor, 10%);
-			}
-
-			&:active {
-				background-color: darken($primecolor, 15%);
-			}
-		}
-	}
-}
+@import
+	'src/popup__tabs',
+	'src/popup__player';
 
 .links {
 	text-align: center;
 	font-size: 25px;
+	cursor: default;
 }
 
 a {
 	text-decoration: none;
-	color: $primecolor;
+	color: $primeColor;
 
 	@include transition(.3s);
 
 	&:visited {
-		color: $primecolor;
+		color: $primeColor;
 	}
 
 	&:hover {
-		color: darken($primecolor, 15%);
+		color: darken($primeColor, 15%);
 	}
 
 	&.options {
 		display: block;
-		font-size: 0.85em;
+		font-size: .85em;
 		margin-top: -5px;
 	}
 }
@@ -220,10 +81,10 @@ a {
 	}
 
 	a {
-		border-bottom: 0.5px dashed $primecolor;
+		border-bottom: .5px dashed $primeColor;
 
 		&:hover {
-			border-bottom: 0.5px solid darken($primecolor, 15%);
+			border-bottom: .5px solid darken($primeColor, 15%);
 		}
 	}
 

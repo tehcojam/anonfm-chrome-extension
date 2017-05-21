@@ -1,92 +1,51 @@
 @import 'variables';
 
 @font-face {
-  font-family: 'AWave';
-  src:
-    url('#{$icomoon-font-path}/AWave.ttf?37ovkn') format('truetype'),
-    url('#{$icomoon-font-path}/AWave.woff?37ovkn') format('woff'),
-    url('#{$icomoon-font-path}/AWave.svg?37ovkn#AWave') format('svg');
-  font-weight: normal;
-  font-style: normal;
+	font-family: 'AW_chr';
+	src:
+		url('#{$icomoon-font-path}/AW_chr.woff?wuq3gf') format('woff'),
+		url('#{$icomoon-font-path}/AW_chr.svg?wuq3gf#AW_chr') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
-.icon {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'AWave' !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
+i {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'AW_chr' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
 
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-music {
-  &:before {
-    content: $icon-music;
-  }
+.icon-vk {
+	&:before {
+		content: $icon-vk;
+	}
 }
 .icon-gear {
-  &:before {
-    content: $icon-gear;
-  }
-}
-.icon-home {
-  &:before {
-    content: $icon-home;
-  }
-}
-.icon-volume-off {
-  &:before {
-    content: $icon-volume-off;
-  }
-}
-.icon-volume-up {
-  &:before {
-    content: $icon-volume-up;
-  }
-}
-.icon-play {
-  &:before {
-    content: $icon-play;
-  }
+	&:before {
+		content: $icon-gear;
+	}
 }
 .icon-pause {
-  &:before {
-    content: $icon-pause;
-  }
+	&:before {
+		content: $icon-pause;
+	}
 }
-.icon-stop {
-  &:before {
-    content: $icon-stop;
-  }
+.icon-play {
+	&:before {
+		content: $icon-play;
+	}
 }
-.icon-vk {
-  &:before {
-    content: $icon-vk;
-  }
-}
-.icon-google {
-  &:before {
-    content: $icon-google;
-  }
-}
-.icon-chrome {
-  &:before {
-    content: $icon-chrome;
-  }
-}
-.icon-firefox {
-  &:before {
-    content: $icon-firefox;
-  }
-}
-.icon-opera {
-  &:before {
-    content: $icon-opera;
-  }
+.icon-home {
+	&:before {
+		content: $icon-home;
+	}
 }

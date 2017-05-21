@@ -1,0 +1,41 @@
+// main: ../popup.scss
+
+.top-panel {
+	$boxShadow: 0 3px 10px rgba(0, 0, 0, .3);
+
+	@include flexbox(auto, auto, center, auto);
+	height: 40px;
+	margin: 20px 0 25px 0;
+	background-color: $primeColor;
+	box-shadow: $boxShadow;
+
+	.logo {
+		width: 70px; height: 70px;
+		margin: 0 15px;
+		background-color: $primeColor;
+		background-image: url('/img/logo.png');
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: 60%;
+		border-radius: 99px;
+		box-shadow: $boxShadow;
+	}
+
+	.right {
+		position: absolute;
+		top: 30px; right: 20px;
+
+		.options {
+			display: inline-block;
+			top: 30px; right: 15px;
+			font-size: 1.7em;
+			color: #fff;
+
+			@include transition(.5s);
+
+			&:hover {
+				transform: rotate(180deg);
+			}
+		}
+	}
+}

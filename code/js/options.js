@@ -1,59 +1,48 @@
-'use strict';
-
-function _elem(querySelector) { return document.querySelector(querySelector) }
-function _ls(ls_item) { return localStorage.getItem(ls_item) }
-function _ls_rm(ls_item) { return localStorage.removeItem(ls_item) }
-function _ls_set(ls_item, ls_item_var) { return localStorage.setItem(ls_item, ls_item_var) }
-function tr(string) { return chrome.i18n.getMessage(string) }
+'use strict'
 
 document.addEventListener('DOMContentLoaded', function() {
-	_elem('.tr--schedCheckEnable').textContent = tr('schedCheckEnable');
-	_elem('.tr--schedCheckTime').textContent = tr('schedCheckTime');
-	_elem('.tr--defaultTab').textContent = tr('defaultTab');
+	if (userBrowser == 'opera') document.documentElement.classList.add('opera');
 
-	_elem('#save').textContent = tr('optSave');
-	_elem('#saveMsg').textContent = tr('optSaved');
-	_elem('#minTs').textContent = tr('optMin');
+	if (!$ls.get('aw_chr_schedCheckTime')) $ls.set('aw_chr_schedCheckTime', 5);
 
 	chrome.alarms.get('CheckSchedule', function(alarm) {
-		if (alarm !== undefined) {
-			_elem('#schedCheckEnable').checked = true;
-			_elem('#schedCheckTime').value = alarm.periodInMinutes;
-		}
-	});
+		if (alarm != undefined) {
+			$make.qs('.schedCheckEnable').checked = true
+			$make.qs('.schedCheckTime').value = alarm.periodInMinutes
+		} else $make.qs('.schedCheckTime').value = $ls.get('aw_chr_schedCheckTime')
+	})
 
-	if (!_ls('defTab')) {
-		_ls_set('defTab', 'defRadio');
-	} else {
-		_elem('#defTab').value = _ls('defTab');
-	}
+	Object.keys(points).forEach(function(point) {
+		var optElem = $make.elem('option', points[point].name)
+		optElem.setAttribute('value', point)
+		$make.qs('.radioPoint').appendChild(optElem)
+	})
 
-	if (_ls('schedCheckTime') === undefined) {
-		_ls_set('schedCheckTime', false);
-	} else {
-		_elem('#schedCheckTime').value = _ls('schedCheckTime');
-	}
+	$make.qs('.radioPoint').value = $currentPoint.key()
 
-	_elem('#save').addEventListener('click', saveOptions);
-});
+	if (!$ls.get('aw_chr_defaultTab'))
+		$ls.set('aw_chr_defaultTab', 'radio')
+		else $make.qs('.defTab').value = $ls.get('aw_chr_defaultTab')
+
+	$make.qs('.save').addEventListener('click', saveOptions)
+})
 
 function saveOptions() {
 	var
-		schedCheckEnable = _elem('#schedCheckEnable').checked,
-		schedCheckTime = _elem('#schedCheckTime').value,
-		defTab = document.getElementById('defTab').value;
+		radioPoint = $make.qs('.radioPoint').value,
+		schedCheckEnable = $make.qs('.schedCheckEnable').checked,
+		schedCheckTime = $make.qs('.schedCheckTime').value,
+		defTab = $make.qs('.defTab').value
 
-	_ls_set('schedCheckTime', schedCheckTime);
-	_ls_set('defTab', defTab);
+	if (parseFloat(schedCheckTime) >= 2) { $ls.set('aw_chr_schedCheckTime', schedCheckTime) }
 
-	chrome.alarms.clearAll();
+	if (radioPoint != $currentPoint.key()) { chrome.runtime.sendMessage({cmd: 'changePoint', point: radioPoint}) }
 
-	if (schedCheckEnable) {
-		chrome.alarms.create("CheckSchedule", {delayInMinutes: 0.1, periodInMinutes: parseInt(schedCheckTime) || 10});
-		_ls_rm('schedCheckEnable');
-	} else {
-		_ls_set('schedCheckEnable', 0);
-	}
+	$ls.set('aw_chr_defaultTab', defTab)
 
-	_elem('#saveMsg').style.display = 'inline';
+	chrome.alarms.clearAll()
+
+	if (schedCheckEnable) chrome.alarms.create('CheckSchedule', { delayInMinutes: 1, periodInMinutes: parseFloat($ls.get('aw_chr_schedCheckTime')) || 5 } );
+
+	$make.qs('.saveMsg').style.display = 'inline'
 }

@@ -4,29 +4,37 @@
 	<title>Asian Wave &ndash; Настройки</title>
 	<link rel="stylesheet" href="code/css/options.min.css">
 </head><body>
-	<table>
-		<tr>
-			<td><label class="tr--schedCheckEnable"></label></td>
-			<td><input type="checkbox" id="schedCheckEnable"></td>
-		</tr>
-		<tr>
-			<td><label class="tr--schedCheckTime"></label></td>
-			<td>
-				<input id="schedCheckTime" min="1" step="1" type="number">
-				<label id="minTs"></label>
-			</td>
-		</tr>
-		<tr>
-			<td><label class="tr--defaultTab"></label></td>
-			<td><select id="defTab">
-				<option value="defRadio">/radio</option>
-				<option value="defAnime">/anime</option>
-			</select></td>
-		</tr>
-	</table>
 	<div>
-		<button id="save"></button>
-		<span id="saveMsg"></span>
+		<table>
+			<tr>
+				<td><label data-tr="radioPick"></label></td>
+				<td><select class="radioPoint"></select></td>
+			</tr>
+			<tr>
+				<td><label data-tr="schedCheckEnable"></label></td>
+				<td><input type="checkbox" class="schedCheckEnable"></td>
+			</tr>
+			<tr>
+				<td><label data-tr="schedCheckTime"></label></td>
+				<td>
+					<input class="schedCheckTime" min="2" step="1" type="number">
+					<label data-tr="optMin"></label>
+				</td>
+			</tr>
+			<tr>
+				<td><label data-tr="defaultTab"></label></td>
+				<td><select class="defTab">
+					<option value="radio">/radio</option>
+					<option value="anime">/anime</option>
+				</select></td>
+			</tr>
+		</table>
+		<div>
+			<button data-tr="optSave" class="save"></button>
+			<span data-tr="optSaved" class="saveMsg"></span>
+		</div>
 	</div>
+	<script src="code/js/kamina.min.js" defer></script>
+	<script src="code/js/every.min.js" defer></script>
 	<script src="code/js/options.min.js" defer></script>
 </body></html>
