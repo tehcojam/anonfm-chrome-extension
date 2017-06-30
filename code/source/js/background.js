@@ -13,7 +13,7 @@ Object.keys(localStorage).forEach(function(key) {
  * Каждый раз при загрузке расширение возвращает бадж в его "дефолтное" состояние
  */
 
-var extension = chrome.browserAction
+var extension = userBrowser.browserAction
 
 extension.setBadgeBackgroundColor({color: [100, 100, 100, 1]})
 extension.setBadgeText({text: ''})
@@ -22,9 +22,7 @@ extension.setBadgeText({text: ''})
  * Настройка радио
  */
 
-function getRadioSrc() {
-	return 'https://listen' + $currentPoint.srv() + '.' + domain.mr + '/' + $currentPoint.port()
-}
+var getRadioSrc = () => `https://listen${$currentPoint.srv()}.${domain.mr}/${$currentPoint.port()}`
 
 var
 	radio = new Audio(),
@@ -41,7 +39,7 @@ radio.toggle = function() {
 	if (radio.paused) {
 		radio.src = getRadioSrc()
 		radio.play()
-		if (userBrowser != 'opera')
+		if (userBrowserName != 'opera')
 			extension.setBadgeText({text: '\u23F5'})
 			else extension.setBadgeText({text: 'play'})
 	} else {
@@ -54,7 +52,7 @@ radio.toggle = function() {
  * Обработчики событий
  */
 
-chrome.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
+userBrowser.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
 	switch (mes.cmd) {
 		case 'toggle':
 			radio.toggle()
@@ -77,6 +75,6 @@ chrome.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
 	}
 })
 
-chrome.alarms.onAlarm.addListener(function(alarm) {
+userBrowser.alarms.onAlarm.addListener(function(alarm) {
 	getData(API.anime_sched).then(checkSched)
 })

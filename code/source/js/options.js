@@ -1,22 +1,24 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', function() {
-	if (userBrowser == 'opera') document.documentElement.classList.add('opera');
+	if (userBrowserName != 'chrome') document.documentElement.classList.add('opera');
 
 	if (!$ls.get('aw_chr_schedCheckTime')) $ls.set('aw_chr_schedCheckTime', 5);
 
-	chrome.alarms.get('CheckSchedule', function(alarm) {
+	userBrowser.alarms.get('CheckSchedule', (alarm) => {
 		if (alarm != undefined) {
 			$make.qs('.schedCheckEnable').checked = true
 			$make.qs('.schedCheckTime').value = alarm.periodInMinutes
 		} else $make.qs('.schedCheckTime').value = $ls.get('aw_chr_schedCheckTime')
 	})
 
-	Object.keys(points).forEach(function(point) {
-		var optElem = $make.elem('option', points[point].name)
-		optElem.setAttribute('value', point)
-		$make.qs('.radioPoint').appendChild(optElem)
-	})
+	for (let point in points) {
+		if (points.hasOwnProperty(point)) {
+			let optElem = $create.elem('option', points[point].name)
+			optElem.setAttribute('value', point)
+			$make.qs('.radioPoint').appendChild(optElem)
+		}
+	}
 
 	$make.qs('.radioPoint').value = $currentPoint.key()
 
@@ -28,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function saveOptions() {
-	var
+	let
 		radioPoint = $make.qs('.radioPoint').value,
 		schedCheckEnable = $make.qs('.schedCheckEnable').checked,
 		schedCheckTime = $make.qs('.schedCheckTime').value,
@@ -36,13 +38,13 @@ function saveOptions() {
 
 	if (parseFloat(schedCheckTime) >= 2) { $ls.set('aw_chr_schedCheckTime', schedCheckTime) }
 
-	if (radioPoint != $currentPoint.key()) { chrome.runtime.sendMessage({cmd: 'changePoint', point: radioPoint}) }
+	if (radioPoint != $currentPoint.key()) { userBrowser.runtime.sendMessage({cmd: 'changePoint', point: radioPoint}) }
 
 	$ls.set('aw_chr_defaultTab', defTab)
 
-	chrome.alarms.clearAll()
+	userBrowser.alarms.clearAll()
 
-	if (schedCheckEnable) chrome.alarms.create('CheckSchedule', { delayInMinutes: 1, periodInMinutes: parseFloat($ls.get('aw_chr_schedCheckTime')) || 5 } );
+	if (schedCheckEnable) userBrowser.alarms.create('CheckSchedule', { delayInMinutes: 1, periodInMinutes: parseFloat($ls.get('aw_chr_schedCheckTime')) || 5 } );
 
 	$make.qs('.saveMsg').style.display = 'inline'
 }

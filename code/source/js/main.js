@@ -1,22 +1,22 @@
 'use strict'
 
 function getData(url) {
-	var	headers = new Headers()
+	let	headers = new Headers()
 	headers.append('pragma', 'no-cache')
 	headers.append('cache-control', 'no-cache')
 
-	var reqInit = {
+	let reqInit = {
 	   cache: 'no-cache',
 	   headers: headers
-	}, request = new Request(url + '?ts=' + Date.now(), reqInit)
+	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
-	return fetch(request).then(function(r) { if(r.ok) return r.text() })
+	return fetch(request).then((r) => { if(r.ok) return r.text() })
 }
 
 function spawnNotification(o) {
 	if (!o) return;
 
-	var options = {
+	let options = {
 		title: o.title || 'Asian Wave',
 		message: o.text || '',
 		contextMessage: o.context || '',
@@ -28,31 +28,31 @@ function spawnNotification(o) {
 
 	// @HACK Opera не поддерживает кнопки в оповещениях (!!!), поэтому приходится поизвращаться
 
-	if (userBrowser == 'opera') {
+	if (userBrowserName == 'opera') {
 		delete options.buttons
 		options.isClickable = true
 	}
 
-	chrome.notifications.create(notifID, options, function(id) { notifID = id })
+	userBrowser.notifications.create(notifID, options, (id) => { notifID = id })
 
-	switch (userBrowser) {
+	switch (userBrowserName) {
 		case 'opera':
-			if (o.link) chrome.notifications.onClicked.addListener(function(id) { if (notifID == id) window.open(o.link) }); break
+			if (o.link) userBrowser.notifications.onClicked.addListener((id) => { if (notifID == id) window.open(o.link) }); break
 		default:
-			if (o.link) chrome.notifications.onButtonClicked.addListener(function(id, index) { if (notifID == id && index == 0) window.open(o.link) })
+			if (o.link) userBrowser.notifications.onButtonClicked.addListener((id, index) => { if (notifID == id && index == 0) window.open(o.link) })
 	}
 }
 
 function getNextSched(schedList) {
-	var
+	let
 		now = Math.floor(new Date().getTime()/1000),
 		schedList = JSON.parse(schedList),
 		result = { next: [] }
 
-	schedList.forEach(function(item) {
-		var
-			begin = parseInt(item[0]),
-			end = parseInt(item[1])
+	schedList.forEach((item) => {
+		let
+			begin = parseInt(item['s']),
+			end = parseInt(item['e'])
 
 		if (begin <= now && end > now) { result.current = item }
 		if (begin > now) { result.next.push(item) }
@@ -62,7 +62,7 @@ function getNextSched(schedList) {
 }
 
 function checkSched(resolve, section) {
-	var
+	let
 		schedList = getNextSched(resolve),
 		isLive = schedList.current,
 		pre = parseInt($ls.get('aw_chr_animeNowLive')),
@@ -76,10 +76,10 @@ function checkSched(resolve, section) {
 			toURL += '/anime'
 	}
 
-	if (isLive && !pre) spawnNotification({title: $make.tr('nowStream') + ':', text: isLive[2], context: toURL, buttons: [{title: $make.tr('enjoyStream')}], link: 'https://' + toURL + '?from=' + userBrowser})
+	if (isLive && !pre) spawnNotification({title: $make.tr('nowStream') + ':', text: isLive['title'], context: toURL, buttons: [{title: $make.tr('enjoyStream')}], link: 'https://' + toURL + '?from=' + userBrowserName})
 
 	if (isLive)
-		$ls.set('aw_chr_animeNowLive', isLive[2])
+		$ls.set('aw_chr_animeNowLive', isLive['title'])
 		else $ls.rm('aw_chr_animeNowLive')
 }
 

@@ -1,7 +1,7 @@
 @mixin reset {
 	* {
 		-webkit-box-sizing: border-box;
-		   //-moz-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
 		        box-sizing: border-box;
 
 		padding: 0; margin: 0; outline: 0;
@@ -16,7 +16,7 @@
 
 @mixin user-select($select) {
 	-webkit-user-select: $select;
-	   //-moz-user-select: $select;
+	   -moz-user-select: $select;
 	        user-select: $select;
 }
 
@@ -30,6 +30,6 @@
 
 @mixin filter($settings...) {
 	-webkit-filter: $settings;
-	   //-moz-filter: $settings;
+	   -moz-filter: $settings;
 	        filter: $settings;
 }
