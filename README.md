@@ -12,8 +12,9 @@
 ## Сборка
 Необходимо установить Node.js (проверялось на версии 8.0.0) и выполнить следующие команды:
 * `git clone https://github.com/tehcojam/aw_chrome`
+* `cd aw_chrome`
 * `npm install`
-* 'gulp build'
+* `gulp build`
 
 ## Лицензирование
 Весь код расширения доступен под [лицензией MIT](license.txt).
