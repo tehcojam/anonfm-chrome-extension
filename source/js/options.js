@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	$make.qs('.save').addEventListener('click', saveOptions)
 })
 
-function saveOptions() {
+var saveOptions = (() => {
 	let
 		radioPoint = $make.qs('.radioPoint').value,
 		schedCheckEnable = $make.qs('.schedCheckEnable').checked,
@@ -47,4 +47,4 @@ function saveOptions() {
 	if (schedCheckEnable) userBrowser.alarms.create('CheckSchedule', { delayInMinutes: 1, periodInMinutes: parseFloat($ls.get('aw_chr_schedCheckTime')) || 5 } );
 
 	$make.qs('.saveMsg').style.display = 'inline'
-}
+})

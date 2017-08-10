@@ -1,5 +1,3 @@
-// main: ../popup.scss
-
 .player {
 	cursor: default;
 
@@ -9,9 +7,12 @@
 	}
 
 	.playpause {
+		background-color: transparent;
+
 		width: 1em;
 		font-size: 25px;
 		color: $primeColor;
+		border: 0;
 
 		cursor: pointer;
 		@include transition(.3s);
@@ -23,13 +24,14 @@
 
 	.volume {
 		width: 300px;
+		margin-left: 5px;
 
 		-webkit-appearance: none;
 
 		&::-webkit-slider-runnable-track {
 			height: 13px;
 			background: linear-gradient(to right, $primeColor 0%, $primeColor var(--volume), transparent var(--volume), transparent 100%);
-			margin: 10px 0 8px 0;
+			margin: 6px 0 8px 0;
 			border: 3px solid darken($primeColor, 5%);
 			border-radius: 9px;
 			vertical-align: middle;

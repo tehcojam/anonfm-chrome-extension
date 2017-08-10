@@ -1,32 +1,43 @@
-﻿'use strict'
+'use strict'
 
 let
-	gulp =      require('gulp'),
-	bom =       require('gulp-bom'),
-	rename =    require('gulp-rename'),
-	watch =     require('gulp-watch'),
-	plumber =   require('gulp-plumber'),
-	composer =  require('gulp-uglify/composer'),
-	uglifyjs =  require('uglify-es'),
-	sass =      require('gulp-sass'),
-	csso =      require('gulp-csso')
+	gulp =        require('gulp'),
+	rename =      require('gulp-rename'),
+	watch =       require('gulp-watch'),
+	watch_sass =  require('gulp-watch-sass'),
+	plumber =     require('gulp-plumber'),
+	composer =    require('gulp-uglify/composer'),
+	uglifyjs =    require('uglify-es'),
+	sass =        require('gulp-sass'),
+	csso =        require('gulp-csso'),
+	pug =         require('gulp-pug')
 
 let minify = composer(uglifyjs, console)
 
 let paths = {
-	'js': {
-		'dev': 'code/source/js/**/*.js',
-		'prod': 'code/js/'
+	html: {
+		dev: ['source/pug/**/*.pug', '!source/pug/inc/**/*.pug'],
+		prod: 'build/'
 	},
-	'kamina': 'node_modules/kamina-js/dist/*.min.js',
-	'css': {
-		'dev': 'code/source/scss/**/*.scss',
-		'prod': 'code/css/'
+	js: {
+		dev: 'source/js/**/*.js',
+		prod: 'build/code/js/',
+		kamina: 'node_modules/kamina-js/dist/*.min.js',
+	},
+	css: {
+		dev: 'source/scss/**/*.scss',
+		prod: 'build/code/css/'
 	}
 }
 
-gulp.task('get-kamina', () => gulp.src(paths.kamina)
-	.pipe(bom())
+gulp.task('pug', () => gulp.src(paths.html.dev)
+	.pipe(plumber())
+	.pipe(watch(paths.html.dev))
+  .pipe(pug({}))
+	.pipe(gulp.dest(paths.html.prod))
+)
+
+gulp.task('get-kamina', () => gulp.src(paths.js.kamina)
 	.pipe(gulp.dest(paths.js.prod))
 )
 
@@ -35,19 +46,15 @@ gulp.task('minify-js', () => gulp.src(paths.js.dev)
 	.pipe(watch(paths.js.dev))
 	.pipe(minify({}))
 	.pipe(rename({suffix: '.min'}))
-	.pipe(bom())
 	.pipe(gulp.dest(paths.js.prod))
 )
 
-gulp.task('scss', () => gulp.src(paths.css.dev)
-	.pipe(plumber())
-	.pipe(watch(paths.css.dev))
+gulp.task('scss', () => plumber()
+	.pipe(watch_sass(paths.css.dev))
 	.pipe(sass({outputStyle: 'compressed'}))
 	.pipe(csso())
 	.pipe(rename({suffix: '.min'}))
-	.pipe(bom())
 	.pipe(gulp.dest(paths.css.prod))
 )
 
-gulp.task('default', ['get-kamina', 'minify-js', 'scss'])
-gulp.task('build', ['default'])
+gulp.task('default', ['pug', 'get-kamina', 'minify-js', 'scss'])

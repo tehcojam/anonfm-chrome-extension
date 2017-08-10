@@ -1,7 +1,10 @@
 package-lock.json
+npm-debug.log
 node_modules
-code/css/
-code/js/
+dist
+build/code/css/
+build/code/js/
+build/**/*.html
 *.min.*
 *.psd
 *.zip

@@ -1,6 +1,6 @@
 'use strict'
 
-function getData(url) {
+var getData = (url => {
 	let	headers = new Headers()
 	headers.append('pragma', 'no-cache')
 	headers.append('cache-control', 'no-cache')
@@ -11,9 +11,9 @@ function getData(url) {
 	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
 	return fetch(request).then((r) => { if(r.ok) return r.text() })
-}
+})
 
-function spawnNotification(o) {
+var spawnNotification = (o => {
 	if (!o) return;
 
 	let options = {
@@ -41,9 +41,9 @@ function spawnNotification(o) {
 		default:
 			if (o.link) userBrowser.notifications.onButtonClicked.addListener((id, index) => { if (notifID == id && index == 0) window.open(o.link) })
 	}
-}
+})
 
-function getNextSched(schedList) {
+var getNextSched = (schedList => {
 	let
 		now = Math.floor(new Date().getTime()/1000),
 		schedList = JSON.parse(schedList),
@@ -59,9 +59,9 @@ function getNextSched(schedList) {
 	})
 
 	return result
-}
+})
 
-function checkSched(resolve, section) {
+var checkSched = ((resolve, section) => {
 	let
 		schedList = getNextSched(resolve),
 		isLive = schedList.current,
@@ -81,15 +81,15 @@ function checkSched(resolve, section) {
 	if (isLive)
 		$ls.set('aw_chr_animeNowLive', isLive['title'])
 		else $ls.rm('aw_chr_animeNowLive')
-}
+})
 
-// function compareSched(pre, current) {
-//   var
+// var compareSched = ((pre, current) => {
+//   let
 // 		equal = [],
 // 		curr = current.slice()
 //
 // 	pre.forEach(function(arr) {
-// 		for (var i = 0; i < curr.length; i++) {
+// 		for (let i = 0; i < curr.length; i++) {
 // 		  if (arr.every(function(el, ind)	{return el == curr[i][ind] ? true : false})) equal.push(i)
 // 		}
 //   })
@@ -101,18 +101,18 @@ function checkSched(resolve, section) {
 // 	}
 //
 //   return curr
-// }
+// })
 
-// function checkSched(resolve) {
-// 	var current = getNextSched(resolve).next
+// var checkSched = (resolve => {
+// 	let current = getNextSched(resolve).next
 //
 // 	if ($ls.get('sched_next')) {
-// 		var
+// 		let
 // 			pre = JSON.parse($ls.get('sched_next')),
 // 			changes = compareSched(pre, current)
 //
 // 		if (changes.length > 0) {
-// 			for(var i = 0; i < changes.length; i++) {
+// 			for(let i = 0; i < changes.length; i++) {
 // 				spawnNotification(changes[i][2], 'img/icons/logo-64.png', $make.tr('updSched'))
 // 			}
 //
@@ -121,4 +121,4 @@ function checkSched(resolve, section) {
 // 	} else {
 // 		$ls.set('sched_next', JSON.stringify(current))
 // 	}
-// }
+// })

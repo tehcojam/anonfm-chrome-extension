@@ -1,7 +1,6 @@
-@import
-	'src/vars',
-	'src/mixins',
-	'fonts/style';
+@import 'inc/vars';
+@import 'inc/mixins';
+@import 'fonts/style';
 
 @include reset;
 
@@ -22,7 +21,7 @@ body {
 	@include user-select(none);
 }
 
-@import 'src/popup__top-panel';
+@import 'inc/popup__top-panel';
 
 main {
 	font-size: 0;
@@ -44,9 +43,8 @@ main {
 	}
 }
 
-@import
-	'src/popup__tabs',
-	'src/popup__player';
+@import 'inc/popup__tabs';
+@import 'inc/popup__player';
 
 .links {
 	text-align: center;

@@ -52,7 +52,7 @@ radio.toggle = function() {
  * Обработчики событий
  */
 
-userBrowser.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
+userBrowser.runtime.onMessage.addListener((mes, sender, sendResponse) => {
 	switch (mes.cmd) {
 		case 'toggle':
 			radio.toggle()
@@ -75,6 +75,6 @@ userBrowser.runtime.onMessage.addListener(function(mes, sender, sendResponse) {
 	}
 })
 
-userBrowser.alarms.onAlarm.addListener(function(alarm) {
+userBrowser.alarms.onAlarm.addListener(alarm => {
 	getData(API.anime_sched).then(checkSched)
 })

@@ -5,23 +5,23 @@
  * Взято здесь: gist.github.com/ivan1911/5327202#gistcomment-1669858
  */
 
-function declOfNum(num, titles) {
+var declOfNum = ((num, titles) => {
 	let
 		number = Math.abs(num),
 		cases = [2, 0, 1, 1, 1, 2]
 
 	return number + ' ' + titles[(number%100>4 && number%100<20) ? 2 : cases[(number%10<5)?number%10:5]]
-}
+})
 
 /*
  * Функция для создания вкладок (модифицированная).
  * Взято здесь: vk.cc/6EwIs0
  */
 
-$make.tabs = function(selector) {
+$make.tabs = (selector => {
 	let
-		tabAnchors = this.qs(selector + ' li', ['a']),
-		tabs = this.qs(selector + '_tabs section', ['a'])
+		tabAnchors = $make.qs(selector + ' li', ['a']),
+		tabs = $make.qs(selector + '_tabs section', ['a'])
 
 	tabAnchors.forEach((tabAnchor, i) => {
 		if (tabAnchor.classList.contains('active')) tabs[i].style.display = 'block'
@@ -39,10 +39,10 @@ $make.tabs = function(selector) {
 				}
 			}
 		})
-	}
-}
+	})
+})
 
-function showRemainingTime(date) {
+var showRemainingTime = (date => {
 	let
 		remaining = $make.tr('startsIn') + ' ',
 		now = new Date(),
@@ -76,7 +76,7 @@ function showRemainingTime(date) {
 	}
 
 	return remaining
-}
+})
 
 document.addEventListener('DOMContentLoaded', () => {
 	getData(API.anime_sched).then(showBroadcast)
@@ -90,17 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
 		volume = $make.qs('.volume'),
 		docStyle = document.documentElement.style
 
-	volume.oninput = function() {
-		userBrowser.runtime.sendMessage({cmd: 'setVol', volume: this.value})
-		docStyle.setProperty('--volume', this.value + '%')
-	}
+	volume.addEventListener('input', (e) => {
+		userBrowser.runtime.sendMessage({cmd: 'setVol', volume: e.target.value})
+		docStyle.setProperty('--volume', e.target.value + '%')
+	})
 
-	volume.onchange = function() { $ls.set('aw_chr_radioVol', this.value) }
+	volume.addEventListener('change', (e) => $ls.set('aw_chr_radioVol', e.target.value))
 
-	userBrowser.runtime.sendMessage({cmd: 'getVol'}, function(response) {
+	userBrowser.runtime.sendMessage({cmd: 'getVol'}, (response => {
 		volume.value = response.result
 		docStyle.setProperty('--volume', response.result + '%')
-	})
+	}))
 
 	if (!$ls.get('aw_chr_defaultTab')) {
 		$ls.set('aw_chr_defaultTab', 'radio');
@@ -137,14 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 })
 
-function showBroadcast(schedList) {
+var showBroadcast = (schedList => {
 	let
 		schedList = getNextSched(schedList),
 		next = schedList.next,
 		current = schedList.current,
 		nextBrEl = $make.qs('.nextBroadcast')
-
-	console.log(schedList)
 
 	if (current) $make.qs('.currentBroadcast').innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $make.link(`https://${domain.aw}/anime?from=${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content', ['html'])
 
@@ -157,9 +155,9 @@ function showBroadcast(schedList) {
 	} else {
 		nextBrEl.innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $make.tr('noStream'), 'section--content', ['html']);
 	}
-}
+})
 
-function showSong(apiOuptut) {
+var showSong = (apiOuptut => {
 	let
 		radioD = JSON.parse(apiOuptut)['radio-v2'][$currentPoint.key()],
 		currSong = $make.safe(radioD['song']['curr']).split(' - '),
@@ -175,4 +173,4 @@ function showSong(apiOuptut) {
 	}
 
 	$make.qs('.nowPlay').innerHTML = $create.elem('p', $make.tr('nowSong') + ':', 'section--title', ['html']) + $create.elem('p', songData, 'section--content', ['html'])
-}
+})

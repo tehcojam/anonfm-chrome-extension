@@ -1,0 +1,32 @@
+doctype html
+html
+	head
+		include inc/head.pug
+		title #{title} &ndash; Настройки
+		link(rel='stylesheet' href=`code/css/options.min.css?v=${version}`)
+	body
+		table
+			tr
+				td #[label(data-tr='radioPick')]
+				td #[select.radioPoint]
+			tr
+				td #[label(data-tr='schedCheckEnable')]
+				td #[input.schedCheckEnable(type='checkbox')]
+			tr
+				td #[label(data-tr='schedCheckTime')]
+				td
+					input.schedCheckTime(min='2' step='1' type='number')
+					label(data-tr='optMin')
+			tr
+				td #[label(data-tr='defaultTab')]
+				td
+					select.defTab
+						option(value='radio') /radio
+						option(value='anime') /anime
+
+		div
+			button.save(data-tr='optSave')
+			span.saveMsg(data-tr='optSaved')
+
+		each JS in ['kamina', 'every', 'options']
+			script(src=`code/js/${JS}.min.js?v=${version}` defer)
