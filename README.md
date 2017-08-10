@@ -14,7 +14,7 @@
 * `git clone https://github.com/tehcojam/aw_chrome`
 * `cd aw_chrome`
 * `npm install`
-* `gulp`
+* `gulp`  
 Готовое к использованию расширение будет лежать в папке `build/`.
 
 ## Лицензирование
