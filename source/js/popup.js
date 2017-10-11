@@ -139,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 var showBroadcast = (schedList => {
 	let
-		schedList = getNextSched(schedList),
-		next = schedList.next,
-		current = schedList.current,
+		schedListF = getNextSched(schedList),
+		next = schedListF.next,
+		current = schedListF.current,
 		nextBrEl = $make.qs('.nextBroadcast')
 
-	if (current) $make.qs('.currentBroadcast').innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $make.link(`https://${domain.aw}/anime?from=${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content', ['html'])
+	if (current) $make.qs('.currentBroadcast').innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/anime?from=${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content', ['html'])
 
 	if (next[0] != null) {
 		//$ls.set('sched_next', JSON.stringify(next))
@@ -165,11 +165,11 @@ var showSong = (apiOuptut => {
 
 	if (currSong[1]) songData += ' &ndash; ' + currSong[1];
 
-	switch (radioD['rj']) {
-		case 'Auto-DJ':
+	switch (radioD['rj'].toLowerCase()) {
+		case 'auto-dj':
 			$make.qs('.nowRJ').textContent = ''; break
 		default:
-			$make.qs('.nowRJ').innerHTML = $create.elem('p', $make.tr('airLive') + ':', 'section--title', ['html']) + $create.elem('p', $make.link(`https://${domain.aw}/radio?from=${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content', ['html'])
+			$make.qs('.nowRJ').innerHTML = $create.elem('p', $make.tr('airLive') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/radio?from=${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content', ['html'])
 	}
 
 	$make.qs('.nowPlay').innerHTML = $create.elem('p', $make.tr('nowSong') + ':', 'section--title', ['html']) + $create.elem('p', songData, 'section--content', ['html'])

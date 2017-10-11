@@ -6,6 +6,10 @@
 
 :root {
 	--volume: 50%;
+	--prime-color: $primeColor;
+	--prime-color-5d: darken($primeColor, 5%);
+	--prime-color-10d: darken($primeColor, 10%);
+	--prime-color-15d: darken($primeColor, 15%);
 }
 
 body {
@@ -54,16 +58,16 @@ main {
 
 a {
 	text-decoration: none;
-	color: $primeColor;
+	color: var(--prime-color-5d);
 
 	@include transition(.3s);
 
 	&:visited {
-		color: $primeColor;
+		color: var(--prime-color-5d);
 	}
 
 	&:hover {
-		color: darken($primeColor, 15%);
+		color: var(--prime-color-15d);
 	}
 
 	&.options {
@@ -79,10 +83,10 @@ a {
 	}
 
 	a {
-		border-bottom: .5px dashed $primeColor;
+		border-bottom: .5px dashed var(--prime-color);
 
 		&:hover {
-			border-bottom: .5px solid darken($primeColor, 15%);
+			border-bottom: .5px solid var(--prime-color-15d);
 		}
 	}
 

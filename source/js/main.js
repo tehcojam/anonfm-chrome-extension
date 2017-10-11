@@ -10,7 +10,7 @@ var getData = (url => {
 	   headers: headers
 	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
-	return fetch(request).then((r) => { if(r.ok) return r.text() })
+	return fetch(request).then(r => { if (r.ok) return r.text() })
 })
 
 var spawnNotification = (o => {
@@ -46,10 +46,10 @@ var spawnNotification = (o => {
 var getNextSched = (schedList => {
 	let
 		now = Math.floor(new Date().getTime()/1000),
-		schedList = JSON.parse(schedList),
+		schedListF = JSON.parse(schedList),
 		result = { next: [] }
 
-	schedList.forEach((item) => {
+	schedListF.forEach(item => {
 		let
 			begin = parseInt(item['s']),
 			end = parseInt(item['e'])

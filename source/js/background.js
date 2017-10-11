@@ -1,15 +1,6 @@
 'use strict'
 
 /*
- * Удаление всех старых переменных в хранилище
- * (временное решение)
- */
-
-Object.keys(localStorage).forEach(function(key) {
-	if (!key.startsWith('aw_chr')) $ls.rm(key)
-})
-
-/*
  * Каждый раз при загрузке расширение возвращает бадж в его "дефолтное" состояние
  */
 
@@ -24,9 +15,7 @@ extension.setBadgeText({text: ''})
 
 var getRadioSrc = () => `https://listen${$currentPoint.srv()}.${domain.mr}/${$currentPoint.port()}`
 
-var
-	radio = new Audio(),
-	volume
+var radio = new Audio(), volume
 
 if (!$ls.get('aw_chr_radioVol')) {
 	volume = 50; $ls.set('aw_chr_radioVol', volume)

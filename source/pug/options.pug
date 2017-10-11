@@ -7,20 +7,20 @@ html
 	body
 		table
 			tr
-				td #[label(data-tr='radioPick')]
-				td #[select.radioPoint]
+				td #[label(for='radioPick' data-tr='radioPick')]
+				td #[select#radioPick.radioPoint]
 			tr
-				td #[label(data-tr='schedCheckEnable')]
-				td #[input.schedCheckEnable(type='checkbox')]
+				td #[label(for='schedCheckEnable' data-tr='schedCheckEnable')]
+				td #[input#schedCheckEnable.schedCheckEnable(type='checkbox')]
 			tr
-				td #[label(data-tr='schedCheckTime')]
+				td #[label(for='schedCheckTime' data-tr='schedCheckTime')]
 				td
-					input.schedCheckTime(min='2' step='1' type='number')
+					input#schedCheckTime.schedCheckTime(min='2' step='1' type='number')
 					label(data-tr='optMin')
 			tr
-				td #[label(data-tr='defaultTab')]
+				td #[label(for='defaultTab' data-tr='defaultTab')]
 				td
-					select.defTab
+					select#defaultTab.defTab
 						option(value='radio') /radio
 						option(value='anime') /anime
 

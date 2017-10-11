@@ -4,13 +4,13 @@
 	@include flexbox(auto, auto, center, auto);
 	height: 40px;
 	margin: 20px 0 25px 0;
-	background-color: $primeColor;
+	background-color: var(--prime-color);
 	box-shadow: $boxShadow;
 
 	.logo {
 		width: 70px; height: 70px;
 		margin: 0 15px;
-		background-color: $primeColor;
+		background-color: var(--prime-color);
 		background-image: url('/img/logo.png');
 		background-position: center center;
 		background-repeat: no-repeat;

@@ -76,6 +76,6 @@ $make.tr = (s) => userBrowser.i18n.getMessage(s);
 		needsTr = $make.qs('[data-tr]', ['a']),
 		needsTrTitle = $make.qs('[data-tr-title]', ['a'])
 
-	needsTr.forEach((item) => { item.textContent = $make.tr(item.dataset.tr) })
-	needsTrTitle.forEach((item) => { item.setAttribute('title', $make.tr(item.dataset.trTitle)) })
+	needsTr.forEach(item => { item.textContent = $make.tr(item.dataset.tr) })
+	needsTrTitle.forEach(item => { item.setAttribute('title', $make.tr(item.dataset.trTitle)) })
 })()

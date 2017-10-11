@@ -20,15 +20,15 @@
 			cursor: pointer;
 
 			&.active {
-				background-color: rgba(0,0,0,0.3);
+				background-color: rgba(0, 0, 0, .3);
 
 				&:hover {
-					background-color: rgba(0,0,0,0.3);
+					background-color: rgba(0, 0, 0, .3);
 				}
 			}
 
 			&:hover {
-				background-color: rgba(0,0,0,0.1);
+				background-color: rgba(0, 0, 0, .1);
 			}
 		}
 	}

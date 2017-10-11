@@ -12,7 +12,7 @@ body {
 
 html.opera {
 	@at-root body, & { width: 100%; height: 100%; }
-	body { @include flexbox(auto, center, center, auto); }
+	body { @include flexbox(column, center, center, auto); }
 }
 
 table {

@@ -4,7 +4,7 @@ html
 		include inc/head.pug
 		title #{title}
 		link(rel='stylesheet' href=`code/css/popup.min.css?v=${version}`)
-		link(rel='stylesheet' href=`https://${host}/files/code/css/chrome-app-events.min.css?v=${version}`)
+		link(rel='stylesheet' href=`https://${host}/files/css/chrome-app-events.min.css?v=${version}`)
 	body
 		div.container
 			header.top-panel
@@ -17,8 +17,8 @@ html
 					a.options(href='javascript:void(0)' data-tr-title='options') #[i.icon.icon-gear]
 			main
 				div.links
-					a(href=`https://${host}?from=chrome` target='_blank' data-tr-title='awSite') #[i.icon.icon-home]
-					a(href='https://vk.com/public120842574' target='_blank' data-tr-title='awVKPage') #[i.icon.icon-vk]
+					a(href=`https://${host}?from=chrome-${version}` target='_blank' data-tr-title='awSite') #[i.icon.icon-home]
+					a(href='https://vk.com/public120842574' target='_blank' rel='nofollow noopener' data-tr-title='awVKPage') #[i.icon.icon-vk]
 				div.content
 					div.player
 						button.playpause #[i.icon.icon-play]
