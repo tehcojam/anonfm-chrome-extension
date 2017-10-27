@@ -5,17 +5,19 @@
  */
 
 var domain = {
-	'aw': 'asianwave.ru',
-	'mr': 'myradio24.com'
+	'aw': 'asianwave.ru'
 }
 
+domain.radio = `ryuko.${domain.aw}`
+
 var API = {
-	'main_api': 'api.json',
 	'anime_sched': 'anime-sched.json',
 	'radio_sched': 'radio-sched.json' // @TODO вставлять расписание радио-потока
 }
 
-for (let key in API) { if (API.hasOwnProperty(key)) API[key] = `https://${domain.aw}/api/${API[key]}` }
+Object.keys(API).forEach(key => {
+	API[key] = `https://${domain.aw}/api/${API[key]}`
+})
 
 /*
  * Определение браузера
@@ -27,7 +29,7 @@ var
 	userLanguage = navigator.language || navigator.userLanguage,
 	userIsOnline = navigator.onLine
 
-if (/OPR\//.test(navigator.userAgent)) userBrowserName = 'opera'
+if (/OPR\//.test(navigator.userAgent)) { userBrowserName = 'opera' }
 
 if (/Firefox\//.test(navigator.userAgent)) {
 	userBrowser = browser
@@ -41,16 +43,16 @@ if (/Firefox\//.test(navigator.userAgent)) {
 var points = {
 	'jp': {
 		'name': 'Japan',
-		'port': 7934,
-		'srv': 1
+		'port': 8000,
+		'id': 1
 	}, 'ru': {
 		'name': 'Russia',
-		'port': 9759,
-		'srv': 1
+		'port': 8010,
+		'id': 2
 	}, 'kr': {
 		'name': 'Korea',
-		'port': 3799,
-		'srv': 1
+		'port': 8020,
+		'id': 3
 	}
 }
 
@@ -59,9 +61,9 @@ var points = {
  */
 
 var $currentPoint = {
-	name: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].name : points['jp'].name,
 	port: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].port : points['jp'].port,
-	srv: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].srv : points['jp'].srv,
+	name: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].name : points['jp'].name,
+	id: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].id : points['jp'].id,
 	key: () => $ls.get('aw_chr_radioPoint') || 'jp'
 }
 
@@ -69,7 +71,7 @@ var $currentPoint = {
  * Локализация
  */
 
-$make.tr = (s) => userBrowser.i18n.getMessage(s);
+$make.tr = s => userBrowser.i18n.getMessage(s)
 
 ;(() => {
 	let

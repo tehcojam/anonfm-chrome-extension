@@ -1,9 +1,11 @@
 .player {
+	margin-top: 3px;
 	cursor: default;
 
 	& > * {
 		display: inline-block;
 		vertical-align: middle;
+		outline: 0;
 	}
 
 	.playpause {
@@ -20,6 +22,10 @@
 		&:hover {
 			color: var(--prime-color-15d);
 		}
+
+		&:focus {
+			color: var(--prime-color-5d);
+		}
 	}
 
 	.volume {
@@ -30,7 +36,7 @@
 
 		&::-webkit-slider-runnable-track {
 			height: 13px;
-			background: linear-gradient(to right, var(--prime-color) 0%, var(--prime-color) var(--volume), transparent var(--volume), transparent 100%);
+			background-image: linear-gradient(to right, var(--prime-color) 0%, var(--prime-color) var(--volume), transparent var(--volume), transparent 100%);
 			margin: 6px 0 8px 0;
 			border: 3px solid var(--prime-color-5d);
 			border-radius: 9px;

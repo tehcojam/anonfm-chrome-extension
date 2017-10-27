@@ -11,10 +11,10 @@ html
 				div.logo
 				div.tabs
 					ul
-						li(data-tab='radio') /radio
-						li(data-tab='anime') /anime
+						li #[button(data-tab='radio') /radio]
+						li #[button(data-tab='anime') /anime]
 				div.right
-					a.options(href='javascript:void(0)' data-tr-title='options') #[i.icon.icon-gear]
+					button.options(href='javascript:void(0)' data-tr-title='options') #[i.icon.icon-gear]
 			main
 				div.links
 					a(href=`https://${host}?from=chrome-${version}` target='_blank' data-tr-title='awSite') #[i.icon.icon-home]

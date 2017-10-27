@@ -6,9 +6,13 @@ html
 		link(rel='stylesheet' href=`code/css/options.min.css?v=${version}`)
 	body
 		table
+			tr.title
+				td(colspan='2') /radio
 			tr
 				td #[label(for='radioPick' data-tr='radioPick')]
 				td #[select#radioPick.radioPoint]
+			tr.title
+				td(colspan='2') /anime
 			tr
 				td #[label(for='schedCheckEnable' data-tr='schedCheckEnable')]
 				td #[input#schedCheckEnable.schedCheckEnable(type='checkbox')]
@@ -17,6 +21,8 @@ html
 				td
 					input#schedCheckTime.schedCheckTime(min='2' step='1' type='number')
 					label(data-tr='optMin')
+			tr.title
+				td(colspan='2' data-tr='optOther')
 			tr
 				td #[label(for='defaultTab' data-tr='defaultTab')]
 				td
@@ -24,8 +30,8 @@ html
 						option(value='radio') /radio
 						option(value='anime') /anime
 
-		div
-			button.save(data-tr='optSave')
+		div.save
+			button(data-tr='optSave')
 			span.saveMsg(data-tr='optSaved')
 
 		each JS in ['kamina', 'every', 'options']

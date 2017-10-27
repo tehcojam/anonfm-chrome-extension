@@ -1,6 +1,6 @@
 'use strict'
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
 	if (userBrowserName == 'opera') document.documentElement.classList.add('opera');
 
 	if (!$ls.get('aw_chr_schedCheckTime')) $ls.set('aw_chr_schedCheckTime', 5);
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		$ls.set('aw_chr_defaultTab', 'radio')
 		else $make.qs('.defTab').value = $ls.get('aw_chr_defaultTab')
 
-	$make.qs('.save').addEventListener('click', saveOptions)
+	$make.qs('.save button').addEventListener('click', saveOptions)
 })
 
 var saveOptions = (() => {

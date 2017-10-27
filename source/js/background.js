@@ -13,7 +13,7 @@ extension.setBadgeText({text: ''})
  * Настройка радио
  */
 
-var getRadioSrc = () => `https://listen${$currentPoint.srv()}.${domain.mr}/${$currentPoint.port()}`
+var getRadioSrc = () => `https://${domain.radio}/radio/${$currentPoint.port()}/listen`
 
 var radio = new Audio(), volume
 
@@ -28,9 +28,7 @@ radio.toggle = function() {
 	if (radio.paused) {
 		radio.src = getRadioSrc()
 		radio.play()
-		if (userBrowserName != 'opera')
-			extension.setBadgeText({text: '\u23F5'})
-			else extension.setBadgeText({text: 'play'})
+		extension.setBadgeText({text: (userBrowserName == 'opera') ? 'play' : '\u23F5'})
 	} else {
 		radio.src = ''
 		extension.setBadgeText({text: ''})

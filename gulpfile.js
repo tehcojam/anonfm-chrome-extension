@@ -50,6 +50,7 @@ gulp.task('minify-js', () => gulp.src(paths.js.dev)
 )
 
 gulp.task('scss', () => watch_sass(paths.css.dev)
+	//gulp.src(paths.css.dev)
 	.pipe(plumber())
 	.pipe(sass({outputStyle: 'compressed'}))
 	.pipe(csso())

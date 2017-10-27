@@ -10,11 +10,11 @@ var getData = (url => {
 	   headers: headers
 	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
-	return fetch(request).then(r => { if (r.ok) return r.text() })
+	return fetch(request).then(r => r.ok ? r.text() : '')
 })
 
 var spawnNotification = (o => {
-	if (!o) return;
+	if (!o) { return }
 
 	let options = {
 		title: o.title || 'Asian Wave',
@@ -33,21 +33,27 @@ var spawnNotification = (o => {
 		options.isClickable = true
 	}
 
-	userBrowser.notifications.create(notifID, options, (id) => { notifID = id })
+	userBrowser.notifications.create(notifID, options, id => { notifID = id })
 
-	switch (userBrowserName) {
-		case 'opera':
-			if (o.link) userBrowser.notifications.onClicked.addListener((id) => { if (notifID == id) window.open(o.link) }); break
-		default:
-			if (o.link) userBrowser.notifications.onButtonClicked.addListener((id, index) => { if (notifID == id && index == 0) window.open(o.link) })
+	if (o.link) {
+		switch (userBrowserName) {
+			case 'opera':
+				userBrowser.notifications.onClicked.addListener(id => {
+					if (notifID == id) { window.open(o.link) }
+				}); break
+			default:
+				userBrowser.notifications.onButtonClicked.addListener((id, index) => {
+					if (notifID == id && index == 0) { window.open(o.link) }
+				}); break
+		}
 	}
 })
 
 var getNextSched = (schedList => {
 	let
-		now = Math.floor(new Date().getTime()/1000),
-		schedListF = JSON.parse(schedList),
-		result = { next: [] }
+		now =         Math.floor(new Date().getTime()/1000),
+		schedListF =  JSON.parse(schedList),
+		result =      { next: [] }
 
 	schedListF.forEach(item => {
 		let
@@ -63,24 +69,34 @@ var getNextSched = (schedList => {
 
 var checkSched = ((resolve, section) => {
 	let
-		schedList = getNextSched(resolve),
-		isLive = schedList.current,
-		pre = parseInt($ls.get('aw_chr_animeNowLive')),
-		toURL = domain.aw
+		schedList =  getNextSched(resolve),
+		isLive =     schedList.current,
+		pre =        $ls.get('aw_chr_animeNowLive'),
+		toURL =      domain.aw
+
+	pre = parseInt(pre)
 
 	switch (section) {
 		case 'radio':
 			toURL += '/' + section; break
 		case 'anime':
 		default:
-			toURL += '/anime'
+			toURL += '/anime'; break
 	}
 
-	if (isLive && !pre) spawnNotification({title: $make.tr('nowStream') + ':', text: isLive['title'], context: toURL, buttons: [{title: $make.tr('enjoyStream')}], link: 'https://' + toURL + '?from=' + userBrowserName})
+	if (isLive && !pre) {
+		spawnNotification({
+			title: $make.tr('nowStream') + ':',
+			text: isLive['title'],
+			context: toURL,
+			buttons: [{title: $make.tr('enjoyStream')}],
+			link: 'https://' + toURL + '?from=' + userBrowserName
+		})
+	}
 
-	if (isLive)
+	if (isLive) {
 		$ls.set('aw_chr_animeNowLive', isLive['title'])
-		else $ls.rm('aw_chr_animeNowLive')
+	} else { $ls.rm('aw_chr_animeNowLive') }
 })
 
 // var compareSched = ((pre, current) => {

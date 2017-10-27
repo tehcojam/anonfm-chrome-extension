@@ -58,5 +58,8 @@
 	},
 	"optMin": {
 		"message": "мин."
+	},
+	"optOther": {
+		"message": "Разное"
 	}
 }

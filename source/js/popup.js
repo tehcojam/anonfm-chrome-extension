@@ -20,7 +20,7 @@ var declOfNum = ((num, titles) => {
 
 $make.tabs = (selector => {
 	let
-		tabAnchors = $make.qs(selector + ' li', ['a']),
+		tabAnchors = $make.qs(selector + ' button', ['a']),
 		tabs = $make.qs(selector + '_tabs section', ['a'])
 
 	tabAnchors.forEach((tabAnchor, i) => {
@@ -79,23 +79,25 @@ var showRemainingTime = (date => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
+	let azuraAPI = `https://${domain.radio}/api/nowplaying/${$currentPoint.id()}`
+
 	getData(API.anime_sched).then(showBroadcast)
-	getData(API.main_api).then(showSong)
+	getData(azuraAPI).then(showSong)
 
 	let aw_timer = setInterval(() => {
-		getData(API.main_api).then(showSong)
+		getData(azuraAPI).then(showSong)
 	}, 5000)
 
 	let
 		volume = $make.qs('.volume'),
 		docStyle = document.documentElement.style
 
-	volume.addEventListener('input', (e) => {
+	volume.addEventListener('input', e => {
 		userBrowser.runtime.sendMessage({cmd: 'setVol', volume: e.target.value})
 		docStyle.setProperty('--volume', e.target.value + '%')
 	})
 
-	volume.addEventListener('change', (e) => $ls.set('aw_chr_radioVol', e.target.value))
+	volume.addEventListener('change', e => $ls.set('aw_chr_radioVol', e.target.value))
 
 	userBrowser.runtime.sendMessage({cmd: 'getVol'}, (response => {
 		volume.value = response.result
@@ -123,13 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	optionsBtn.onclick = () => { userBrowser.runtime.openOptionsPage() }
 
-	userBrowser.runtime.sendMessage({cmd: 'status'}, (response) => {
+	userBrowser.runtime.sendMessage({cmd: 'status'}, response => {
 		let state = response.result ? 'icon icon-play' : 'icon icon-pause';
 		playBtn.firstChild.setAttribute('class', state);
 	});
 
 	playBtn.onclick = () => {
-		userBrowser.runtime.sendMessage({cmd: 'toggle'}, (response) => {
+		userBrowser.runtime.sendMessage({cmd: 'toggle'}, response => {
 			if (response.result)
 				playBtn.firstChild.setAttribute('class', 'icon icon-play')
 				else playBtn.firstChild.setAttribute('class', 'icon icon-pause')
@@ -159,18 +161,22 @@ var showBroadcast = (schedList => {
 
 var showSong = (apiOuptut => {
 	let
-		radioD = JSON.parse(apiOuptut)['radio-v2'][$currentPoint.key()],
-		currSong = $make.safe(radioD['song']['curr']).split(' - '),
-		songData = currSong[0]
+		radioD = JSON.parse(apiOuptut),
+		currSong = $make.safe(radioD['now_playing']['song']['text']).split(' - '),
+		songData = currSong[0],
+		songElem = $make.qs('.nowPlay')
 
-	if (currSong[1]) songData += ' &ndash; ' + currSong[1];
+	songElem.textContent = ''
 
-	switch (radioD['rj'].toLowerCase()) {
-		case 'auto-dj':
-			$make.qs('.nowRJ').textContent = ''; break
-		default:
-			$make.qs('.nowRJ').innerHTML = $create.elem('p', $make.tr('airLive') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/radio?from=${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content', ['html'])
-	}
+	if (currSong[1]) { songData += ' &ndash; ' + currSong[1] }
 
-	$make.qs('.nowPlay').innerHTML = $create.elem('p', $make.tr('nowSong') + ':', 'section--title', ['html']) + $create.elem('p', songData, 'section--content', ['html'])
+	// switch (radioD['rj'].toLowerCase()) {
+	// 	case 'auto-dj':
+	// 		$make.qs('.nowRJ').textContent = ''; break
+	// 	default:
+	// 		$make.qs('.nowRJ').innerHTML = $create.elem('p', $make.tr('airLive') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/radio?from=${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content', ['html'])
+	// }
+
+	songElem.appendChild($create.elem('p', $make.tr('nowSong') + ':', 'section--title'))
+	songElem.appendChild($create.elem('p', songData, 'section--content'))
 })

@@ -24,12 +24,16 @@
 		top: 30px; right: 20px;
 
 		.options {
+			background-color: transparent;
 			display: inline-block;
 			top: 30px; right: 15px;
+			height: 1em;
 			font-size: 1.7em;
 			color: #fff;
+			border: 0;
 
 			@include transition(.5s);
+			cursor: pointer;
 
 			&:hover {
 				transform: rotate(180deg);
