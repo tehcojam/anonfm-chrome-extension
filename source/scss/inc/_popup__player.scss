@@ -32,36 +32,44 @@
 		width: 300px;
 		margin-left: 5px;
 
-		-webkit-appearance: none;
+		@each $browser, $track, $range in ('webkit', 'slider-runnable', 'slider'), ('moz', 'range', 'range') {
+			-#{$browser}-appearance: none;
 
-		&::-webkit-slider-runnable-track {
-			height: 13px;
-			background-image: linear-gradient(to right, var(--prime-color) 0%, var(--prime-color) var(--volume), transparent var(--volume), transparent 100%);
-			margin: 6px 0 8px 0;
-			border: 3px solid var(--prime-color-5d);
-			border-radius: 9px;
-			vertical-align: middle;
-			cursor: pointer;
-		}
+			&::-#{$browser}-#{$track}-track {
+				@if $browser == 'moz' {
+					height: 8px;
+				} @else {
+					height: 13px;
+				}
 
-		&::-webkit-slider-thumb {
-			$track-size: 23px;
+				background-color: transparent;
+				background-image: linear-gradient(to right, var(--prime-color) 0%, var(--prime-color) var(--volume), transparent var(--volume), transparent 100%);
 
-			-webkit-appearance: none;
-			width: $track-size; height: $track-size;
-			background-color: var(--prime-color-5d);
-			margin-top: -8px;
-			border-radius: 99px;
-			cursor: pointer;
-
-			@include transition(.3s);
-
-			&:hover {
-				background-color: var(--prime-color-10d);
+				margin: 6px 0 8px 0;
+				border: 3px solid var(--prime-color-5d);
+				border-radius: 9px;
+				vertical-align: middle;
+				cursor: pointer;
 			}
 
-			&:active {
-				background-color: var(--prime-color-15d);
+			&::-#{$browser}-#{$range}-thumb {
+				$thumb-size: 23px;
+				-#{$browser}-appearance: none;
+				width: $thumb-size; height: $thumb-size;
+				background-color: var(--prime-color-5d);
+				margin-top: -8px;
+				border-radius: 99px;
+				cursor: pointer;
+
+				@include transition(.3s);
+
+				&:hover {
+					background-color: var(--prime-color-10d);
+				}
+
+				&:active {
+					background-color: var(--prime-color-15d);
+				}
 			}
 		}
 	}

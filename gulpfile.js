@@ -1,6 +1,7 @@
 'use strict'
 
 let
+	project =     require('./package.json'),
 	gulp =        require('gulp'),
 	rename =      require('gulp-rename'),
 	watch =       require('gulp-watch'),
@@ -9,6 +10,7 @@ let
 	composer =    require('gulp-uglify/composer'),
 	uglifyjs =    require('uglify-es'),
 	sass =        require('gulp-sass'),
+	sass_vars =   require('gulp-sass-variables'),
 	csso =        require('gulp-csso'),
 	pug =         require('gulp-pug')
 
@@ -33,7 +35,7 @@ let paths = {
 gulp.task('pug', () => gulp.src(paths.html.dev)
 	.pipe(plumber())
 	.pipe(watch(paths.html.dev))
-  .pipe(pug({}))
+  .pipe(pug({ locals: { VERSION: project.version } }))
 	.pipe(gulp.dest(paths.html.prod))
 )
 
@@ -52,10 +54,11 @@ gulp.task('minify-js', () => gulp.src(paths.js.dev)
 gulp.task('scss', () => watch_sass(paths.css.dev)
 	//gulp.src(paths.css.dev)
 	.pipe(plumber())
+	.pipe(sass_vars({ $VERSION: project.version }))
 	.pipe(sass({outputStyle: 'compressed'}))
 	.pipe(csso())
 	.pipe(rename({suffix: '.min'}))
 	.pipe(gulp.dest(paths.css.prod))
 )
 
-gulp.task('default', ['pug', 'get-kamina', 'minify-js', 'scss'])
+gulp.task('default', gulp.parallel('pug', 'get-kamina', 'minify-js', 'scss'))

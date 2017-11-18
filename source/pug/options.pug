@@ -2,8 +2,9 @@ doctype html
 html
 	head
 		include inc/head.pug
-		title #{title} &ndash; Настройки
-		link(rel='stylesheet' href=`code/css/options.min.css?v=${version}`)
+		title #{TITLE} &ndash; Настройки
+		link(rel='stylesheet' href=`code/css/options.min.css?v=${VERSION}`)
+		link(rel='stylesheet' href=`https://${HOST}/files/css/chrome-app-events.min.css?v=${VERSION}`)
 	body
 		table
 			tr.title
@@ -35,4 +36,4 @@ html
 			span.saveMsg(data-tr='optSaved')
 
 		each JS in ['kamina', 'every', 'options']
-			script(src=`code/js/${JS}.min.js?v=${version}` defer)
+			script(src=`code/js/${JS}.min.js?v=${VERSION}` defer)
