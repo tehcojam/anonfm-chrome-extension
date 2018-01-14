@@ -35,6 +35,26 @@ radio.toggle = function() {
 	}
 }
 
+radio.toPoint = point => {
+	if (!Object.keys(points).includes(point)) { return }
+
+	let
+		_this = radio,
+		storageRadioOnPauseItemName = 'aw_chr_radioOnPause'
+
+	$ls.set(storageRadioOnPauseItemName, _this.paused)
+	$ls.set(storageCurrentPointItemName, point)
+
+	_this.src = getRadioSrc()
+
+	if ($ls.get(storageRadioOnPauseItemName) == 'false') {
+		_this.load()
+		_this.play()
+	}
+
+	$ls.rm(storageRadioOnPauseItemName)
+}
+
 /*
  * Обработчики событий
  */
@@ -53,12 +73,7 @@ userBrowser.runtime.onMessage.addListener((mes, sender, sendResponse) => {
 			radio.volume = volume/100
 			break
 		case 'changePoint':
-			$ls.set('aw_chr_radioOnPause', radio.paused)
-			$ls.set('aw_chr_radioPoint', mes.point)
-			radio.src = getRadioSrc()
-			radio.load()
-			if ($ls.get('aw_chr_radioOnPause') == 'false') { radio.play() }
-			$ls.rm('aw_chr_radioOnPause')
+			radio.toPoint(mes.point); break
 	}
 })
 

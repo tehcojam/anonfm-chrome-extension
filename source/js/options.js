@@ -1,15 +1,21 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', () => {
-	if (userBrowserName == 'opera') document.documentElement.classList.add('opera');
+	if (userBrowserName == 'opera') {
+		document.documentElement.classList.add('opera')
+	}
 
-	if (!$ls.get('aw_chr_schedCheckTime')) $ls.set('aw_chr_schedCheckTime', 5);
+	if (!$ls.get('aw_chr_schedCheckTime')) {
+		$ls.set('aw_chr_schedCheckTime', 5)
+	}
 
 	userBrowser.alarms.get('CheckSchedule', alarm => {
 		if (alarm != undefined) {
 			$make.qs('.schedCheckEnable').checked = true
 			$make.qs('.schedCheckTime').value = alarm.periodInMinutes
-		} else $make.qs('.schedCheckTime').value = $ls.get('aw_chr_schedCheckTime')
+		} else {
+			$make.qs('.schedCheckTime').value = $ls.get('aw_chr_schedCheckTime')
+		}
 	})
 
 	Object.keys(points).forEach(point => {
@@ -20,29 +26,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	$make.qs('.radioPoint').value = $currentPoint.key()
 
-	if (!$ls.get('aw_chr_defaultTab'))
+	if (!$ls.get('aw_chr_defaultTab')) {
 		$ls.set('aw_chr_defaultTab', 'radio')
-		else $make.qs('.defTab').value = $ls.get('aw_chr_defaultTab')
+	} else {
+		$make.qs('.defTab').value = $ls.get('aw_chr_defaultTab')
+	}
 
 	$make.qs('.save button').addEventListener('click', saveOptions)
 })
 
-var saveOptions = (() => {
+var saveOptions = () => {
 	let
 		radioPoint = $make.qs('.radioPoint').value,
 		schedCheckEnable = $make.qs('.schedCheckEnable').checked,
 		schedCheckTime = $make.qs('.schedCheckTime').value,
 		defTab = $make.qs('.defTab').value
 
-	if (parseFloat(schedCheckTime) >= 2) { $ls.set('aw_chr_schedCheckTime', schedCheckTime) }
+	if (parseFloat(schedCheckTime) >= 2) {
+		$ls.set('aw_chr_schedCheckTime', schedCheckTime)
+	}
 
-	if (radioPoint != $currentPoint.key()) { userBrowser.runtime.sendMessage({cmd: 'changePoint', point: radioPoint}) }
+	if (radioPoint != $currentPoint.key()) {
+		userBrowser.runtime.sendMessage({cmd: 'changePoint', point: radioPoint})
+	}
 
 	$ls.set('aw_chr_defaultTab', defTab)
 
 	userBrowser.alarms.clearAll()
 
-	if (schedCheckEnable) userBrowser.alarms.create('CheckSchedule', { delayInMinutes: 1, periodInMinutes: parseFloat($ls.get('aw_chr_schedCheckTime')) || 5 } );
+	if (schedCheckEnable) {
+		userBrowser.alarms.create('CheckSchedule', {
+			delayInMinutes: 1,
+			periodInMinutes: Number($ls.get('aw_chr_schedCheckTime')) || 5
+		})
+	}
 
 	$make.qs('.saveMsg').style.display = 'inline'
-})
+}

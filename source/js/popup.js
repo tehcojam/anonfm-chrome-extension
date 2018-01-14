@@ -5,44 +5,46 @@
  * Взято здесь: gist.github.com/ivan1911/5327202#gistcomment-1669858
  */
 
-var declOfNum = ((num, titles) => {
+var declOfNum = (num, titles) => {
 	let
 		number = Math.abs(num),
 		cases = [2, 0, 1, 1, 1, 2]
 
 	return number + ' ' + titles[(number%100>4 && number%100<20) ? 2 : cases[(number%10<5)?number%10:5]]
-})
+}
 
 /*
  * Функция для создания вкладок (модифицированная).
  * Взято здесь: vk.cc/6EwIs0
  */
 
-$make.tabs = (selector => {
+$create.tabs = selector => {
 	let
 		tabAnchors = $make.qs(selector + ' button', ['a']),
 		tabs = $make.qs(selector + '_tabs section', ['a'])
 
 	tabAnchors.forEach((tabAnchor, i) => {
-		if (tabAnchor.classList.contains('active')) tabs[i].style.display = 'block'
+		if (tabAnchor.classList.contains('active')) {
+			tabs[i].style.display = 'block'
+		}
 
-		tabAnchor.addEventListener('click', (e) => {
-			let clickedAnchor = e.target || e.srcElement
+		tabAnchor.addEventListener('click', e => {
+			let clickedAnchor = e.target
 			clickedAnchor.classList.add('active')
 
-			for (let i = 0, tabsLength = tabs.length; i < tabsLength; i++) {
-				if (tabs[i].dataset.tab == clickedAnchor.dataset.tab) {
-					tabs[i].style.display = 'block'
+			tabs.forEach((tab, i) => {
+				if (tab.dataset.tab == clickedAnchor.dataset.tab) {
+					tab.style.display = 'block'
 				} else {
-					tabs[i].style.display = 'none'
+					tab.style.display = 'none'
 					tabAnchors[i].classList.remove('active')
 				}
-			}
+			})
 		})
 	})
-})
+}
 
-var showRemainingTime = (date => {
+var showRemainingTime = date => {
 	let
 		remaining = $make.tr('startsIn') + ' ',
 		now = new Date(),
@@ -76,7 +78,7 @@ var showRemainingTime = (date => {
 	}
 
 	return remaining
-})
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 	let azuraAPI = `https://${domain.radio}/api/nowplaying/${$currentPoint.id()}`
@@ -99,10 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	volume.addEventListener('change', e => $ls.set('aw_chr_radioVol', e.target.value))
 
-	userBrowser.runtime.sendMessage({cmd: 'getVol'}, (response => {
+	userBrowser.runtime.sendMessage({cmd: 'getVol'}, response => {
 		volume.value = response.result
 		docStyle.setProperty('--volume', response.result + '%')
-	}))
+	})
 
 	if (!$ls.get('aw_chr_defaultTab')) {
 		$ls.set('aw_chr_defaultTab', 'radio');
@@ -117,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	$make.tabs('.tabs')
+	$create.tabs('.tabs')
 
 	let
 		optionsBtn = $make.qs('.options'),
@@ -139,14 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 })
 
-var showBroadcast = (schedList => {
+var showBroadcast = schedList => {
 	let
 		schedListF = getNextSched(schedList),
 		next = schedListF.next,
 		current = schedListF.current,
 		nextBrEl = $make.qs('.nextBroadcast')
 
-	if (current) $make.qs('.currentBroadcast').innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/anime?from=${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content', ['html'])
+	if (current) {
+		$make.qs('.currentBroadcast').innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/anime?from=${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content', ['html'])
+	}
 
 	if (next[0] != null) {
 		//$ls.set('sched_next', JSON.stringify(next))
@@ -155,20 +159,17 @@ var showBroadcast = (schedList => {
 		nextBrEl.innerHTML = $create.elem('p', `${$make.tr('nextStream')} (${showRemainingTime(brTime)}):`, 'section--title', ['html'])
 		nextBrEl.innerHTML += $create.elem('p', $make.safe(next[0]['title']), 'section--content', ['html'])
 	} else {
-		nextBrEl.innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $make.tr('noStream'), 'section--content', ['html']);
+		nextBrEl.innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $make.tr('noStream'), 'section--content', ['html'])
 	}
-})
+}
 
-var showSong = (apiOuptut => {
+var showSong = apiOuptut => {
 	let
-		radioD = JSON.parse(apiOuptut),
-		currSong = $make.safe(radioD['now_playing']['song']['text']).split(' - '),
-		songData = currSong[0],
-		songElem = $make.qs('.nowPlay')
+		radioData = JSON.parse(apiOuptut),
+		songData = radioData['now_playing']['song']['text'].replace(' - ', ' – ')
 
+	let songElem = $make.qs('.nowPlay')
 	songElem.textContent = ''
-
-	if (currSong[1]) { songData += ' &ndash; ' + currSong[1] }
 
 	// switch (radioD['rj'].toLowerCase()) {
 	// 	case 'auto-dj':
@@ -177,6 +178,8 @@ var showSong = (apiOuptut => {
 	// 		$make.qs('.nowRJ').innerHTML = $create.elem('p', $make.tr('airLive') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/radio?from=${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content', ['html'])
 	// }
 
+	console.log($make.safe(songData))
+
 	songElem.appendChild($create.elem('p', $make.tr('nowSong') + ':', 'section--title'))
-	songElem.appendChild($create.elem('p', songData, 'section--content'))
-})
+	songElem.appendChild($create.elem('p', songData, 'section--content', ['s']))
+}

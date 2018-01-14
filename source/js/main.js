@@ -1,6 +1,6 @@
 'use strict'
 
-var getData = (url => {
+var getData = url => {
 	let	headers = new Headers()
 	headers.append('pragma', 'no-cache')
 	headers.append('cache-control', 'no-cache')
@@ -11,19 +11,19 @@ var getData = (url => {
 	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
 	return fetch(request).then(r => r.ok ? r.text() : '')
-})
+}
 
-var spawnNotification = (o => {
+var spawnNotification = o => {
 	if (!o) { return }
 
 	let options = {
-		title: o.title || 'Asian Wave',
-		message: o.text || '',
-		contextMessage: o.context || '',
-		iconUrl: o.img || 'img/icons/logo-64.png',
-		type: o.type || 'basic',
-		buttons: o.buttons || [],
-		isClickable: false
+		title:           o.title || 'Asian Wave',
+		message:         o.text || '',
+		contextMessage:  o.context || '',
+		iconUrl:         o.img || 'img/icons/logo-64.png',
+		type:            o.type || 'basic',
+		buttons:         o.buttons || [],
+		isClickable:     false
 	}, notifID = ''
 
 	// @HACK Opera не поддерживает кнопки в оповещениях (!!!), поэтому приходится поизвращаться
@@ -47,9 +47,9 @@ var spawnNotification = (o => {
 				}); break
 		}
 	}
-})
+}
 
-var getNextSched = (schedList => {
+var getNextSched = schedList => {
 	let
 		now =         Math.floor(new Date().getTime()/1000),
 		schedListF =  JSON.parse(schedList),
@@ -65,9 +65,9 @@ var getNextSched = (schedList => {
 	})
 
 	return result
-})
+}
 
-var checkSched = ((resolve, section) => {
+var checkSched = (resolve, section) => {
 	let
 		schedList =  getNextSched(resolve),
 		isLive =     schedList.current,
@@ -97,9 +97,9 @@ var checkSched = ((resolve, section) => {
 	if (isLive) {
 		$ls.set('aw_chr_animeNowLive', isLive['title'])
 	} else { $ls.rm('aw_chr_animeNowLive') }
-})
+}
 
-// var compareSched = ((pre, current) => {
+// var compareSched = (pre, current) => {
 //   let
 // 		equal = [],
 // 		curr = current.slice()
@@ -117,9 +117,9 @@ var checkSched = ((resolve, section) => {
 // 	}
 //
 //   return curr
-// })
+// }
 
-// var checkSched = (resolve => {
+// var checkSched = resolve => {
 // 	let current = getNextSched(resolve).next
 //
 // 	if ($ls.get('sched_next')) {
@@ -137,4 +137,4 @@ var checkSched = ((resolve, section) => {
 // 	} else {
 // 		$ls.set('sched_next', JSON.stringify(current))
 // 	}
-// })
+// }

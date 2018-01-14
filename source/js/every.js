@@ -54,17 +54,23 @@ var points = {
 		'port': 8020,
 		'id': 3
 	}
-}
+}, storageCurrentPointItemName = 'aw_chr_radioPoint'
 
 /*
  * Информация о маунтах радио
  */
 
 var $currentPoint = {
-	port: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].port : points['jp'].port,
-	name: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].name : points['jp'].name,
-	id: () => $ls.get('aw_chr_radioPoint') ? points[$ls.get('aw_chr_radioPoint')].id : points['jp'].id,
-	key: () => $ls.get('aw_chr_radioPoint') || 'jp'
+	port: () => $ls.get(storageCurrentPointItemName)
+		? points[$ls.get(storageCurrentPointItemName)].port
+		: points['jp'].port,
+	name: () => $ls.get(storageCurrentPointItemName)
+		? points[$ls.get(storageCurrentPointItemName)].name
+		: points['jp'].name,
+	id: () => $ls.get(storageCurrentPointItemName)
+		? points[$ls.get(storageCurrentPointItemName)].id
+		: points['jp'].id,
+	key: () => $ls.get(storageCurrentPointItemName) || 'jp'
 }
 
 /*
