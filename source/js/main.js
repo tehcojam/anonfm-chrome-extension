@@ -10,19 +10,19 @@ var getData = url => {
 	   headers: headers
 	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
-	return fetch(request).then(r => r.ok ? r.text() : '')
+	return fetch(request).then(r => r.ok ? r.json() : '')
 }
 
 var spawnNotification = o => {
 	if (!o) { return }
 
 	let options = {
-		title:           o.title || 'Asian Wave',
-		message:         o.text || '',
-		contextMessage:  o.context || '',
-		iconUrl:         o.img || 'img/icons/logo-64.png',
-		type:            o.type || 'basic',
-		buttons:         o.buttons || [],
+		title:           o.title ||    'Asian Wave',
+		message:         o.text ||     '',
+		contextMessage:  o.context ||  '',
+		iconUrl:         o.img ||      'img/icons/logo-64.png',
+		type:            o.type ||     'basic',
+		buttons:         o.buttons ||  [],
 		isClickable:     false
 	}, notifID = ''
 
@@ -51,11 +51,10 @@ var spawnNotification = o => {
 
 var getNextSched = schedList => {
 	let
-		now =         Math.floor(new Date().getTime()/1000),
-		schedListF =  JSON.parse(schedList),
-		result =      { next: [] }
+		now =     Math.floor(new Date().getTime()/1000),
+		result =  { next: [] }
 
-	schedListF.forEach(item => {
+	schedList.forEach(item => {
 		let
 			begin = parseInt(item['s']),
 			end = parseInt(item['e'])

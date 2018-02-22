@@ -23,8 +23,8 @@
 	"enjoyStream": {
 		"message": "Присоединиться к просмотру?"
 	},
-	"noStream": {
-		"message": "Не запланирован"
+	"emptySched": {
+		"message": "Расписание пустое."
 	},
 	"updSched": {
 		"message": "Изменения в расписании"

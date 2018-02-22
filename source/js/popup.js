@@ -145,40 +145,47 @@ var showBroadcast = schedList => {
 	let
 		schedListF = getNextSched(schedList),
 		next = schedListF.next,
-		current = schedListF.current,
-		nextBrEl = $make.qs('.nextBroadcast')
+		current = schedListF.current
+
+	let
+		nextBrEl = $make.qs('.nextBroadcast'),
+		currBrEl = $make.qs('.currentBroadcast')
+
+	nextBrEl.textContent = ''
+	currBrEl.textContent = ''
 
 	if (current) {
-		$make.qs('.currentBroadcast').innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/anime?from=${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content', ['html'])
+		currBrEl.appendChild($create.elem('p', $make.tr('curStream') + ':', 'section--title'))
+		currBrEl.appendChild($create.elem('p', $create.link(`https://${domain.nyan}/?from=aw-ext-${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content'))
 	}
 
 	if (next[0] != null) {
 		//$ls.set('sched_next', JSON.stringify(next))
-		let brTime = new Date(parseInt(next[0]['s'] * 1000))
+		let brTime = new Date(Number(next[0]['s'] * 1000))
 
-		nextBrEl.innerHTML = $create.elem('p', `${$make.tr('nextStream')} (${showRemainingTime(brTime)}):`, 'section--title', ['html'])
-		nextBrEl.innerHTML += $create.elem('p', $make.safe(next[0]['title']), 'section--content', ['html'])
+		nextBrEl.appendChild($create.elem('p', `${$make.tr('nextStream')} (${showRemainingTime(brTime)}):`, 'section--title'))
+		nextBrEl.appendChild($create.elem('p', $make.safe(next[0]['title']), 'section--content'))
 	} else {
-		nextBrEl.innerHTML = $create.elem('p', $make.tr('curStream') + ':', 'section--title', ['html']) + $create.elem('p', $make.tr('noStream'), 'section--content', ['html'])
+		nextBrEl.appendChild($create.elem('p', $make.tr('emptySched'), 'section--title'))
 	}
 }
 
 var showSong = apiOuptut => {
 	let
-		radioData = JSON.parse(apiOuptut),
+		radioData = apiOuptut,
 		songData = radioData['now_playing']['song']['text'].replace(' - ', ' – ')
 
-	let songElem = $make.qs('.nowPlay')
+	let
+		songElem =  $make.qs('.nowPlay'),
+		rjElem =    $make.qs('.nowRJ')
+
 	songElem.textContent = ''
+	rjElem.textContent = ''
 
-	// switch (radioD['rj'].toLowerCase()) {
-	// 	case 'auto-dj':
-	// 		$make.qs('.nowRJ').textContent = ''; break
-	// 	default:
-	// 		$make.qs('.nowRJ').innerHTML = $create.elem('p', $make.tr('airLive') + ':', 'section--title', ['html']) + $create.elem('p', $create.link(`https://${domain.aw}/radio?from=${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content', ['html'])
-	// }
-
-	console.log($make.safe(songData))
+	if (radioData['live']['is_live'] != false) {
+		rjElem.appendChild($create.elem('p', $make.tr('airLive') + ':', 'section--title'))
+		rjElem.appendChild($create.elem('p', $create.link(`https://${domain.aw}/?from=aw-ext-${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content'))
+	}
 
 	songElem.appendChild($create.elem('p', $make.tr('nowSong') + ':', 'section--title'))
 	songElem.appendChild($create.elem('p', songData, 'section--content', ['s']))

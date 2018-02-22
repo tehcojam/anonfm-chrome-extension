@@ -23,8 +23,8 @@
 	"enjoyStream": {
 		"message": "Do you want to join us? Click this button now!"
 	},
-	"noStream": {
-		"message": "Not planned"
+	"emptySched": {
+		"message": "Scheldue is empty."
 	},
 	"updSched": {
 		"message": "Changes in schedule"

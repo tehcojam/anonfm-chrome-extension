@@ -5,19 +5,16 @@
  */
 
 var domain = {
-	'aw': 'asianwave.ru'
+	'aw':    'asianwave.ru',
+	'nyan':  'nyan.stream'
 }
 
 domain.radio = `ryuko.${domain.aw}`
 
 var API = {
-	'anime_sched': 'anime-sched.json',
-	'radio_sched': 'radio-sched.json' // @TODO вставлять расписание радио-потока
+	'anime_sched': `https://api.${domain.nyan}/api/sched`,
+	'radio_sched': `https://${domain.aw}/api/radio-sched.json`
 }
-
-Object.keys(API).forEach(key => {
-	API[key] = `https://${domain.aw}/api/${API[key]}`
-})
 
 /*
  * Определение браузера

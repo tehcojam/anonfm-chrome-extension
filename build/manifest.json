@@ -18,15 +18,10 @@
 	},
 	"permissions": [
 		"https://*.asianwave.ru/*",
+		"https://*.nyan.stream/*",
 		"notifications",
 		"alarms"
 	],
-	"applications": {
-		"gecko": {
-			"id": "webext-addon@asianwave.ru",
-			"strict_min_version": "57.0"
-		}
-	},
 	"background": {
 		"persistent": false,
 		"scripts": [
@@ -36,7 +31,7 @@
 			"code/js/background.min.js"
 		]
 	},
-	"content_security_policy": "default-src 'self'; connect-src 'self' https://*.asianwave.ru https://asianwave.ru; media-src 'self' https://*.asianwave.ru; style-src 'self' https://asianwave.ru https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com",
+	"content_security_policy": "default-src 'self'; connect-src 'self' https://*.asianwave.ru https://asianwave.ru https://*.nyan.stream https://nyan.stream; media-src 'self' https://*.asianwave.ru; style-src 'self' https://asianwave.ru https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com",
 	"options_ui": {
 		"page": "options.html"
 	}
