@@ -53,7 +53,7 @@ var showRemainingTime = date => {
 		hours = Math.floor(delta/3600),
 		minutes = Math.floor((delta%3600)/60)
 
-	if (userLanguage == 'ru') {
+	if (/ru/.test(userLanguage)) {
 		if (days) {
 			remaining += declOfNum(days, ['день', 'дня', 'дней'])
 		} else if (hours) {
@@ -101,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	volume.addEventListener('change', e => $ls.set('aw_chr_radioVol', e.target.value))
 
+	$make.qs(`.links a[href*="${domain.aw.same}"]`).href += `?from=aw-ext-${userBrowserName}`
+
 	userBrowser.runtime.sendMessage({cmd: 'getVol'}, response => {
 		volume.value = response.result
 		docStyle.setProperty('--volume', response.result + '%')
@@ -141,6 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 })
 
+let test = 'сука блядь'
+
 var showBroadcast = schedList => {
 	let
 		schedListF = getNextSched(schedList),
@@ -156,7 +160,7 @@ var showBroadcast = schedList => {
 
 	if (current) {
 		currBrEl.appendChild($create.elem('p', $make.tr('curStream') + ':', 'section--title'))
-		currBrEl.appendChild($create.elem('p', $create.link(`https://${domain.nyan}/?from=aw-ext-${userBrowserName}`, $make.safe(current['title']), ['html']), 'section--content'))
+		currBrEl.appendChild($create.elem('p', $create.link(`https://${domain.nyan.same}/?from=aw-ext-${userBrowserName}`, $make.safe(current['title']), '', ['html']), 'section--content'))
 	}
 
 	if (next[0] != null) {
@@ -184,7 +188,7 @@ var showSong = apiOuptut => {
 
 	if (radioData['live']['is_live'] != false) {
 		rjElem.appendChild($create.elem('p', $make.tr('airLive') + ':', 'section--title'))
-		rjElem.appendChild($create.elem('p', $create.link(`https://${domain.aw}/?from=aw-ext-${userBrowserName}`, $make.safe(radioD['rj']), ['html']), 'section--content'))
+		rjElem.appendChild($create.elem('p', $create.link(`https://${domain.aw.same}/?from=aw-ext-${userBrowserName}`, $make.safe(radioD['rj']), '', ['html']), 'section--content'))
 	}
 
 	songElem.appendChild($create.elem('p', $make.tr('nowSong') + ':', 'section--title'))

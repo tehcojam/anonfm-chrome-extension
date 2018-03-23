@@ -71,25 +71,21 @@ var checkSched = (resolve, section) => {
 		schedList =  getNextSched(resolve),
 		isLive =     schedList.current,
 		pre =        $ls.get('aw_chr_animeNowLive'),
-		toURL =      domain.aw
+		toURL =      domain.aw.same
 
 	pre = parseInt(pre)
 
-	switch (section) {
-		case 'radio':
-			toURL += '/' + section; break
-		case 'anime':
-		default:
-			toURL += '/anime'; break
-	}
+	toURL = (section == 'radio')
+		? domain.aw.same
+		: domain.nyan.same
 
 	if (isLive && !pre) {
 		spawnNotification({
 			title: $make.tr('nowStream') + ':',
 			text: isLive['title'],
 			context: toURL,
-			buttons: [{title: $make.tr('enjoyStream')}],
-			link: 'https://' + toURL + '?from=' + userBrowserName
+			buttons: [{ title: $make.tr('enjoyStream') }],
+			link: `https://${toURL}/?from=aw-ext-${userBrowserName}`
 		})
 	}
 

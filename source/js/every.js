@@ -5,15 +5,21 @@
  */
 
 var domain = {
-	'aw':    'asianwave.ru',
-	'nyan':  'nyan.stream'
+	'aw': {
+		'same':  'asianwave.ru',
+		'api':   'aw-api.blyat.science'
+	},
+	'nyan': {
+		'same':  'nyan.stream',
+		'api':   'nyan-api.blyat.science'
+	}
 }
 
-domain.radio = `ryuko.${domain.aw}`
+domain.radio = `ryuko.${domain.aw.same}`
 
 var API = {
-	'anime_sched': `https://api.${domain.nyan}/api/sched`,
-	'radio_sched': `https://${domain.aw}/api/radio-sched.json`
+	'anime_sched': `https://${domain.nyan.api}/api/sched`,
+	'radio_sched': `https://${domain.aw.api}/api/sched`
 }
 
 /*
@@ -32,6 +38,8 @@ if (/Firefox\//.test(navigator.userAgent)) {
 	userBrowser = browser
 	userBrowserName = 'firefox'
 }
+
+var fromString = `?from=aw-ext-${userBrowserName}`
 
 /*
  * Маунты радио
@@ -82,5 +90,7 @@ $make.tr = s => userBrowser.i18n.getMessage(s)
 		needsTrTitle = $make.qs('[data-tr-title]', ['a'])
 
 	needsTr.forEach(item => { item.textContent = $make.tr(item.dataset.tr) })
-	needsTrTitle.forEach(item => { item.setAttribute('title', $make.tr(item.dataset.trTitle)) })
+	needsTrTitle.forEach(item => {
+		item.setAttribute('title', $make.tr(item.dataset.trTitle))
+	})
 })()

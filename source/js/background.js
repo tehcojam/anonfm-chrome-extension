@@ -19,7 +19,9 @@ var radio = new Audio(), volume
 
 if (!$ls.get('aw_chr_radioVol')) {
 	volume = 50; $ls.set('aw_chr_radioVol', volume)
-} else volume = $ls.get('aw_chr_radioVol');
+} else {
+	volume = $ls.get('aw_chr_radioVol')
+}
 
 radio.preload = 'none'
 radio.volume = $ls.get('aw_chr_radioVol')/100
@@ -78,5 +80,5 @@ userBrowser.runtime.onMessage.addListener((mes, sender, sendResponse) => {
 })
 
 userBrowser.alarms.onAlarm.addListener(alarm => {
-	getData(API.anime_sched).then(checkSched)
+	getData(API.anime_sched).then(resolve => checkSched(resolve, 'anime'))
 })

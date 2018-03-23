@@ -5,7 +5,7 @@
 	"homepage_url": "https://asianwave.ru",
 	"default_locale": "ru",
 	"offline_enabled": false,
-	"version": "0.5.4",
+	"version": "0.5.5",
 	"icons": {
 		"32": "img/icons/logo-32.png",
 		"64": "img/icons/logo-64.png",
@@ -18,7 +18,7 @@
 	},
 	"permissions": [
 		"https://*.asianwave.ru/*",
-		"https://*.nyan.stream/*",
+		"https://*.blyat.science/*",
 		"notifications",
 		"alarms"
 	],
@@ -31,7 +31,7 @@
 			"code/js/background.min.js"
 		]
 	},
-	"content_security_policy": "default-src 'self'; connect-src 'self' https://*.asianwave.ru https://asianwave.ru https://*.nyan.stream https://nyan.stream; media-src 'self' https://*.asianwave.ru; style-src 'self' https://asianwave.ru https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com",
+	"content_security_policy": "default-src 'self'; connect-src 'self' https://*.asianwave.ru https://asianwave.ru https://*.blyat.science; media-src 'self' https://*.asianwave.ru; style-src 'self' https://asianwave.ru https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com",
 	"options_ui": {
 		"page": "options.html"
 	}
