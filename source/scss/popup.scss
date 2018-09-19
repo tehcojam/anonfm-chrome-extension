@@ -6,10 +6,10 @@
 
 :root {
 	--volume: 50%;
-	--prime-color: $primeColor;
-	--prime-color-5d: darken($primeColor, 5%);
-	--prime-color-10d: darken($primeColor, 10%);
-	--prime-color-15d: darken($primeColor, 15%);
+	--prime-color: #{$primeColor};
+	--prime-color-5d: #{darken($primeColor, 5%)};
+	--prime-color-10d: #{darken($primeColor, 10%)};
+	--prime-color-15d: #{darken($primeColor, 15%)};
 }
 
 body {

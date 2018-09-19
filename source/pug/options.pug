@@ -5,18 +5,23 @@ html
 		title #{TITLE} &ndash; Настройки
 		link(rel='stylesheet' href=`code/css/options.min.css?v=${VERSION}`)
 		link(rel='stylesheet' href=`https://${HOST}/files/css/chrome-app-events.min.css?v=${VERSION}`)
+
 	body
 		table
 			tr.title
 				td(colspan='2') /radio
+
 			tr
 				td #[label(for='radioPick' data-tr='radioPick')]
 				td #[select#radioPick.radioPoint]
+
 			tr.title
 				td(colspan='2') /anime
+
 			tr
 				td #[label(for='schedCheckEnable' data-tr='schedCheckEnable')]
 				td #[input#schedCheckEnable.schedCheckEnable(type='checkbox')]
+
 			tr
 				td #[label(for='schedCheckTime' data-tr='schedCheckTime')]
 				td
@@ -24,6 +29,7 @@ html
 					label(data-tr='optMin')
 			tr.title
 				td(colspan='2' data-tr='optOther')
+
 			tr
 				td #[label(for='defaultTab' data-tr='defaultTab')]
 				td

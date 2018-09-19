@@ -8,13 +8,13 @@ let
 	watch =       require('gulp-watch'),
 	plumber =     require('gulp-plumber'),
 	minifyJS =    require('gulp-babel-minify'),
-	csso =        require('gulp-csso'),
+	cleanCSS =    require('gulp-clean-css'),
 	pug =         require('gulp-pug')
 
 let sass = {
 	compile:  require('gulp-sass'),
 	watch:    require('gulp-watch-sass'),
-	vars:     require('gulp-sass-variables')
+	vars:     require('gulp-sass-vars')
 }
 
 let paths = {
@@ -55,14 +55,14 @@ gulp.task('minify-js', () => tube([
 
 let scssTubes = [
 	plumber(),
-	sass.vars({ $VERSION: project.version }),
+	sass.vars({ VERSION: project.version }),
 	sass.compile({outputStyle: 'compressed'}),
-	csso(),
+	cleanCSS(),
 	rename({suffix: '.min'}),
 	gulp.dest(paths.css.prod)
 ]
 
-gulp.task('scss:only-compile', () => tube(
+gulp.task('scss:build', () => tube(
 	[gulp.src(paths.css.dev)].concat(scssTubes)
 ))
 

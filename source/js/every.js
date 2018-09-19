@@ -5,21 +5,21 @@
  */
 
 var domain = {
-	'aw': {
-		'same':  'asianwave.ru',
-		'api':   'aw-api.blyat.science'
+	aw: {
+		same:  'asianwave.ru',
+		api:   'aw-api.blyat.science'
 	},
-	'nyan': {
-		'same':  'nyan.stream',
-		'api':   'nyan-api.blyat.science'
+	nyan: {
+		same:  'nyan.stream',
+		api:   'nyan-api.blyat.science'
 	}
 }
 
 domain.radio = `ryuko.${domain.aw.same}`
 
 var API = {
-	'anime_sched': `https://${domain.nyan.api}/api/sched`,
-	'radio_sched': `https://${domain.aw.api}/api/sched`
+	anime_sched: `https://${domain.nyan.api}/api/sched`,
+	radio_sched: `https://${domain.aw.api}/api/sched`
 }
 
 /*
@@ -46,20 +46,24 @@ var fromString = `?from=aw-ext-${userBrowserName}`
  */
 
 var points = {
-	'jp': {
-		'name': 'Japan',
-		'port': 8000,
-		'id': 1
-	}, 'ru': {
-		'name': 'Russia',
-		'port': 8010,
-		'id': 2
-	}, 'kr': {
-		'name': 'Korea',
-		'port': 8020,
-		'id': 3
+	mu: {
+		name: 'Music',
+		port: 8000,
+		id: 1
+	},
+	ta: {
+		name: 'Talk',
+		port: 8010,
+		id: 2
 	}
 }, storageCurrentPointItemName = 'aw_chr_radioPoint'
+
+switch ($ls.get(storageCurrentPointItemName)) { // фоллбек
+	case 'jp':
+	case 'ru':
+	case 'kr':
+		$ls.set(storageCurrentPointItemName, 'mu')
+}
 
 /*
  * Информация о маунтах радио
@@ -68,14 +72,14 @@ var points = {
 var $currentPoint = {
 	port: () => $ls.get(storageCurrentPointItemName)
 		? points[$ls.get(storageCurrentPointItemName)].port
-		: points['jp'].port,
+		: points['mu'].port,
 	name: () => $ls.get(storageCurrentPointItemName)
 		? points[$ls.get(storageCurrentPointItemName)].name
-		: points['jp'].name,
+		: points['mu'].name,
 	id: () => $ls.get(storageCurrentPointItemName)
 		? points[$ls.get(storageCurrentPointItemName)].id
-		: points['jp'].id,
-	key: () => $ls.get(storageCurrentPointItemName) || 'jp'
+		: points['mu'].id,
+	key: () => $ls.get(storageCurrentPointItemName) || 'mu'
 }
 
 /*

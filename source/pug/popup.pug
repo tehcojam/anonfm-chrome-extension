@@ -3,34 +3,42 @@ html
 	head
 		include inc/head.pug
 		title #{TITLE}
+
 		link(rel='stylesheet' href=`code/css/popup.min.css?v=${VERSION}`)
 		link(rel='stylesheet' href=`https://${HOST}/files/css/chrome-app-events.min.css?v=${VERSION}`)
+
 	body
 		div.container
 			header.top-panel
 				div.logo
+
 				div.tabs
 					ul
 						li #[button(data-tab='radio') /radio]
 						li #[button(data-tab='anime') /anime]
+
 				div.right
 					button.options(href='javascript:void(0)' data-tr-title='options') #[i.icon.icon-gear]
+
 			main
+
 				div.links
 					a(href=`https://${HOST}` target='_blank' data-tr-title='awSite') #[i.icon.icon-home]
 					a(href='https://vk.com/public120842574' target='_blank' rel='nofollow noopener' data-tr-title='awVKPage') #[i.icon.icon-vk]
+
 				div.content
 					div.player
 						button.playpause #[i.icon.icon-play]
 						input.volume(type="range" step='1' min='0' max='100')
+
 					div.tabs_tabs
 						section(data-tab='radio')
 							div.section.nowRJ
 							div.section.nowPlay
+
 						section(data-tab='anime')
 							div.section.currentBroadcast
 							div.section.nextBroadcast
 
 		each JS in ['kamina', 'every', 'main', 'popup']
 			script(src=`code/js/${JS}.min.js?v=${VERSION}` defer)
-					
