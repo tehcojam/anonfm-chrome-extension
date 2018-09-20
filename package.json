@@ -1,7 +1,7 @@
 {
   "name": "aw_chrome",
   "description": "Chrome extension of russian multimedia portal for Asian culture fans of all genres and types.",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "author": "Dmitry <dmitry@cojam.ru> (https://e965.ru)",
   "private": true,
   "repository": "github:tehcojam/aw_chrome",
