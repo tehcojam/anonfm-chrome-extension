@@ -10,7 +10,7 @@ var getData = url => {
 	   headers: headers
 	}, request = new Request(`${url}?ts=${Date.now()}`, reqInit)
 
-	return fetch(request).then(r => r.ok ? r.json() : '')
+	return fetch(request).then(r => r.ok ? r.json() : {})
 }
 
 var spawnNotification = o => {

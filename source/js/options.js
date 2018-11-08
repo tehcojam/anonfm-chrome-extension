@@ -47,7 +47,7 @@ var saveOptions = () => {
 	}
 
 	if (radioPoint != $currentPoint.key()) {
-		userBrowser.runtime.sendMessage({cmd: 'changePoint', point: radioPoint})
+		userBrowser.runtime.sendMessage({ cmd: 'changePoint', point: radioPoint })
 	}
 
 	$ls.set('aw_chr_defaultTab', defTab)

@@ -9,10 +9,13 @@ var domain = {
 		same:  'asianwave.ru',
 		api:   'aw-api.blyat.science'
 	},
+
 	nyan: {
 		same:  'nyan.stream',
 		api:   'nyan-api.blyat.science'
-	}
+	},
+
+	mr24: 'myradio24.com'
 }
 
 domain.radio = `ryuko.${domain.aw.same}`
@@ -45,24 +48,24 @@ var fromString = `?from=aw-ext-${userBrowserName}`
  * Маунты радио
  */
 
+const DEFAULT_POINT = 'mu'
+
 var points = {
 	mu: {
 		name: 'Music',
-		port: 8000,
-		id: 1
+		mr24: {
+			server: 1,
+			port: 7934
+		},
 	},
-	ta: {
-		name: 'Talk',
-		port: 8010,
-		id: 2
-	}
 }, storageCurrentPointItemName = 'aw_chr_radioPoint'
 
 switch ($ls.get(storageCurrentPointItemName)) { // фоллбек
 	case 'jp':
 	case 'ru':
 	case 'kr':
-		$ls.set(storageCurrentPointItemName, 'mu')
+	case 'ta':
+		$ls.set(storageCurrentPointItemName, DEFAULT_POINT)
 }
 
 /*
@@ -70,16 +73,21 @@ switch ($ls.get(storageCurrentPointItemName)) { // фоллбек
  */
 
 var $currentPoint = {
-	port: () => $ls.get(storageCurrentPointItemName)
-		? points[$ls.get(storageCurrentPointItemName)].port
-		: points['mu'].port,
+	mr24: {
+		server: () => $ls.get(storageCurrentPointItemName)
+			? points[$ls.get(storageCurrentPointItemName)].mr24.server
+			: points[DEFAULT_POINT].mr24.server,
+
+		port: () => $ls.get(storageCurrentPointItemName)
+			? points[$ls.get(storageCurrentPointItemName)].mr24.port
+			: points[DEFAULT_POINT].mr24.port,
+	},
+
 	name: () => $ls.get(storageCurrentPointItemName)
 		? points[$ls.get(storageCurrentPointItemName)].name
-		: points['mu'].name,
-	id: () => $ls.get(storageCurrentPointItemName)
-		? points[$ls.get(storageCurrentPointItemName)].id
-		: points['mu'].id,
-	key: () => $ls.get(storageCurrentPointItemName) || 'mu'
+		: points[DEFAULT_POINT].name,
+
+	key: () => $ls.get(storageCurrentPointItemName) || DEFAULT_POINT
 }
 
 /*
@@ -88,7 +96,7 @@ var $currentPoint = {
 
 $make.tr = s => userBrowser.i18n.getMessage(s)
 
-;(() => {
+void (() => {
 	let
 		needsTr = $make.qs('[data-tr]', ['a']),
 		needsTrTitle = $make.qs('[data-tr-title]', ['a'])

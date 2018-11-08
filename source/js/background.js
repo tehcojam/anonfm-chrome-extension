@@ -6,14 +6,14 @@
 
 var extension = userBrowser.browserAction
 
-extension.setBadgeBackgroundColor({color: [100, 100, 100, 1]})
-extension.setBadgeText({text: ''})
+extension.setBadgeBackgroundColor({ color: [100, 100, 100, 1] })
+extension.setBadgeText({ text: '' })
 
 /*
  * Настройка радио
  */
 
-var getRadioSrc = () => `https://${domain.radio}/radio/${$currentPoint.port()}/listen`
+var getRadioSrc = () => `https://listen${$currentPoint.mr24.server()}.${domain.mr24}/${$currentPoint.mr24.port()}`
 
 var radio = new Audio(), volume
 
