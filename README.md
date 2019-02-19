@@ -1,6 +1,6 @@
 # Расширение Asian Wave для браузеров на Chromium
 
-Текущая версия — 0.5.7.  
+Текущая версия — 0.5.8.  
 Скачать можно в [Chrome Web Store](https://chrome.google.com/webstore/detail/ecbegehkeefmdjnjhldeogkhbhhjhfje) и [Opera Addons](https://addons.opera.com/ru/extensions/details/asian-wave/).  
 
 ![interface](images/screenshots/en-anime.png)

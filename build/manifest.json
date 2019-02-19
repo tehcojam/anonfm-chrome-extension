@@ -11,7 +11,7 @@
 
 	"offline_enabled": false,
 
-	"version": "0.5.7",
+	"version": "0.5.8",
 
 	"icons": {
 		"32": "img/icons/logo-32.png",
@@ -25,15 +25,16 @@
 		"default_icon": "img/icons/logo-64.png"
 	},
 
-	"permissions": [
+	"optional_permissions": [
 		"https://*.asianwave.ru/*",
 		"https://*.blyat.science/*",
+		"background",
 		"notifications",
 		"alarms"
 	],
 
 	"background": {
-		"persistent": false,
+		"persistent": true,
 		"scripts": [
 			"code/js/kamina.min.js",
 			"code/js/every.min.js",

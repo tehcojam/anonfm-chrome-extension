@@ -49,14 +49,14 @@ gulp.task('minify-js', () => tube([
 	watch(paths.js.dev, { ignoreInitial: false }),
 	plumber(),
 	minifyJS(),
-	rename({suffix: '.min'}),
+	rename({ suffix: '.min' }),
 	gulp.dest(paths.js.prod)
 ]))
 
 let scssTubes = [
 	plumber(),
-	sass.vars({ VERSION: project.version }),
-	sass.compile({outputStyle: 'compressed'}),
+	sass.vars({ VERSION: project.version }, { verbose: false }),
+	sass.compile({ outputStyle: 'compressed' }),
 	cleanCSS(),
 	rename({suffix: '.min'}),
 	gulp.dest(paths.css.prod)
@@ -70,4 +70,4 @@ gulp.task('scss:dev', () => tube(
 	[sass.watch(paths.css.dev)].concat(scssTubes)
 ))
 
-gulp.task('default', ['pug', 'get-kamina', 'minify-js', 'scss:dev'])
+gulp.task('default', gulp.series('pug', 'get-kamina', 'minify-js', 'scss:dev'))
